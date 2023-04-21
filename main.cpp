@@ -11,7 +11,7 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxguid.lib")
-#pragma comment(lib,"dexcompiler.lib")
+#pragma comment(lib,"dxcompiler.lib")
 
 void Log(const std::string& message) {
 	OutputDebugStringA(message.c_str());
