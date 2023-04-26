@@ -437,9 +437,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//頂点リソース用のヒープの設定
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
-	//
+	//頂点リソースの設定
 	D3D12_RESOURCE_DESC vertexRespurceDesc{};
-	//
+	//バッファリソース。テクスチャの場合は
 	vertexRespurceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	vertexRespurceDesc.Width = sizeof(Vector4) * 3;
 	//
