@@ -14,7 +14,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-WinApp::WinApp() {
+Windows::Windows() {
 
 	//ウィンドウプロシージャ
 	wc.lpfnWndProc = WindowProc;

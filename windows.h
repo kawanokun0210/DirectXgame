@@ -1,17 +1,23 @@
 #pragma once
-class windows
+#include <Windows.h>
+#include <cstdint>
+#include <string>
+#include <format>
+
+
+class Windows
 {
+
 public:
 
-	void Initialize();
+	Windows();
 
-	void Update();
+	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
-	void Draw();
+	//クライアント領域のサイズ
+	const int32_t kClientWidth = 1280;
+	const int32_t kClientHeight = 720;
 
-private:
-
-	
+	WNDCLASS wc{};
 
 };
-

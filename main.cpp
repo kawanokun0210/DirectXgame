@@ -15,8 +15,8 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
-	WinApp* winApp;
-	winApp = new WinApp;
+	Windows* winApp;
+	winApp = new Windows;
 
 	MSG msg{};
 	//ウィンドウのxボタンが押されるまでループ
