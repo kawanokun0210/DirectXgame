@@ -1,25 +1,26 @@
 #pragma once
 #include <Windows.h>
 #include <cstdint>
-#include <string>
-#include <format>
-
 
 class WinApp
 {
-
 public:
 
-	void Initialize(const int32_t kClientWidth, const int32_t kClientHeight, const wchar_t* title);
+	static const int32_t kClientWidth = 1280;
+	static const int32_t kClientHeight = 720;
 
+	//ウィンドウプロシージャ
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
-	//クライアント領域のサイズ
-	const int32_t kClientWidth = 1280;
-	const int32_t kClientHeight = 720;
+	HWND GetHwnd() const { return hwnd_; }
 
-	WNDCLASS wc{};
+	static void CreateWindowView(const wchar_t* title = L"CG2_WinMain");
 
-	HWND hwnd = nullptr;
+private:
+	// ウィンドウクラス
+	static inline WNDCLASS wc{};
+
+	//ウィンドウオブジェクト
+	static HWND hwnd_;
+
 };
-
