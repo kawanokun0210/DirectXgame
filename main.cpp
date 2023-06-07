@@ -3,32 +3,37 @@
 #include "WinApp.h"
 #include "DirectX.h"
 
+const wchar_t kWindowTitle[] = { L"CG2_WinMain" };
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
-	const int kWindowWidth = 1280;
-	const int kWindowHeight = 720;
+#pragma region ウィンドウ
 
-	WinApp* winApp = new WinApp();
-	winApp->Initialize(kWindowWidth, kWindowHeight, L"LE2B_09_カワノ_ユウキ");
+	WinApp::CreateWindowView(kWindowTitle);
+	DirectX::DirectXInitialize();
 
-	DirectX* DirectX_ = new DirectX();
-	DirectX_->Initialize(kWindowWidth, kWindowHeight, winApp->hwnd);
+#pragma endregion
+
+#pragma region ゲームループ
 
 	MSG msg{};
-	//ウィンドウのxボタンが押されるまでループ
-	while (msg.message != WM_QUIT){
-		//Windowにメッセージが来てたら最優先で処理させる
+
+	while (msg.message != WM_QUIT) {
+
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-		} else {
-			//ゲームの処理
-			DirectX_->Update(DirectX_->commandList);
-		}
 
+
+		}
+		else {
+
+		}
 	}
 
-	DirectX_->Release();
+#pragma endregion
+
+	OutputDebugStringA("Hello,DirectX!\n");
 
 	return 0;
 }
