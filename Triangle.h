@@ -2,29 +2,36 @@
 #include"DirectX.h"
 #include"Vector4.h"
 
+struct Triangle {
+	Vector4 v1;
+	Vector4 v2;
+	Vector4 v3;
+	Vector4 material;
+};
+
 class CreateEngine;
 
-class Triangle {
+class CreateTriangle {
 
 public:
 
-	void Initialize(DirectX* dxCommon);
+	void Initialize(DirectXCommon* dxCommon, const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material);
 
-	void Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material);
+	void Draw();
 
 	void Finalize();
 
 private:
 
-	void SettingVertex();
+	void SettingVertex(const Vector4& a, const Vector4& b, const Vector4& c);
 
-	void SettingColor();
+	void SettingColor(const Vector4& material);
 
 private:
 
 	CreateEngine* Engine;
 
-	DirectX* dxCommon_;
+	DirectXCommon* dxCommon_;
 
 	Vector4* vertexData_;
 

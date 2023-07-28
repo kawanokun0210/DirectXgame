@@ -1,7 +1,8 @@
 #include "Engine.h"
+#include "Triangle.h"
 #include <assert.h>
 
-IDxcBlob* CreateEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler)
+IDxcBlob* MyEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler)
 {
 	//これからシェーダーをコンパイルする旨をログに出す
 	Log(ConvertString(std::format(L"Begin CompileShader, path:{},profile:{}\n", filePath, profile)));
@@ -60,7 +61,7 @@ IDxcBlob* CreateEngine::CompileShader(const std::wstring& filePath, const wchar_
 	return shaderBlob;
 }
 
-void CreateEngine::InitializeDxcCompiler()
+void MyEngine::InitializeDxcCompiler()
 {
 	HRESULT hr;
 	dxcUtils_ = nullptr;
@@ -76,7 +77,7 @@ void CreateEngine::InitializeDxcCompiler()
 
 }
 
-void CreateEngine::CreateRootSignature()
+void MyEngine::CreateRootSignature()
 {
 	//RootSignature作成
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
@@ -110,7 +111,7 @@ void CreateEngine::CreateRootSignature()
 	assert(SUCCEEDED(hr));
 }
 
-void CreateEngine::CreateInputlayOut()
+void MyEngine::CreateInputlayOut()
 {
 	inputElementDescs_[0].SemanticName = "POSITION";
 	inputElementDescs_[0].SemanticIndex = 0;
@@ -121,14 +122,14 @@ void CreateEngine::CreateInputlayOut()
 	inputLayoutDesc_.NumElements = _countof(inputElementDescs_);
 }
 
-void CreateEngine::BlendState()
+void MyEngine::BlendState()
 {
 	//すべての色要素を書き込む
 	blendDesc_.RenderTarget[0].RenderTargetWriteMask =
 		D3D12_COLOR_WRITE_ENABLE_ALL;
 }
 
-void CreateEngine::RasterizerState()
+void MyEngine::RasterizerState()
 {
 	//裏面（時計回り）を表示しない
 	rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
@@ -146,7 +147,7 @@ void CreateEngine::RasterizerState()
 	assert(pixelShaderBlob_ != nullptr);
 }
 
-void CreateEngine::InitializePSO()
+void MyEngine::InitializePSO()
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = rootSignature_;//RootSignature
@@ -208,7 +209,7 @@ void CreateEngine::InitializePSO()
 //
 //}
 
-void CreateEngine::ViewPort()
+void MyEngine::ViewPort()
 {
 	//クライアント領域のサイズと一緒にして画面全体に表示
 	viewport_.Width = WinApp::kClientWidth;
@@ -219,7 +220,7 @@ void CreateEngine::ViewPort()
 	viewport_.MaxDepth = 1.0f;
 }
 
-void CreateEngine::ScissorRect()
+void MyEngine::ScissorRect()
 {
 	//シザー短形
 	scissorRect_.left = 0;
@@ -228,16 +229,13 @@ void CreateEngine::ScissorRect()
 	scissorRect_.bottom = WinApp::kClientHeight;
 }
 
-void CreateEngine::Initialize(){
+void MyEngine::Initialize(){
 
-	for (int i = 0; i < 11; i++)
-	{
-		triangle_[i] = new Triangle();
-		triangle_[i]->Initialize(dxCommon_);
-	}
+	
+
 }
 
-void CreateEngine::Initialization(WinApp* win, const wchar_t* title, int32_t width, int32_t height)
+void MyEngine::Initialization(WinApp* win, const wchar_t* title, int32_t width, int32_t height)
 {
 	dxCommon_->Initialize(win, title, win->kClientWidth, win->kClientHeight);
 
@@ -259,9 +257,8 @@ void CreateEngine::Initialization(WinApp* win, const wchar_t* title, int32_t wid
 }
 
 
-void CreateEngine::BeginFrame()
+void MyEngine::BeginFrame()
 {
-	triangleCount_ = 0;
 	dxCommon_->PreDraw();
 	//viewportを設定
 	dxCommon_->GetCommandList()->RSSetViewports(1, &viewport_);
@@ -273,14 +270,14 @@ void CreateEngine::BeginFrame()
 	dxCommon_->GetCommandList()->SetPipelineState(graphicsPipelineState_);
 }
 
-void CreateEngine::EndFrame()
+void MyEngine::EndFrame()
 {
 	dxCommon_->PostDraw();
 }
 
-void CreateEngine::Finalize()
+void MyEngine::Finalize()
 {
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		triangle_[i]->Finalize();
 	}
@@ -295,16 +292,42 @@ void CreateEngine::Finalize()
 	dxCommon_->Finalize();
 }
 
-void CreateEngine::Update()
+void MyEngine::Update()
 {
 
 }
 
-void CreateEngine::DrawTriangle(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material)
-{
-	triangleCount_++;
-	triangle_[triangleCount_]->Draw(a, b, c, material);
+void MyEngine::Draw() {
+	for (int i = 0; i < 3; i++) {
+		triangle_[i]->Draw();
+	}
 }
 
-WinApp* CreateEngine::win_;
-DirectX* CreateEngine::dxCommon_;
+void MyEngine::VariableInitialize() {
+
+	Triangle tri[3] = {};
+
+	tri[0].v1 = { -0.4f,0.5f,0.0f,2.0f };
+	tri[0].v2 = { 0.0f,0.8f,0.0f,2.0f };
+	tri[0].v3 = { 0.4f,0.5f,0.0f,2.0f };
+	tri[0].material = { 1.0f,0.0f,0.0f,1.0f };
+	
+	tri[1].v1 = { -0.8f,-0.9f,0.0f,1.0f };
+	tri[1].v2 = { -0.6f,-0.6f,0.0f,1.0f };
+	tri[1].v3 = { -0.4f,-0.9f,0.0f,1.0f };
+	tri[1].material = { 0.0f,1.0f,0.0f,1.0f };
+
+	tri[2].v1 = { 0.4f,-0.7f,0.0f,1.0f };
+	tri[2].v2 = { 0.6f,-0.4f,0.0f,1.0f };
+	tri[2].v3 = { 0.8f,-0.8f,0.0f,1.0f };
+	tri[2].material = { 0.0f,0.0f,1.0f,1.0f };
+
+	for (int i = 0; i < 3; i++)
+	{
+		triangle_[i] = new CreateTriangle();
+		triangle_[i]->Initialize(dxCommon_, tri[i].v1, tri[i].v2, tri[i].v3, tri[i].material);
+	}
+}
+
+WinApp* MyEngine::win_;
+DirectXCommon* MyEngine::dxCommon_;

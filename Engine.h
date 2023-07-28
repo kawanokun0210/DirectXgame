@@ -5,7 +5,7 @@
 #include "Triangle.h"
 #pragma comment(lib,"dxcompiler.lib")
 
-class CreateEngine
+class MyEngine
 {
 public:
 
@@ -21,13 +21,17 @@ public:
 
 	void Update();
 
+	void Draw();
+
+	void VariableInitialize();
+
 	void DrawTriangle(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material);
 
 private:
 	static WinApp* win_;
-	static	DirectX* dxCommon_;
+	static	DirectXCommon* dxCommon_;
 
-	Triangle* triangle_[11];
+	CreateTriangle* triangle_[3];
 
 	int triangleCount_;
 
@@ -61,10 +65,7 @@ private:
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[1];
 
 	//頂点リソースにデータを書き込む
-	Vector4* vertexData_;
-	Vector4 leftBottom[11];
-	Vector4 top[11];
-	Vector4 rightBottom[11];
+	
 
 	IDxcBlob* CompileShader(
 		//CompileShaderするShaderファイルへのパス

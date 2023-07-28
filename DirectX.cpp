@@ -11,47 +11,47 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "Winmm.lib")
 
-WinApp* DirectX::winApp_;
+WinApp* DirectXCommon::winApp_;
 
 //DXGIファクトリーの生成
-IDXGIFactory7* DirectX::dxgiFactory_;
+IDXGIFactory7* DirectXCommon::dxgiFactory_;
 
 //使用するアダプタ用の変数
-IDXGIAdapter4* DirectX::useAdapter_;
+IDXGIAdapter4* DirectXCommon::useAdapter_;
 
 //D3D12Deviceの生成
-ID3D12Device* DirectX::device_;
+ID3D12Device* DirectXCommon::device_;
 
 //コマンドキュー生成
-ID3D12CommandQueue* DirectX::commandQueue_;
+ID3D12CommandQueue* DirectXCommon::commandQueue_;
 
 //コマンドアロケータの生成
-ID3D12CommandAllocator* DirectX::commandAllocator_;
+ID3D12CommandAllocator* DirectXCommon::commandAllocator_;
 
 //コマンドリストを生成する
-ID3D12GraphicsCommandList* DirectX::commandList_;
+ID3D12GraphicsCommandList* DirectXCommon::commandList_;
 
 //スワップチェーン
-IDXGISwapChain4* DirectX::swapChain_;
+IDXGISwapChain4* DirectXCommon::swapChain_;
 
 //ディスクリプタヒープの生成
-ID3D12DescriptorHeap* DirectX::rtvDescriptorHeap_;
+ID3D12DescriptorHeap* DirectXCommon::rtvDescriptorHeap_;
 
 //RTVを２つ作るのでディスクリプタを２つ用意
-D3D12_CPU_DESCRIPTOR_HANDLE DirectX::rtvHandles_[2];
-ID3D12Resource* DirectX::swapChainResources_[2];
+D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::rtvHandles_[2];
+ID3D12Resource* DirectXCommon::swapChainResources_[2];
 
 //Fence
-ID3D12Fence* DirectX::fence_;
-UINT64 DirectX::fenceValue_;
-HANDLE DirectX::fenceEvent_;
+ID3D12Fence* DirectXCommon::fence_;
+UINT64 DirectXCommon::fenceValue_;
+HANDLE DirectXCommon::fenceEvent_;
 
-int32_t DirectX::backBufferWidth_;
-int32_t DirectX::backBufferHeight_;
+int32_t DirectXCommon::backBufferWidth_;
+int32_t DirectXCommon::backBufferHeight_;
 
-HRESULT DirectX::hr_;
+HRESULT DirectXCommon::hr_;
 
-void DirectX::Initialize(WinApp* win, const wchar_t* title, int32_t backBufferWidth, int32_t backBufferHeight)
+void DirectXCommon::Initialize(WinApp* win, const wchar_t* title, int32_t backBufferWidth, int32_t backBufferHeight)
 {
 	winApp_ = win;
 	backBufferWidth_ = backBufferWidth;
@@ -75,7 +75,7 @@ void DirectX::Initialize(WinApp* win, const wchar_t* title, int32_t backBufferWi
 	CreateFence();
 }
 
-void DirectX::InitializeDXGIDevice()
+void DirectXCommon::InitializeDXGIDevice()
 {
 	//DXGIファクトリーの生成
 	dxgiFactory_ = nullptr;
@@ -163,7 +163,7 @@ void DirectX::InitializeDXGIDevice()
 #endif // _DEBUG
 }
 
-void DirectX::InitializeCommand()
+void DirectXCommon::InitializeCommand()
 {
 	commandQueue_ = nullptr;
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
@@ -183,7 +183,7 @@ void DirectX::InitializeCommand()
 	assert(SUCCEEDED(hr_));
 }
 
-void DirectX::CreateSwapChain()
+void DirectXCommon::CreateSwapChain()
 {
 	//スワップチェーン
 	swapChain_ = nullptr;
@@ -220,7 +220,7 @@ void DirectX::CreateSwapChain()
 	assert(SUCCEEDED(hr_));
 }
 
-void DirectX::CreateFinalRenderTargets()
+void DirectXCommon::CreateFinalRenderTargets()
 {
 	//RTVの設定
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
@@ -238,7 +238,7 @@ void DirectX::CreateFinalRenderTargets()
 	device_->CreateRenderTargetView(swapChainResources_[1], &rtvDesc, rtvHandles_[1]);
 }
 
-void DirectX::CreateFence()
+void DirectXCommon::CreateFence()
 {
 	//初期値0でFenceを作る
 	fence_ = nullptr;
@@ -251,7 +251,7 @@ void DirectX::CreateFence()
 	assert(fenceEvent_ != nullptr);
 }
 
-void DirectX::PreDraw()
+void DirectXCommon::PreDraw()
 {
 	//書き込むバックバッファのインデックスを取得
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
@@ -274,7 +274,7 @@ void DirectX::PreDraw()
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
 }
 
-void DirectX::PostDraw()
+void DirectXCommon::PostDraw()
 {
 	hr_;
 	//画面描画処理の終わり、状態を遷移
@@ -311,7 +311,7 @@ void DirectX::PostDraw()
 	assert(SUCCEEDED(hr_));
 }
 
-void DirectX::ClearRenderTarget()
+void DirectXCommon::ClearRenderTarget()
 {
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 	//描画先のRTVを設定する
@@ -322,7 +322,7 @@ void DirectX::ClearRenderTarget()
 
 }
 
-void DirectX::Finalize()
+void DirectXCommon::Finalize()
 {
 	CloseHandle(fenceEvent_);
 	fence_->Release();

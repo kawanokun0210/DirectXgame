@@ -5,7 +5,7 @@
 #include "WinApp.h"
 #include "String.h"
 
-class DirectX
+class DirectXCommon
 {
 public:
 

@@ -2,23 +2,14 @@
 #include <assert.h>
 #include "Engine.h"
 
-void Triangle::Initialize(DirectX* dxCommon)
+void CreateTriangle::Initialize(DirectXCommon* dxCommon, const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material)
 {
 	dxCommon_ = dxCommon;
-	SettingVertex();
-	SettingColor();
+	SettingVertex(a, b, c);
+	SettingColor(material);
 }
 
-void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material){
-
-	//左下
-	vertexData_[0] = a;
-	//上
-	vertexData_[1] = b;
-	//右下
-	vertexData_[2] = c;
-
-	*materialData_ = material;
+void CreateTriangle::Draw(){
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
@@ -30,13 +21,13 @@ void Triangle::Draw(const Vector4& a, const Vector4& b, const Vector4& c, const 
 
 }
 
-void Triangle::Finalize()
+void CreateTriangle::Finalize()
 {
 	materialResource_->Release();
 	vertexResource_->Release();
 }
 
-void Triangle::SettingVertex() {
+void CreateTriangle::SettingVertex(const Vector4& a, const Vector4& b, const Vector4& c) {
 	vertexResource_ = CreateBufferResource(dxCommon_->GetDevice(), sizeof(Vector4) * 3);
 	//リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
@@ -46,16 +37,26 @@ void Triangle::SettingVertex() {
 	vertexBufferView_.StrideInBytes = sizeof(Vector4);
 	//書き込むためのアドレスを取得
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
+
+	//左下
+	vertexData_[0] = a;
+	//上
+	vertexData_[1] = b;
+	//右下
+	vertexData_[2] = c;
+
 }
 
-void Triangle::SettingColor() {
+void CreateTriangle::SettingColor(const Vector4& material) {
 	//マテリアル用のリソースを作る　今回はcolor1つ分
 	materialResource_ = CreateBufferResource(dxCommon_->GetDevice(), sizeof(Vector4));
 	//書き込むためのアドレスを取得
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
+
+	*materialData_ = material;
 }
 
-ID3D12Resource* Triangle::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
+ID3D12Resource* CreateTriangle::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
 
 	//頂点リソース用のヒープの設定
 	D3D12_HEAP_PROPERTIES uplodeHeapProperties{};
