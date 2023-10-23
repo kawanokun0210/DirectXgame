@@ -15,13 +15,17 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	soundDataHandle_ = sound_->LoadWave("Audio/Alarm01.wav");
 
-	objectTransform_ = { {0.8f,0.5f,0.8f},{0.0f,0.0f,1.575f},{0.0f,-1.0f,0.0f} };
-	objectMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
-	
-	playerTransform_ = { {0.8f,0.5f,0.8f},{0.0f,0.0f,1.575f},{0.0f,1.8f,0.0f} };
+	for (int i = 0; i < kMaxObject; i++) {
+		objectTransform_[0] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
+		objectTransform_[1] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f} };
+		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
+	}
+
+	playerTransform_ = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	objectDraw_ = true;
+	drop = true;
 
 	directionalLight_.color = { 1.0f,1.0f,1.0f,1.0f };
 	directionalLight_.direction = { 0.0f,-1.0f,0.0f };
@@ -40,19 +44,35 @@ void GameScene::Update() {
 
 	MatrixUpdate();
 
-	if (input_->PushKey(DIK_LEFT)) {
-		objectTransform_.rotate.num[1] -= 0.05f;
+	if (drop == true) {
+		//playerTransform_.translate.num[1] -= 0.01f;
 	}
 
-	
+	if (input_->PushKey(DIK_LEFT)) {
+		playerTransform_.translate.num[0] -= 0.1f;
+	}
+	else if (input_->PushKey(DIK_RIGHT)) {
+		playerTransform_.translate.num[0] += 0.1f;
+	}
+
+	if (input_->TriggerKey(DIK_SPACE)) {
+		playerTransform_.translate.num[1] += 1.0f;
+	}
+
+	if (IsCollision(aabb1, aabb2)) {
+		drop = false;
+	}
+	else {
+		drop = true;
+	}
 
 }
 
 void GameScene::Draw()
 {
-	object_[0]->Draw(objectMaterial_, objectTransform_, texture_, cameraTransform_, directionalLight_);
-
+	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], texture_, cameraTransform_, directionalLight_);
 	object_[1]->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
+	object_[2]->Draw(objectMaterial_[1], objectTransform_[1], texture_, cameraTransform_, directionalLight_);
 }
 
 void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
@@ -63,7 +83,7 @@ void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
 	input_ = new Input();
 	input_->Initialize();
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < kMaxObject; i++) {
 		object_[i] = new Object();
 		object_[i]->Initialize(dxCommon, engine);
 	}
@@ -98,6 +118,20 @@ void GameScene::MatrixUpdate() {
 	directionalLight_.direction = Normalise(directionalLight_.direction);
 }
 
+bool GameScene::IsCollision(const AABB& aabb1, const AABB& aabb2) {
+	if ((aabb1.min.num[0] <= aabb2.max.num[0] && aabb1.max.num[0] >= aabb2.min.num[0]) &&
+		(aabb1.min.num[1] <= aabb2.max.num[1] && aabb1.max.num[1] >= aabb2.min.num[1]) &&
+		(aabb1.min.num[2] <= aabb2.max.num[2] && aabb1.max.num[2] >= aabb2.min.num[2])
+		) {
+
+		return true;
+
+	}
+
+	return false;
+
+}
+
 void GameScene::Finalize()
 {
 	for (int i = 0; i < 2; i++)
@@ -114,7 +148,7 @@ void GameScene::Finalize()
 
 	sphere_->Finalize();
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < kMaxObject; i++)
 	{
 		object_[i]->Finalize();
 		delete object_[i];

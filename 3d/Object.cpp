@@ -6,7 +6,7 @@ void Object::Initialize(DirectXCommon* dxCommon, MyEngine* engine)
 {
 	dxCommon_ = dxCommon;
 	engine_ = engine;
-	modelData = engine_->LoadObjFile("Resource/", "block.obj");
+	modelData = engine_->LoadObjFile("Resource/", "player.obj");
 	SettingVertex();
 	SettingColor();
 	SettingDictionalLight();
