@@ -5,35 +5,13 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	engine_ = engine;
 	dxCommon_ = dxCommon;
 
-	sound_ = new Sound();
-	sound_->Initialize();
+	TDInitialize(dxCommon_, engine_);
 
-	input_ = new Input();
-	input_->Initialize();
-
-	object_ = new Object();
-	object_->Initialize(dxCommon_,engine_);
-
-	for (int i = 0; i < 2; i++)
-	{
-		triangle_[i] = new Triangle();
-		triangle_[i]->Initialize(dxCommon_, engine_);
-	}
-
-	for (int i = 0; i < 2; i++)
-	{
-		sprite_[i] = new Sprite();
-		sprite_[i]->Initialize(dxCommon_, engine_);
-	}
-
-	sphere_ = new Sphere();
-	sphere_->Initialize(dxCommon_, engine_);
-
-	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
+	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
 
 	soundDataHandle_ = sound_->LoadWave("Audio/Alarm01.wav");
 
-	objectTransform_ = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	objectTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	objectMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	objectDraw_ = true;
@@ -43,10 +21,18 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	directionalLight_.intensity = 1.0f;
 
 	texture_ = 0;
+	uvResourceNum_ = 0;
+	engine_->SettingTexture("Resource/uvChecker.png", uvResourceNum_);
+
+	monsterBallResourceNum_ = 1;
+	engine_->SettingTexture("Resource/monsterBall.png", monsterBallResourceNum_);
+
 
 }
 
 void GameScene::Update() {
+
+	input_->Update();
 
 	Matrix4x4 sphereAffine = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
 	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
@@ -64,6 +50,34 @@ void GameScene::Update() {
 void GameScene::Draw()
 {
 	object_->Draw(objectMaterial_, objectTransform_, 0, cameraTransform_, directionalLight_);
+}
+
+void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
+
+	sound_ = new Sound();
+	sound_->Initialize();
+
+	input_ = new Input();
+	input_->Initialize();
+
+	object_ = new Object();
+	object_->Initialize(dxCommon, engine);
+
+	for (int i = 0; i < 2; i++)
+	{
+		triangle_[i] = new Triangle();
+		triangle_[i]->Initialize(dxCommon, engine);
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		sprite_[i] = new Sprite();
+		sprite_[i]->Initialize(dxCommon, engine);
+	}
+
+	sphere_ = new Sphere();
+	sphere_->Initialize(dxCommon, engine);
+
 }
 
 void GameScene::Finalize()

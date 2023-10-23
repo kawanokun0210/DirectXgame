@@ -22,6 +22,8 @@ public:
 
 	void Finalize();
 
+	void TDInitialize(DirectXCommon * dxCommon, MyEngine * engine);
+
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
