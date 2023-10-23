@@ -37,13 +37,13 @@ private:
 
 	AABB aabb1{
 
-		.min{-1.0f * 0.0f,-1.0f * -1.0f,-1.0f * 0.0f},
-		.max{1.0f * 0.5f,1.0f * 0.5f,1.0f * 0.5f},
+		.min{1.0f,1.0f,-1.0f},
+		.max{-1.0f,-1.0f,1.0f},
 	};
 
 	AABB aabb2{
-		.min{1.0f * -5.0f,1.0f * -2.8f,-1.0f * 0.0f},
-		.max{-1.0f * 0.5f,1.0f * 0.5f,1.0f *0.5f},
+		.min{1.0f,1.0f,-1.0f},
+		.max{-1.0f,-1.0f,1.0f},
 	};
 
 	MyEngine* engine_;

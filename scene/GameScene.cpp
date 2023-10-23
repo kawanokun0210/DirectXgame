@@ -16,12 +16,12 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	soundDataHandle_ = sound_->LoadWave("Audio/Alarm01.wav");
 
 	for (int i = 0; i < kMaxObject; i++) {
-		objectTransform_[0] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
+		objectTransform_[0] = { {1.0f * 0.5f,1.0f * 0.5f,1.0f * 0.5f},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
 		objectTransform_[1] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f} };
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
-	playerTransform_ = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
+	playerTransform_ = { {1.0f * 0.5f,1.0f * 0.5f,1.0f * 0.5f},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	objectDraw_ = true;
@@ -45,7 +45,7 @@ void GameScene::Update() {
 	MatrixUpdate();
 
 	if (drop == true) {
-		//playerTransform_.translate.num[1] -= 0.01f;
+		playerTransform_.translate.num[1] -= 0.01f;
 	}
 
 	if (input_->PushKey(DIK_LEFT)) {
