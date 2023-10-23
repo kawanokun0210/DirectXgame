@@ -44,7 +44,7 @@ private:
 	Vector4 sphereMaterial_;
 	Matrix4x4 sphereMatrix_;
 
-	Object* object_;
+	Object* object_[2];
 	Transform objectTransform_;
 	Vector4 objectMaterial_;
 	Matrix4x4 objectMatrix_;

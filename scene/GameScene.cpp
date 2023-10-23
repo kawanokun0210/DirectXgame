@@ -50,9 +50,9 @@ void GameScene::Update() {
 
 void GameScene::Draw()
 {
-	object_->Draw(objectMaterial_, objectTransform_, texture_, cameraTransform_, directionalLight_);
+	object_[0]->Draw(objectMaterial_, objectTransform_, texture_, cameraTransform_, directionalLight_);
 
-	//object_->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
+	object_[1]->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
 }
 
 void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
@@ -63,8 +63,10 @@ void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
 	input_ = new Input();
 	input_->Initialize();
 
-	object_ = new Object();
-	object_->Initialize(dxCommon, engine);
+	for (int i = 0; i < 2; i++) {
+		object_[i] = new Object();
+		object_[i]->Initialize(dxCommon, engine);
+	}
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -111,12 +113,16 @@ void GameScene::Finalize()
 	}
 
 	sphere_->Finalize();
-	object_->Finalize();
+
+	for (int i = 0; i < 2; i++)
+	{
+		object_[i]->Finalize();
+		delete object_[i];
+	}
 	sound_->Finalize();
 	sound_->UnLoad(&soundDataHandle_);
 
 	delete sphere_;
-	delete object_;
 	delete sound_;
 	delete input_;
 }
