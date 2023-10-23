@@ -24,6 +24,8 @@ public:
 
 	void TDInitialize(DirectXCommon * dxCommon, MyEngine * engine);
 
+	void MatrixUpdate();
+
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
@@ -46,6 +48,10 @@ private:
 	Transform objectTransform_;
 	Vector4 objectMaterial_;
 	Matrix4x4 objectMatrix_;
+
+	Transform playerTransform_;
+	Vector4 playerMaterial_;
+	Matrix4x4 playerMatrix_;
 
 	Transform cameraTransform_;
 
