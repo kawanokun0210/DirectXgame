@@ -16,14 +16,29 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	soundDataHandle_ = sound_->LoadWave("Audio/fanfare.wav");
 
 	for (int i = 0; i < kMaxObject; i++) {
-		objectTransform_[0] = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
-		objectTransform_[1] = { {1.0f * ObjectSize[1],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-5.5f,-3.8f,0.0f} };
-		objectTransform_[2] = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-1.5f,-2.8f,0.0f} };
+		ObjectSize[i].num[0] = 0.5f;
+		ObjectSize[i].num[1] = 0.5f;
+		ObjectSize[i].num[2] = 0.5f;
+
+		objectTransform_[i] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{ -4.0f + 1.0f * i,  -8.0f + 2.5f * i,0.0f} };
+
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
-	playerTransform_ = { {1.0f * ObjectSize[2],1.0f * ObjectSize[2],1.0f * ObjectSize[2]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
+	//サイズ
+	ObjectSize[0].num[0] = 5.0f;
+	ObjectSize[0].num[1] = 0.5f;
+	ObjectSize[0].num[2] = 0.5f;
+	//座標
+	objectTransform_[0] = { {1.0f * ObjectSize[0].num[0],1.0f * ObjectSize[0].num[1],1.0f * ObjectSize[0].num[2]},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f} };
+	objectTransform_[1] = { {1.0f * ObjectSize[1].num[0],1.0f * ObjectSize[1].num[1],1.0f * ObjectSize[1].num[2]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
+	objectTransform_[2] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{2.0f,2.0f,0.0f} };
+	objectTransform_[3] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-2.0f,5.0f,0.0f} };
+
+
+	playerTransform_ = { {1.0f * PlayerSize.num[0],1.0f * PlayerSize.num[1],1.0f * PlayerSize.num[2]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+
 
 	objectDraw_ = true;
 	drop = true;
@@ -77,9 +92,9 @@ void GameScene::Update() {
 	cameraTransform_.translate.num[1] = playerTransform_.translate.num[1] + 4.8f + playerTransform_.translate.num[1] / 65.0f;
 	cameraTransform_.rotate.num[0] = 0.2f;
 
-	for (int i = 0; i < 3; i++) {
-		aabb1 = AABBadd(playerTransform_.translate, ObjectSize[2], ObjectSize[2], ObjectSize[2]);
-		aabb2 = AABBadd(objectTransform_[i].translate, ObjectSize[i], ObjectSize[0], ObjectSize[0]);
+	for (int i = 0; i < kMaxObject; i++) {
+		aabb1 = AABBadd(playerTransform_.translate, PlayerSize);
+		aabb2 = AABBadd(objectTransform_[i].translate, ObjectSize[i]);
 		if (IsCollision(aabb1, aabb2)) {
 			isJump_ = false;
 			drop = false;
@@ -87,11 +102,11 @@ void GameScene::Update() {
 
 			float sentorPos = (playerTransform_.translate.num[0] - objectTransform_[i].translate.num[0]) * (playerTransform_.translate.num[0] - objectTransform_[i].translate.num[0]) + (playerTransform_.translate.num[1] - objectTransform_[i].translate.num[1]) * (playerTransform_.translate.num[1] - objectTransform_[i].translate.num[1]);
 
-			if (sentorPos <= playerTransform_.scale.num[1] + objectTransform_[i].scale.num[1]) {
+			if (sentorPos <= playerTransform_.scale.num[1] + objectTransform_[i].scale.num[1] || IsCollision(aabb1, aabb2)) {
 
 				float D = (playerTransform_.scale.num[1] + objectTransform_[i].scale.num[1]) - (playerTransform_.translate.num[1] - objectTransform_[i].translate.num[1]);
 				playerTransform_.translate.num[1] += D;
-
+				break;
 			}
 
 			break;
@@ -204,11 +219,11 @@ void GameScene::Finalize()
 	delete input_;
 }
 
-AABB GameScene::AABBadd(Vector3 a, float sizeX, float sizeY, float sizeZ) {
+AABB GameScene::AABBadd(Vector3 a, Vector3 objectSize) {
 	AABB aabb{};
-	for (int i = 0; i < 2; i++) {
-		aabb.min = { 1.0f * sizeX,1.0f * sizeY,-1.0f * sizeZ };
-		aabb.max = { -1.0f * sizeX,-1.0f * sizeY,1.0f * sizeZ };
+	for (int i = 0; i < kMaxObject; i++) {
+		aabb.min = { 1.0f * objectSize.num[0],1.0f * objectSize.num[1],-1.0f * objectSize.num[2] };
+		aabb.max = { -1.0f * objectSize.num[0],-1.0f * objectSize.num[1],1.0f * objectSize.num[2] };
 
 		aabb.min.num[0] += a.num[0];
 		aabb.min.num[1] += a.num[1];

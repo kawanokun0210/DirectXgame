@@ -33,7 +33,7 @@ public:
 
 	static bool IsCollision(const AABB& aabb1, const AABB& aabb2);
 
-	AABB AABBadd(Vector3 a, float sizeX, float sizeY, float sizeZ);
+	AABB AABBadd(Vector3 a, Vector3 objectSize);
 
 	//bool CheckAllCollision(Vector3 a, Vector3 b);
 
@@ -106,6 +106,7 @@ private:
 	
 	bool isJump_ = false;
 
-	float ObjectSize[kMaxObject] = { 0.5f,1.5f,0.3f };
+	Vector3 ObjectSize[kMaxObject];
+	Vector3 PlayerSize = { 0.2f,0.2f,0.2f };
 
 };
