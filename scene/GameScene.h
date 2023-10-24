@@ -33,7 +33,7 @@ public:
 
 	static bool IsCollision(const AABB& aabb1, const AABB& aabb2);
 
-	AABB AABBadd(Vector3 a);
+	AABB AABBadd(Vector3 a ,Vector3 objectSize);
 
 	bool CheckAllCollision(Vector3 a, Vector3 b);
 
@@ -100,5 +100,6 @@ private:
 	int spriteDraw_;
 	int objectDraw_;
 
-	float ObjectSize = 0.5f;
+	Vector3 ObjectSize[kMaxObject];
+	Vector3 PlayerSize = { 0.2f,0.2f,0.2f };
 };
