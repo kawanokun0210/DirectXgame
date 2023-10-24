@@ -81,7 +81,7 @@ private:
 	Transform cameraTransform_;
 
 	uint32_t uvResourceNum_;
-	uint32_t monsterBallResourceNum_;
+	uint32_t cubeResourceNum_;
 
 	DirectionalLight directionalLight_;
 

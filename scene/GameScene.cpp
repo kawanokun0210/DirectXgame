@@ -35,6 +35,8 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	uvResourceNum_ = 0;
 	engine_->SettingTexture("Resource/uvChecker.png", uvResourceNum_);
 
+	cubeResourceNum_ = 1;
+	engine_->SettingTexture("Resource/cube.jpg", cubeResourceNum_);
 
 }
 
@@ -77,9 +79,9 @@ void GameScene::Update() {
 
 void GameScene::Draw()
 {
-	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], texture_, cameraTransform_, directionalLight_);
+	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], cubeResourceNum_, cameraTransform_, directionalLight_);
 	object_[1]->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
-	object_[2]->Draw(objectMaterial_[1], objectTransform_[1], texture_, cameraTransform_, directionalLight_);
+	object_[2]->Draw(objectMaterial_[1], objectTransform_[1], cubeResourceNum_, cameraTransform_, directionalLight_);
 }
 
 void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
