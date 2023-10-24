@@ -16,7 +16,7 @@ void SceneManager::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 void SceneManager::TitleUpdate() {
 	input_->Update();
 	titleState->Update();
-	gameScene->Initialize(engine_, dxCommon_);
+	gameScene->SetPlayer();
 
 	if(input_->TriggerKey(DIK_RETURN)){
 		sceneState = PLAY;

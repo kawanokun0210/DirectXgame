@@ -49,6 +49,8 @@ public:
 
 	void SetPlayerPos(float y);
 
+	Transform SetPlayer();
+
 private:
 
 	AABB aabb1{
@@ -69,6 +71,7 @@ private:
 
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
+	TextureManager* textureManager_;
 
 	Triangle* triangle_[2];
 	TriangleData triangleData_[2];

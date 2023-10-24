@@ -128,6 +128,11 @@ void GameScene::Draw()
 
 }
 
+Transform GameScene::SetPlayer() {
+	playerTransform_ = { {1.0f * PlayerSize.num[0],1.0f * PlayerSize.num[1],1.0f * PlayerSize.num[2]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
+	return playerTransform_;
+}
+
 void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
 
 	sound_ = new Sound();
@@ -141,6 +146,9 @@ void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
 
 	goal_ = new Object();
 	goal_->Initialize(dxCommon, engine);
+
+	textureManager_ = new TextureManager();
+	textureManager_->Initialize(engine);
 
 	for (int i = 0; i < kMaxObject; i++) {
 		object_[i] = new Object();

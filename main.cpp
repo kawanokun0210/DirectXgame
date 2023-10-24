@@ -21,9 +21,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SceneManager* sceneManager = new SceneManager();
 	sceneManager->Initialize(engine, engine->GetDirectXCommon());
 
-	TextureManager* textureManager = new TextureManager();
-	textureManager->Initialize(engine);
-
 	while (true)
 	{
 		//windowのメッセージを最優先で処理させる
@@ -79,11 +76,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	sceneManager->Finalize();
 
-	textureManager->Finalize();
-
 	delete engine;
 	delete sceneManager;
-	delete textureManager;
 
 	CoUninitialize();
 
