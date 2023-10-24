@@ -60,17 +60,29 @@ void GameScene::Update() {
 	}
 
 	//当たり判定
-	for (int i = 0; i < kMaxObject; i++) {
-		AABBadd(playerTransform_.translate, objectTransform_[0].translate);
-		AABBadd(playerTransform_.translate, objectTransform_[1].translate);
+	//for (int i = 0; i < kMaxObject; i++) {
+	//	//AABBadd(playerTransform_.translate, objectTransform_[0].translate);
+	//aabb1 = AABBadd(playerTransform_.translate);
+	//	aabb2 = AABBadd(objectTransform_[0].translate);
+	//}
+	for (int i = 0; i < 2; i++) {
+		aabb1 = AABBadd(playerTransform_.translate);
+		aabb2 = AABBadd(objectTransform_[i].translate);
+		if (IsCollision(aabb1, aabb2)) {
+			drop = false;
+			break;
+		}
+		else {
+			drop = true;
+		}
 	}
 
-	if (IsCollision(aabb1, aabb2)) {
-		drop = false;
-	}
-	else {
-		drop = true;
-	}
+	//if (IsCollision(aabb1, aabb2)) {
+	//	drop = false;
+	//}
+	//else {
+	//	drop = true;
+	//}
 
 }
 
@@ -125,20 +137,12 @@ void GameScene::MatrixUpdate() {
 }
 
 bool GameScene::IsCollision(const AABB& aabb1, const AABB& aabb2) {
-	/*if ((aabb1.min.num[0] <= aabb2.max.num[0] && aabb1.max.num[0] >= aabb2.min.num[0]) &&
-		(aabb1.min.num[1] <= aabb2.max.num[1] && aabb1.max.num[1] >= aabb2.min.num[1]) &&
-		(aabb1.min.num[2] <= aabb2.max.num[2] && aabb1.max.num[2] >= aabb2.min.num[2])
-		)*/ 
 	if (aabb1.min.num[0] >= aabb2.max.num[0] && aabb1.max.num[0] <= aabb2.min.num[0] && //左右
-		aabb1.min.num[1] >= aabb2.max.num[1] && aabb1.max.num[1] <= aabb2.min.num[1]
+		aabb1.min.num[1] >= aabb2.max.num[1] && aabb1.max.num[1] <= aabb2.min.num[1] //上下
 		) {
-
 		return true;
-
 	}
-
 	return false;
-
 }
 
 void GameScene::Finalize()
@@ -170,42 +174,18 @@ void GameScene::Finalize()
 	delete input_;
 }
 
-void GameScene::AABBadd(Vector3 a, Vector3 b) {
-	aabb1.min = { 1.0f * ObjectSize,1.0f * ObjectSize,-1.0f * ObjectSize };
-	aabb1.max = { -1.0f * ObjectSize,-1.0f * ObjectSize,1.0f * ObjectSize };
+AABB GameScene::AABBadd(Vector3 a) {
+	AABB aabb{};
+	aabb.min = { 1.0f * ObjectSize,1.0f * ObjectSize,-1.0f * ObjectSize };
+	aabb.max = { -1.0f * ObjectSize,-1.0f * ObjectSize,1.0f * ObjectSize };
 
-	aabb2.min = { 1.0f * ObjectSize,1.0f * ObjectSize,-1.0f * ObjectSize };
-	aabb2.max = { -1.0f * ObjectSize,-1.0f * ObjectSize,1.0f * ObjectSize };
+	aabb.min.num[0] += a.num[0];
+	aabb.min.num[1] += a.num[1];
+	aabb.min.num[2] += a.num[2];
 
-	/*aabb1.min.num[0] += objectTransform_[0].translate.num[0];
-	aabb1.min.num[1] += objectTransform_[0].translate.num[1];
-	aabb1.min.num[2] += objectTransform_[0].translate.num[2];
+	aabb.max.num[0] += a.num[0];
+	aabb.max.num[1] += a.num[1];
+	aabb.max.num[2] += a.num[2];
 
-	aabb1.max.num[0] += objectTransform_[0].translate.num[0];
-	aabb1.max.num[1] += objectTransform_[0].translate.num[1];
-	aabb1.max.num[2] += objectTransform_[0].translate.num[2];
-
-	aabb2.min.num[0] += playerTransform_.translate.num[0];
-	aabb2.min.num[1] += playerTransform_.translate.num[1];
-	aabb2.min.num[2] += playerTransform_.translate.num[2];
-
-	aabb2.max.num[0] += playerTransform_.translate.num[0];
-	aabb2.max.num[1] += playerTransform_.translate.num[1];
-	aabb2.max.num[2] += playerTransform_.translate.num[2];*/
-
-	aabb1.min.num[0] += a.num[0];
-	aabb1.min.num[1] += a.num[1];
-	aabb1.min.num[2] += a.num[2];
-
-	aabb1.max.num[0] += a.num[0];
-	aabb1.max.num[1] += a.num[1];
-	aabb1.max.num[2] += a.num[2];
-
-	aabb2.min.num[0] += b.num[0];
-	aabb2.min.num[1] += b.num[1];
-	aabb2.min.num[2] += b.num[2];
-
-	aabb2.max.num[0] += b.num[0];
-	aabb2.max.num[1] += b.num[1];
-	aabb2.max.num[2] += b.num[2];
+	return aabb;
 }
