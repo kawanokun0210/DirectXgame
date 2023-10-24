@@ -20,7 +20,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 		ObjectSize[i].num[1] = 0.5f;
 		ObjectSize[i].num[2] = 0.5f;
 
-		objectTransform_[i] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f} };
+		objectTransform_[i] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{ -4.0f + 1.0f * i,  -8.0f + 2.5f * i,0.0f} };
 
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
@@ -87,9 +87,10 @@ void GameScene::Update() {
 	else {
 
 	}
-
-	cameraTransform_.translate.num[1] = playerTransform_.translate.num[1] + 4.5f;
-	cameraTransform_.rotate.num[0] = 0.25f;
+	//カメラスクロール
+	cameraTransform_.translate.num[0] = playerTransform_.translate.num[0] - playerTransform_.translate.num[0] / 15;
+	cameraTransform_.translate.num[1] = playerTransform_.translate.num[1] + 4.8f + playerTransform_.translate.num[1] / 65.0f;
+	cameraTransform_.rotate.num[0] = 0.2f;
 
 	//当たり判定
 	for (int i = 0; i < kMaxObject; i++) {

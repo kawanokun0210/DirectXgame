@@ -67,7 +67,7 @@ private:
 	Vector4 sphereMaterial_;
 	Matrix4x4 sphereMatrix_;
 
-	static const int kMaxObject = 10;
+	static const int kMaxObject = 100;
 
 	Object* object_[kMaxObject];
 	Object* player_;
