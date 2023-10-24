@@ -19,15 +19,21 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 		ObjectSize[i].num[0] = 0.5f;
 		ObjectSize[i].num[1] = 0.5f;
 		ObjectSize[i].num[2] = 0.5f;
-		ObjectSize[1].num[0] = 5.0f;
-		ObjectSize[1].num[1] = 0.5f;
-		ObjectSize[1].num[2] = 0.5f;
 
 		objectTransform_[i] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f} };
-		objectTransform_[0] = { {1.0f * ObjectSize[i].num[0],1.0f * ObjectSize[i].num[1],1.0f * ObjectSize[i].num[2]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f}};
-		objectTransform_[1] = { {1.0f * ObjectSize[1].num[0],1.0f * ObjectSize[1].num[1],1.0f * ObjectSize[1].num[2]},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f} };
+
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
+	//サイズ
+	ObjectSize[0].num[0] = 5.0f;
+	ObjectSize[0].num[1] = 0.5f;
+	ObjectSize[0].num[2] = 0.5f;
+	//座標
+	objectTransform_[0] = { {1.0f * ObjectSize[0].num[0],1.0f * ObjectSize[0].num[1],1.0f * ObjectSize[0].num[2]},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f} };
+	objectTransform_[1] = { {1.0f * ObjectSize[1].num[0],1.0f * ObjectSize[1].num[1],1.0f * ObjectSize[1].num[2]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
+	objectTransform_[2] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{2.0f,2.0f,0.0f} };
+	objectTransform_[3] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-2.0f,5.0f,0.0f} };
+
 
 	playerTransform_ = { {1.0f * PlayerSize.num[0],1.0f * PlayerSize.num[1],1.0f * PlayerSize.num[2]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f}};
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -60,10 +66,6 @@ void GameScene::Update() {
 
 	MatrixUpdate();
 
-	if (drop == true) {
-		playerTransform_.translate.num[1] -= 0.03f;
-	}
-
 	if (input_->PushKey(DIK_LEFT)) {
 		playerTransform_.translate.num[0] -= 0.1f;
 	}
@@ -72,8 +74,22 @@ void GameScene::Update() {
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
-		playerTransform_.translate.num[1] += 1.0f;
+		//playerTransform_.translate.num[1] += 1.0f;
+		PlayerSpeed_ = 0.25f;
+		PlayerAcc_ = 0.015f;
 	}
+
+	playerTransform_.translate.num[1] += PlayerSpeed_;
+	if (drop == true) {
+		PlayerSpeed_ -= PlayerAcc_;
+		//playerTransform_.translate.num[1] -= 0.03f;
+	}
+	else {
+
+	}
+
+	cameraTransform_.translate.num[1] = playerTransform_.translate.num[1] + 4.5f;
+	cameraTransform_.rotate.num[0] = 0.25f;
 
 	//当たり判定
 	for (int i = 0; i < kMaxObject; i++) {
@@ -81,6 +97,7 @@ void GameScene::Update() {
 		aabb2 = AABBadd(objectTransform_[i].translate,ObjectSize[i]);
 		if (IsCollision(aabb1, aabb2)) {
 			drop = false;
+			PlayerSpeed_ = 0.0f;
 			break;
 		}
 		else {
@@ -99,9 +116,12 @@ void GameScene::Update() {
 
 void GameScene::Draw()
 {
-	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], texture_, cameraTransform_, directionalLight_);
-	object_[1]->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
-	object_[2]->Draw(objectMaterial_[1], objectTransform_[1], texture_, cameraTransform_, directionalLight_);
+	player_->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
+	//object_[0]->Draw(objectMaterial_[0], objectTransform_[0], texture_, cameraTransform_, directionalLight_);
+	//object_[1]->Draw(objectMaterial_[1], objectTransform_[1], texture_, cameraTransform_, directionalLight_);
+	for (int i = 0; i < kMaxObject; i++) {
+		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], texture_, cameraTransform_, directionalLight_);
+	}
 }
 
 void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
@@ -116,6 +136,8 @@ void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
 		object_[i] = new Object();
 		object_[i]->Initialize(dxCommon, engine);
 	}
+	player_ = new Object();
+	player_->Initialize(dxCommon, engine);
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -177,6 +199,9 @@ void GameScene::Finalize()
 		object_[i]->Finalize();
 		delete object_[i];
 	}
+	player_->Finalize();
+	delete player_;
+
 	sound_->Finalize();
 	sound_->UnLoad(&soundDataHandle_);
 
