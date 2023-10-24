@@ -115,11 +115,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MatrixCalculation.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="scene\SceneManager.cpp" />
+    <ClCompile Include="scene\TitleState.cpp" />
     <ClCompile Include="sound\Sound.cpp" />
     <ClCompile Include="String.cpp" />
-    <ClCompile Include="TitleState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\Object.h" />
@@ -145,11 +145,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="ResourceObject.h" />
-    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="scene\SceneManager.h" />
+    <ClInclude Include="scene\TitleState.h" />
     <ClInclude Include="sound\Sound.h" />
     <ClInclude Include="String.h" />
-    <ClInclude Include="TitleState.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
