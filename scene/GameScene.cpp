@@ -13,7 +13,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-20.0f} };
 
-	soundDataHandle_ = sound_->LoadWave("Audio/Alarm01.wav");
+	soundDataHandle_ = sound_->LoadWave("Audio/fanfare.wav");
 
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[0] = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
@@ -45,6 +45,8 @@ void GameScene::Update() {
 	input_->Update();
 
 	MatrixUpdate();
+
+	sound_->PlayWave(soundDataHandle_);
 
 	playerAcceleration_ = -0.02f;
 

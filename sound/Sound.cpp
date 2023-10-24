@@ -89,7 +89,7 @@ void Sound::PlayWave(const SoundData& soundData) {
 
 	//波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	result = pSourceVoice->Start();
+	result = pSourceVoice->Start(0);
 }
 
 void Sound::UnLoad(SoundData* soundData) {

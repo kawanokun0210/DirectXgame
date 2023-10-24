@@ -50,8 +50,6 @@ public:
 
 	SoundData LoadWave(const char* filename);
 
-	ComPtr<IXAudio2> GetXAudio2() { return xAudio2; }
-
 private:
 
 	ComPtr<IXAudio2> xAudio2;
