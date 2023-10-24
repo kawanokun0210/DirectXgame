@@ -100,5 +100,13 @@ private:
 	int spriteDraw_;
 	int objectDraw_;
 
+	float playerSpeed_;
+	float playerAcceleration_;
+	
+	float jumpTime_ = 0;
+
+	bool isJump_ = false;
+
+
 	float ObjectSize[kMaxObject] = { 0.5f,1.5f };
 };

@@ -17,7 +17,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[0] = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f}};
-		objectTransform_[1] = { {1.0f * ObjectSize[1],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f}};
+		objectTransform_[1] = { {1.0f * ObjectSize[1],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-5.5f,-3.8f,0.0f}};
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
@@ -46,7 +46,9 @@ void GameScene::Update() {
 
 	MatrixUpdate();
 
-	if (drop == true) {
+	playerAcceleration_ = -0.08f;
+
+	if (drop == true && isJump_ == false) {
 		playerTransform_.translate.num[1] -= 0.01f;
 	}
 
@@ -57,8 +59,15 @@ void GameScene::Update() {
 		playerTransform_.translate.num[0] += 0.1f;
 	}
 
-	if (input_->TriggerKey(DIK_SPACE)) {
-		playerTransform_.translate.num[1] += 1.0f;
+	if (input_->TriggerKey(DIK_SPACE)  && isJump_ == false) {
+		isJump_ = true;
+		playerSpeed_ = 0.5f;
+		playerTransform_.translate.num[1] -= playerSpeed_;
+	}
+
+	if (isJump_ == true) {
+		playerSpeed_ += playerAcceleration_;
+		playerTransform_.translate.num[1] = playerSpeed_;
 	}
 
 	
@@ -66,10 +75,12 @@ void GameScene::Update() {
 		aabb1 = AABBadd(playerTransform_.translate, ObjectSize[0]);
 		aabb2 = AABBadd(objectTransform_[i].translate, ObjectSize[i]);
 		if (IsCollision(aabb1, aabb2)) {
+			isJump_ = false;
 			drop = false;
 			break;
 		}
 		else {
+			isJump_ = true;
 			drop = true;
 		}
 	}
