@@ -3,7 +3,7 @@
 #include "DirectX.h"
 #include "Engine.h"
 #include "TitleState.h"
-#include "../ClearState.h"
+#include "ClearState.h"
 
 enum GAMESCENE {
 	TITLE,
