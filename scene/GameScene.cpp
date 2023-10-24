@@ -47,6 +47,14 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 }
 
 void GameScene::Update() {
+  
+	
+	ImGui::Begin("a");
+	ImGui::SliderFloat3("translate", cameraTransform_.translate.num, -15.0f, 15.0f);
+	ImGui::SliderFloat3("rotate", cameraTransform_.rotate.num, -3.0f, 3.0f);
+	ImGui::End();
+
+	//ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), dxCommon_->GetCommandList());
 
 	input_->Update();
 

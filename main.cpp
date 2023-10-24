@@ -1,6 +1,5 @@
 #include "Engine.h"
 #include "GameScene.h"
-
 const wchar_t kWindowTitle[] = { L"CG2_WinMain" };
 
 //Windowsアプリでのエントリーポイント
