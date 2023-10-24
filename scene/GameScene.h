@@ -44,6 +44,8 @@ public:
 
 	AABB GetAABB2() { return aabb3; }
 
+	float GetPlayerPosY() { return playerTransform_.translate.num[1]; }
+
 private:
 
 	AABB aabb1{

@@ -36,6 +36,11 @@ void SceneManager::GameUpdate() {
 	if (gameScene->IsCollision(gameScene->GetAABB1(),gameScene->GetAABB2())) {
 		sceneState = CLEAR;
 	}
+
+	if (gameScene->GetPlayerPosY() <= -40.0f) {
+		sceneState = OVER;
+	}
+
 }
 
 void SceneManager::GameDraw() {
