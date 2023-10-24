@@ -16,12 +16,12 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	soundDataHandle_ = sound_->LoadWave("Audio/Alarm01.wav");
 
 	for (int i = 0; i < kMaxObject; i++) {
-		objectTransform_[0] = { {1.0f * 0.5f,1.0f * 0.5f,1.0f * 0.5f},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
+		objectTransform_[0] = { {1.0f * ObjectSize,1.0f * ObjectSize,1.0f * ObjectSize},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
 		objectTransform_[1] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{-5.0f,-3.3f,0.0f} };
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
-	playerTransform_ = { {1.0f * 0.5f,1.0f * 0.5f,1.0f * 0.5f},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
+	playerTransform_ = { {1.0f * ObjectSize,1.0f * ObjectSize,1.0f * ObjectSize},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	objectDraw_ = true;
@@ -59,6 +59,8 @@ void GameScene::Update() {
 		playerTransform_.translate.num[1] += 1.0f;
 	}
 
+	AABBadd();
+
 	if (IsCollision(aabb1, aabb2)) {
 		drop = false;
 	}
@@ -72,7 +74,7 @@ void GameScene::Draw()
 {
 	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], texture_, cameraTransform_, directionalLight_);
 	object_[1]->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
-	object_[2]->Draw(objectMaterial_[1], objectTransform_[1], texture_, cameraTransform_, directionalLight_);
+	//object_[2]->Draw(objectMaterial_[1], objectTransform_[1], texture_, cameraTransform_, directionalLight_);
 }
 
 void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
@@ -119,9 +121,12 @@ void GameScene::MatrixUpdate() {
 }
 
 bool GameScene::IsCollision(const AABB& aabb1, const AABB& aabb2) {
-	if ((aabb1.min.num[0] <= aabb2.max.num[0] && aabb1.max.num[0] >= aabb2.min.num[0]) &&
+	/*if ((aabb1.min.num[0] <= aabb2.max.num[0] && aabb1.max.num[0] >= aabb2.min.num[0]) &&
 		(aabb1.min.num[1] <= aabb2.max.num[1] && aabb1.max.num[1] >= aabb2.min.num[1]) &&
 		(aabb1.min.num[2] <= aabb2.max.num[2] && aabb1.max.num[2] >= aabb2.min.num[2])
+		)*/ 
+	if (aabb1.min.num[0] >= aabb2.max.num[0] && aabb1.max.num[0] <= aabb2.min.num[0] && //左右
+		aabb1.min.num[1] >= aabb2.max.num[1] && aabb1.max.num[1] <= aabb2.min.num[1]
 		) {
 
 		return true;
@@ -159,4 +164,28 @@ void GameScene::Finalize()
 	delete sphere_;
 	delete sound_;
 	delete input_;
+}
+
+void GameScene::AABBadd() {
+	aabb1.min = { 1.0f * ObjectSize,1.0f * ObjectSize,-1.0f * ObjectSize };
+	aabb1.max = { -1.0f * ObjectSize,-1.0f * ObjectSize,1.0f * ObjectSize };
+
+	aabb2.min = { 1.0f * ObjectSize,1.0f * ObjectSize,-1.0f * ObjectSize };
+	aabb2.max = { -1.0f * ObjectSize,-1.0f * ObjectSize,1.0f * ObjectSize };
+
+	aabb1.min.num[0] += objectTransform_[0].translate.num[0];
+	aabb1.min.num[1] += objectTransform_[0].translate.num[1];
+	aabb1.min.num[2] += objectTransform_[0].translate.num[2];
+
+	aabb1.max.num[0] += objectTransform_[0].translate.num[0];
+	aabb1.max.num[1] += objectTransform_[0].translate.num[1];
+	aabb1.max.num[2] += objectTransform_[0].translate.num[2];
+
+	aabb2.min.num[0] += playerTransform_.translate.num[0];
+	aabb2.min.num[1] += playerTransform_.translate.num[1];
+	aabb2.min.num[2] += playerTransform_.translate.num[2];
+
+	aabb2.max.num[0] += playerTransform_.translate.num[0];
+	aabb2.max.num[1] += playerTransform_.translate.num[1];
+	aabb2.max.num[2] += playerTransform_.translate.num[2];
 }

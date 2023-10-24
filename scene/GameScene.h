@@ -33,6 +33,8 @@ public:
 
 	static bool IsCollision(const AABB& aabb1, const AABB& aabb2);
 
+	void AABBadd();
+
 private:
 
 	AABB aabb1{
@@ -95,4 +97,6 @@ private:
 	int sphereDraw_;
 	int spriteDraw_;
 	int objectDraw_;
+
+	float ObjectSize = 0.5f;
 };
