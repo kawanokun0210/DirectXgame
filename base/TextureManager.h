@@ -10,10 +10,8 @@ public:
 	void Finalize();
 
 private:
-	MyEngine* engine_;
 
-	uint32_t uvResourceNum_;
-	uint32_t cubeResourceNum_;
+	MyEngine* engine_;
 
 };
 
