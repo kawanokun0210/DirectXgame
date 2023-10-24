@@ -16,12 +16,12 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	soundDataHandle_ = sound_->LoadWave("Audio/Alarm01.wav");
 
 	for (int i = 0; i < 2; i++) {
-		objectTransform_[0] = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f}};
-		objectTransform_[1] = { {1.0f * ObjectSize[1],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-5.5f,-3.8f,0.0f}};
+		objectTransform_[0] = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
+		objectTransform_[1] = { {1.0f * ObjectSize[1],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-5.5f,-3.8f,0.0f} };
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
-	playerTransform_ = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f}};
+	playerTransform_ = { {1.0f * ObjectSize[2],1.0f * ObjectSize[2],1.0f * ObjectSize[2]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	objectDraw_ = true;
@@ -46,7 +46,7 @@ void GameScene::Update() {
 
 	MatrixUpdate();
 
-	playerAcceleration_ = -0.08f;
+	playerAcceleration_ = -0.02f;
 
 	if (drop == true && isJump_ == false) {
 		playerTransform_.translate.num[1] -= 0.01f;
@@ -59,24 +59,25 @@ void GameScene::Update() {
 		playerTransform_.translate.num[0] += 0.1f;
 	}
 
-	if (input_->TriggerKey(DIK_SPACE)  && isJump_ == false) {
+	if (input_->TriggerKey(DIK_SPACE) && isJump_ == false) {
 		isJump_ = true;
-		playerSpeed_ = 0.5f;
-		playerTransform_.translate.num[1] -= playerSpeed_;
+		playerSpeed_ = 0.38f;
 	}
 
 	if (isJump_ == true) {
 		playerSpeed_ += playerAcceleration_;
-		playerTransform_.translate.num[1] = playerSpeed_;
+		playerTransform_.translate.num[1] += playerSpeed_;
 	}
 
-	
+
+
 	for (int i = 0; i < 2; i++) {
-		aabb1 = AABBadd(playerTransform_.translate, ObjectSize[0]);
-		aabb2 = AABBadd(objectTransform_[i].translate, ObjectSize[i]);
+		aabb1 = AABBadd(playerTransform_.translate, ObjectSize[2], ObjectSize[2], ObjectSize[2]);
+		aabb2 = AABBadd(objectTransform_[i].translate, ObjectSize[i], ObjectSize[0], ObjectSize[0]);
 		if (IsCollision(aabb1, aabb2)) {
 			isJump_ = false;
 			drop = false;
+			playerSpeed_ = 0;
 			break;
 		}
 		else {
@@ -85,7 +86,7 @@ void GameScene::Update() {
 		}
 	}
 
-	
+
 }
 
 void GameScene::Draw()
@@ -176,11 +177,11 @@ void GameScene::Finalize()
 	delete input_;
 }
 
-AABB GameScene::AABBadd(Vector3 a, float size) {
+AABB GameScene::AABBadd(Vector3 a, float sizeX, float sizeY, float sizeZ) {
 	AABB aabb{};
 	for (int i = 0; i < 2; i++) {
-		aabb.min = { 1.0f * size,1.0f * ObjectSize[0],-1.0f * ObjectSize[0]};
-		aabb.max = { -1.0f * size,-1.0f * ObjectSize[0],1.0f * ObjectSize[0]};
+		aabb.min = { 1.0f * sizeX,1.0f * sizeY,-1.0f * sizeZ };
+		aabb.max = { -1.0f * sizeX,-1.0f * sizeY,1.0f * sizeZ };
 
 		aabb.min.num[0] += a.num[0];
 		aabb.min.num[1] += a.num[1];
