@@ -52,6 +52,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		case CLEAR:
 
+			sceneManager->ClearUpdate();
+
+			sceneManager->ClearDraw();
+
 			break;
 
 		case OVER:

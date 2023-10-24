@@ -1,6 +1,6 @@
-#include "TitleState.h"
+#include "ClearState.h"
 
-void TitleState::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
+void ClearState::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	engine_ = engine;
 	dxCommon_ = dxCommon;
 
@@ -22,21 +22,21 @@ void TitleState::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
 
-	cubeResourceNum_ = 0;
+	cubeResourceNum_ = 1;
 
 }
 
-void TitleState::Update() {
+void ClearState::Update() {
 	directionalLight_.direction = Normalise(directionalLight_.direction);
 }
 
-void TitleState::Draw() {
+void ClearState::Draw() {
 	for (int i = 0; i < 1; i++) {
 		sprite_[i]->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_, spriteData_.material, cubeResourceNum_, directionalLight_);
 	}
 }
 
-void TitleState::Finalize() {
+void ClearState::Finalize() {
 	for (int i = 0; i < 1; i++) {
 		delete sprite_[i];
 	}

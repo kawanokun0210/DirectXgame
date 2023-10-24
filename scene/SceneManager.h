@@ -3,6 +3,7 @@
 #include "DirectX.h"
 #include "Engine.h"
 #include "TitleState.h"
+#include "../ClearState.h"
 
 enum GAMESCENE {
 	TITLE,
@@ -27,6 +28,10 @@ public:
 
 	void GameDraw();
 
+	//ゲームクリア
+	void ClearUpdate();
+
+	void ClearDraw();
 
 	//全解放処理
 	void Finalize();
@@ -41,6 +46,7 @@ private:
 
 	GameScene* gameScene = new GameScene();
 	TitleState* titleState = new TitleState();
+	ClearState* clearState = new ClearState();
 
 	Input* input_ = new Input();
 
