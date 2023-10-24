@@ -4,13 +4,21 @@ void SceneManager::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	engine_ = engine;
 	dxCommon_ = dxCommon;
 
+	input_->Initialize();
+
 	gameScene->Initialize(engine_, dxCommon_);
 	titleState->Initialize(engine_, dxCommon_);
 }
 
 //ここからタイトルシーン
 void SceneManager::TitleUpdate() {
+	input_->Update();
 	titleState->Update();
+
+	if(input_->TriggerKey(DIK_RETURN)){
+		sceneState = PLAY;
+	}
+
 }
 
 void SceneManager::TitleDraw() {
