@@ -60,6 +60,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		case OVER:
 
+			sceneManager->GameOverUpdate();
+
+			sceneManager->GameOverDraw();
+
 			break;
 
 		}

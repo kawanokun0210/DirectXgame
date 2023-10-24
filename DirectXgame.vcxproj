@@ -117,6 +117,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="math\MatrixCalculation.cpp" />
     <ClCompile Include="scene\ClearState.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="scene\OverState.cpp" />
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="scene\TitleState.cpp" />
     <ClCompile Include="sound\Sound.cpp" />
@@ -148,6 +149,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="ResourceObject.h" />
     <ClInclude Include="scene\ClearState.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="scene\OverState.h" />
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="scene\TitleState.h" />
     <ClInclude Include="sound\Sound.h" />

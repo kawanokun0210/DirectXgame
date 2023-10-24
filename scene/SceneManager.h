@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "TitleState.h"
 #include "ClearState.h"
+#include "OverState.h"
 
 enum GAMESCENE {
 	TITLE,
@@ -33,6 +34,11 @@ public:
 
 	void ClearDraw();
 
+	//ゲームオーバー
+	void GameOverUpdate();
+
+	void GameOverDraw();
+
 	//全解放処理
 	void Finalize();
 
@@ -47,6 +53,7 @@ private:
 	GameScene* gameScene = new GameScene();
 	TitleState* titleState = new TitleState();
 	ClearState* clearState = new ClearState();
+	OverState* overState = new OverState();
 
 	Input* input_ = new Input();
 

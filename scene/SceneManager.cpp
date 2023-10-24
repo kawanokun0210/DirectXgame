@@ -9,6 +9,7 @@ void SceneManager::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	gameScene->Initialize(engine_, dxCommon_);
 	titleState->Initialize(engine_, dxCommon_);
 	clearState->Initialize(engine_, dxCommon_);
+	overState->Initialize(engine_, dxCommon_);
 }
 
 //ここからタイトルシーン
@@ -55,14 +56,30 @@ void SceneManager::ClearDraw() {
 	clearState->Draw();
 }
 
+//ここからゲームオーバー
+void SceneManager::GameOverUpdate() {
+	overState->Update();
+	input_->Update();
+
+	if (input_->TriggerKey(DIK_RETURN)) {
+		sceneState = TITLE;
+	}
+}
+
+void SceneManager::GameOverDraw() {
+	overState->Draw();
+}
+
 //全解放処理
 void SceneManager::Finalize() {
 	gameScene->Finalize();
 	titleState->Finalize();
 	clearState->Finalize();
+	overState->Finalize();
 
 	delete input_;
 	delete gameScene;
 	delete titleState;
 	delete clearState;
+	delete overState;
 }
