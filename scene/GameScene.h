@@ -33,7 +33,7 @@ public:
 
 	static bool IsCollision(const AABB& aabb1, const AABB& aabb2);
 
-	void AABBadd();
+	void AABBadd(Vector3 a,Vector3 b);
 
 private:
 
