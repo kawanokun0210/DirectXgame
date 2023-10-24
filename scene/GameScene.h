@@ -11,6 +11,7 @@
 #include "Input.h"
 #include "Sound.h"
 #include "GameSceneEnum.h"
+#include "TextureManager.h"
 
 struct AABB {
 	Vector3 min;
