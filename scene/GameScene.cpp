@@ -15,9 +15,10 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	soundDataHandle_ = sound_->LoadWave("Audio/fanfare.wav");
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < kMaxObject; i++) {
 		objectTransform_[0] = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{0.0f,-1.0f,0.0f} };
 		objectTransform_[1] = { {1.0f * ObjectSize[1],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-5.5f,-3.8f,0.0f} };
+		objectTransform_[2] = { {1.0f * ObjectSize[0],1.0f * ObjectSize[0],1.0f * ObjectSize[0]},{0.0f,0.0f,0.0f},{-1.5f,-2.8f,0.0f} };
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
@@ -46,7 +47,7 @@ void GameScene::Update() {
 
 	MatrixUpdate();
 
-	sound_->PlayWave(soundDataHandle_);
+	//sound_->PlayWave(soundDataHandle_);
 
 	playerAcceleration_ = -0.02f;
 
@@ -73,13 +74,23 @@ void GameScene::Update() {
 
 
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		aabb1 = AABBadd(playerTransform_.translate, ObjectSize[2], ObjectSize[2], ObjectSize[2]);
 		aabb2 = AABBadd(objectTransform_[i].translate, ObjectSize[i], ObjectSize[0], ObjectSize[0]);
 		if (IsCollision(aabb1, aabb2)) {
 			isJump_ = false;
 			drop = false;
 			playerSpeed_ = 0;
+
+			float sentorPos = (playerTransform_.translate.num[0] - objectTransform_[i].translate.num[0]) * (playerTransform_.translate.num[0] - objectTransform_[i].translate.num[0]) + (playerTransform_.translate.num[1] - objectTransform_[i].translate.num[1]) * (playerTransform_.translate.num[1] - objectTransform_[i].translate.num[1]);
+
+			if (sentorPos <= playerTransform_.scale.num[1] + objectTransform_[i].scale.num[1]) {
+
+				float D = (playerTransform_.scale.num[1] + objectTransform_[i].scale.num[1]) - (playerTransform_.translate.num[1] - objectTransform_[i].translate.num[1]);
+				playerTransform_.translate.num[1] += D;
+
+			}
+
 			break;
 		}
 		else {
@@ -96,6 +107,7 @@ void GameScene::Draw()
 	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], cubeResourceNum_, cameraTransform_, directionalLight_);
 	object_[1]->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
 	object_[2]->Draw(objectMaterial_[1], objectTransform_[1], cubeResourceNum_, cameraTransform_, directionalLight_);
+	object_[3]->Draw(objectMaterial_[2], objectTransform_[2], cubeResourceNum_, cameraTransform_, directionalLight_);
 }
 
 void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
@@ -143,8 +155,8 @@ void GameScene::MatrixUpdate() {
 
 bool GameScene::IsCollision(const AABB& aabb1, const AABB& aabb2) {
 	if (aabb1.min.num[0] >= aabb2.max.num[0] && aabb1.max.num[0] <= aabb2.min.num[0] && //左右
-		aabb1.min.num[1] >= aabb2.max.num[1] && aabb1.max.num[1] <= aabb2.min.num[1] //上下
-		) {
+		aabb1.min.num[1] >= aabb2.max.num[1] && aabb1.max.num[1] <= aabb2.min.num[1])
+	{
 		return true;
 	}
 	return false;
