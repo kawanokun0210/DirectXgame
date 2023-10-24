@@ -10,7 +10,7 @@
 #include "Object.h"
 #include "Input.h"
 #include "Sound.h"
-#include "../GameSceneEnum.h"
+#include "GameSceneEnum.h"
 
 struct AABB {
 	Vector3 min;

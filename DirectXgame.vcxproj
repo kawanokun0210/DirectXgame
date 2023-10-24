@@ -139,7 +139,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
-    <ClInclude Include="GameSceneEnum.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="math\Matrix3x3.h" />
     <ClInclude Include="math\Matrix4x4.h" />
@@ -150,6 +149,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="ResourceObject.h" />
     <ClInclude Include="scene\ClearState.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="scene\GameSceneEnum.h" />
     <ClInclude Include="scene\OverState.h" />
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="scene\TitleState.h" />

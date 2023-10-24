@@ -5,7 +5,7 @@
 #include "TitleState.h"
 #include "ClearState.h"
 #include "OverState.h"
-#include "../GameSceneEnum.h"
+#include "GameSceneEnum.h"
 
 class SceneManager
 {
