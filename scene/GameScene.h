@@ -46,6 +46,8 @@ public:
 
 	float GetPlayerPosY() { return playerTransform_.translate.num[1]; }
 
+	void SetPlayerPos(float y);
+
 private:
 
 	AABB aabb1{
@@ -100,17 +102,12 @@ private:
 
 	Transform cameraTransform_;
 
-	uint32_t uvResourceNum_;
-	uint32_t cubeResourceNum_;
-
 	DirectionalLight directionalLight_;
 
 	Sound* sound_;
 	SoundData soundDataHandle_;
 
 	Input* input_;
-
-	bool texture_;
 
 	bool drop;
 

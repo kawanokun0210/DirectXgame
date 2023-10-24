@@ -126,6 +126,9 @@
     <ClCompile Include="scene\OverState.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="scene\GameSceneEnum.h">
       <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

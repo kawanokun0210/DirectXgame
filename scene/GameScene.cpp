@@ -48,13 +48,6 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	directionalLight_.direction = { 0.0f,-1.0f,0.0f };
 	directionalLight_.intensity = 1.0f;
 
-	texture_ = 0;
-	uvResourceNum_ = 0;
-	engine_->SettingTexture("Resource/uvChecker.png", uvResourceNum_);
-
-	cubeResourceNum_ = 1;
-	engine_->SettingTexture("Resource/cube.jpg", cubeResourceNum_);
-
 }
 
 void GameScene::Update() {
@@ -125,12 +118,12 @@ void GameScene::Update() {
 void GameScene::Draw()
 {
 	
-	player_->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
+	player_->Draw(playerMaterial_, playerTransform_, 0, cameraTransform_, directionalLight_);
 
-	goal_->Draw(goalMaterial_, goalTransform_, texture_, cameraTransform_, directionalLight_);
+	goal_->Draw(goalMaterial_, goalTransform_, 0, cameraTransform_, directionalLight_);
 
 	for (int i = 0; i < kMaxObject; i++) {
-		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], cubeResourceNum_, cameraTransform_, directionalLight_);
+		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 1, cameraTransform_, directionalLight_);
 	}
 
 }
@@ -227,6 +220,10 @@ void GameScene::Finalize()
 	delete sphere_;
 	delete sound_;
 	delete input_;
+}
+
+void GameScene::SetPlayerPos(float y) {
+	playerTransform_.translate.num[1] = y;
 }
 
 AABB GameScene::AABBadd(Vector3 a, Vector3 objectSize) {

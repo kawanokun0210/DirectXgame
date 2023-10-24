@@ -1,6 +1,6 @@
 #include "Engine.h"
-#include "GameScene.h"
 #include "SceneManager.h"
+#include "TextureManager.h"
 
 const wchar_t kWindowTitle[] = { L"CG2_WinMain" };
 
@@ -20,6 +20,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	SceneManager* sceneManager = new SceneManager();
 	sceneManager->Initialize(engine, engine->GetDirectXCommon());
+
+	TextureManager* textureManager = new TextureManager();
+	textureManager->Initialize(engine);
 
 	while (true)
 	{
@@ -76,8 +79,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	sceneManager->Finalize();
 
+	textureManager->Finalize();
+
 	delete engine;
 	delete sceneManager;
+	delete textureManager;
 
 	CoUninitialize();
 

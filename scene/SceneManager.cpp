@@ -16,6 +16,7 @@ void SceneManager::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 void SceneManager::TitleUpdate() {
 	input_->Update();
 	titleState->Update();
+	gameScene->Initialize(engine_, dxCommon_);
 
 	if(input_->TriggerKey(DIK_RETURN)){
 		sceneState = PLAY;
@@ -37,7 +38,8 @@ void SceneManager::GameUpdate() {
 		sceneState = CLEAR;
 	}
 
-	if (gameScene->GetPlayerPosY() <= -40.0f) {
+	if (gameScene->GetPlayerPosY() <= -10.0f) {
+		gameScene->SetPlayerPos(-2.8f);
 		sceneState = OVER;
 	}
 

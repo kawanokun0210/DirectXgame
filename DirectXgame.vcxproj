@@ -122,6 +122,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="scene\TitleState.cpp" />
     <ClCompile Include="sound\Sound.cpp" />
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\Object.h" />
@@ -155,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="scene\TitleState.h" />
     <ClInclude Include="sound\Sound.h" />
     <ClInclude Include="String.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
