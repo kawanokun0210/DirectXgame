@@ -35,10 +35,11 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	objectTransform_[2] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{2.0f,2.0f,0.0f} };
 	objectTransform_[3] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-2.0f,5.0f,0.0f} };
 
-
 	playerTransform_ = { {1.0f * PlayerSize.num[0],1.0f * PlayerSize.num[1],1.0f * PlayerSize.num[2]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
+	goalTransform_ = { {1.0f * goalSize.num[0],1.0f * goalSize.num[1],1.0f * goalSize.num[2]},{0.0f,0.0f,0.0f},{-1.0f,6.0f,0.0f} };
+	goalMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	objectDraw_ = true;
 	drop = true;
@@ -95,6 +96,7 @@ void GameScene::Update() {
 	for (int i = 0; i < kMaxObject; i++) {
 		aabb1 = AABBadd(playerTransform_.translate, PlayerSize);
 		aabb2 = AABBadd(objectTransform_[i].translate, ObjectSize[i]);
+		aabb3 = AABBadd(goalTransform_.translate, goalSize);
 		if (IsCollision(aabb1, aabb2)) {
 			isJump_ = false;
 			drop = false;
@@ -115,8 +117,8 @@ void GameScene::Update() {
 			isJump_ = true;
 			drop = true;
 		}
-	}
 
+	}
 
 }
 
@@ -124,6 +126,8 @@ void GameScene::Draw()
 {
 	
 	player_->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
+
+	goal_->Draw(goalMaterial_, goalTransform_, texture_, cameraTransform_, directionalLight_);
 
 	for (int i = 0; i < kMaxObject; i++) {
 		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], cubeResourceNum_, cameraTransform_, directionalLight_);
@@ -141,6 +145,9 @@ void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
 
 	player_ = new Object();
 	player_->Initialize(dxCommon,engine);
+
+	goal_ = new Object();
+	goal_->Initialize(dxCommon, engine);
 
 	for (int i = 0; i < kMaxObject; i++) {
 		object_[i] = new Object();
@@ -210,6 +217,9 @@ void GameScene::Finalize()
 
 	player_->Finalize();
 	delete player_;
+
+	goal_->Finalize();
+	delete goal_;
 
 	sound_->Finalize();
 	sound_->UnLoad(&soundDataHandle_);

@@ -10,6 +10,7 @@
 #include "Object.h"
 #include "Input.h"
 #include "Sound.h"
+#include "../GameSceneEnum.h"
 
 struct AABB {
 	Vector3 min;
@@ -35,7 +36,13 @@ public:
 
 	AABB AABBadd(Vector3 a, Vector3 objectSize);
 
+public:
+
 	//bool CheckAllCollision(Vector3 a, Vector3 b);
+
+	AABB GetAABB1() { return aabb1; }
+
+	AABB GetAABB2() { return aabb3; }
 
 private:
 
@@ -46,6 +53,11 @@ private:
 	};
 
 	AABB aabb2{
+		.min{1.0f,1.0f,-1.0f},
+		.max{-1.0f,-1.0f,1.0f},
+	};
+
+	AABB aabb3{
 		.min{1.0f,1.0f,-1.0f},
 		.max{-1.0f,-1.0f,1.0f},
 	};
@@ -71,6 +83,7 @@ private:
 
 	Object* object_[kMaxObject];
 	Object* player_;
+	Object* goal_;
 	Transform objectTransform_[kMaxObject];
 	Vector4 objectMaterial_[kMaxObject];
 	Matrix4x4 objectMatrix_;
@@ -78,6 +91,10 @@ private:
 	Transform playerTransform_;
 	Vector4 playerMaterial_;
 	Matrix4x4 playerMatrix_;
+
+	Transform goalTransform_;
+	Vector4 goalMaterial_;
+	Matrix4x4 goalMatrix_;
 
 	Transform cameraTransform_;
 
@@ -108,5 +125,6 @@ private:
 
 	Vector3 ObjectSize[kMaxObject];
 	Vector3 PlayerSize = { 0.2f,0.2f,0.2f };
+	Vector3 goalSize = { 0.2f,0.2f,0.2f };
 
 };

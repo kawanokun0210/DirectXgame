@@ -33,7 +33,7 @@ void SceneManager::GameUpdate() {
 
 	input_->Update();
 
-	if (input_->TriggerKey(DIK_RETURN)) {
+	if (gameScene->IsCollision(gameScene->GetAABB1(),gameScene->GetAABB2())) {
 		sceneState = CLEAR;
 	}
 }
