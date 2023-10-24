@@ -70,6 +70,7 @@ private:
 	static const int kMaxObject = 10;
 
 	Object* object_[kMaxObject];
+	Object* player_;
 	Transform objectTransform_[kMaxObject];
 	Vector4 objectMaterial_[kMaxObject];
 	Matrix4x4 objectMatrix_;
@@ -105,6 +106,6 @@ private:
 	
 	bool isJump_ = false;
 
-
 	float ObjectSize[kMaxObject] = { 0.5f,1.5f,0.3f };
+
 };

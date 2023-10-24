@@ -72,7 +72,10 @@ void GameScene::Update() {
 		playerTransform_.translate.num[1] += playerSpeed_;
 	}
 
-
+	//カメラスクロール
+	cameraTransform_.translate.num[0] = playerTransform_.translate.num[0] - playerTransform_.translate.num[0] / 15;
+	cameraTransform_.translate.num[1] = playerTransform_.translate.num[1] + 4.8f + playerTransform_.translate.num[1] / 65.0f;
+	cameraTransform_.rotate.num[0] = 0.2f;
 
 	for (int i = 0; i < 3; i++) {
 		aabb1 = AABBadd(playerTransform_.translate, ObjectSize[2], ObjectSize[2], ObjectSize[2]);
@@ -104,10 +107,13 @@ void GameScene::Update() {
 
 void GameScene::Draw()
 {
-	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], cubeResourceNum_, cameraTransform_, directionalLight_);
-	object_[1]->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
-	object_[2]->Draw(objectMaterial_[1], objectTransform_[1], cubeResourceNum_, cameraTransform_, directionalLight_);
-	object_[3]->Draw(objectMaterial_[2], objectTransform_[2], cubeResourceNum_, cameraTransform_, directionalLight_);
+	
+	player_->Draw(playerMaterial_, playerTransform_, texture_, cameraTransform_, directionalLight_);
+
+	for (int i = 0; i < kMaxObject; i++) {
+		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], cubeResourceNum_, cameraTransform_, directionalLight_);
+	}
+
 }
 
 void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
@@ -117,6 +123,9 @@ void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
 
 	input_ = new Input();
 	input_->Initialize();
+
+	player_ = new Object();
+	player_->Initialize(dxCommon,engine);
 
 	for (int i = 0; i < kMaxObject; i++) {
 		object_[i] = new Object();
@@ -183,6 +192,10 @@ void GameScene::Finalize()
 		object_[i]->Finalize();
 		delete object_[i];
 	}
+
+	player_->Finalize();
+	delete player_;
+
 	sound_->Finalize();
 	sound_->UnLoad(&soundDataHandle_);
 
