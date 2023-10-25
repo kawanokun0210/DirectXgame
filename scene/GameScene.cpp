@@ -20,7 +20,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 		ObjectSize[i].num[1] = 0.5f;
 		ObjectSize[i].num[2] = 0.5f;
 
-		objectTransform_[i] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{ -4.0f + 1.0f * i,  -8.0f + 2.5f * i,0.0f} };
+		objectTransform_[i] = { {0.5f,0.5f,0.5f},{0.0f,0.0f,0.0f},{ -4.0f,  -8.0f + 1.0f * i,0.0f} };
 
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
@@ -66,6 +66,8 @@ void GameScene::Update() {
 
 	MatrixUpdate();
 
+	preTransform_ = playerTransform_;
+
 	if (input_->PushKey(DIK_LEFT)) {
 		playerTransform_.translate.num[0] -= 0.1f;
 	}
@@ -94,9 +96,20 @@ void GameScene::Update() {
 
 	//当たり判定
 	for (int i = 0; i < kMaxObject; i++) {
-		aabb1 = AABBadd(playerTransform_.translate,PlayerSize);
-		aabb2 = AABBadd(objectTransform_[i].translate,ObjectSize[i]);
-		if (IsCollision(aabb1, aabb2)) {
+		playerAABB = AABBadd(playerTransform_.translate,PlayerSize);
+		objAABB = AABBadd(objectTransform_[i].translate,ObjectSize[i]);
+		if (IsCollision(playerAABB, objAABB)) {
+			AABB preAABB = AABBadd(preTransform_.translate, PlayerSize);
+			//Left To Right
+			//if (preAABB.max.num[0] < objAABB.min.num[0]) {//前フレームのx座標の差
+			//	float distance = playerAABB.max.num[0] - objAABB.min.num[0];
+			//	playerTransform_.translate.num[0] -= distance;
+			//	break;
+			//}else if(preAABB.min.num[0] > objAABB.max.num[0]){
+			//	float distance = playerAABB.min.num[0] - objAABB.max.num[0];
+			//	playerTransform_.translate.num[0] += distance;
+			//	break;
+			//}
 			drop = false;
 			PlayerSpeed_ = 0.0f;
 			break;

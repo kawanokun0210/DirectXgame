@@ -39,13 +39,13 @@ public:
 
 private:
 
-	AABB aabb1{
+	AABB playerAABB{
 
 		.min{1.0f,1.0f,-1.0f},
 		.max{-1.0f,-1.0f,1.0f},
 	};
 
-	AABB aabb2{
+	AABB objAABB{
 		.min{1.0f,1.0f,-1.0f},
 		.max{-1.0f,-1.0f,1.0f},
 	};
@@ -76,6 +76,7 @@ private:
 	Matrix4x4 objectMatrix_;
 
 	Transform playerTransform_;
+	Transform preTransform_;
 	Vector4 playerMaterial_;
 	Matrix4x4 playerMatrix_;
 
