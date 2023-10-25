@@ -126,7 +126,7 @@ void GameScene::Draw()
 	
 	player_->Draw(playerMaterial_, playerTransform_, 0, cameraTransform_, directionalLight_);
 
-	goal_->Draw(goalMaterial_, goalTransform_, 0, cameraTransform_, directionalLight_);
+	goal_->Draw(goalMaterial_, goalTransform_, 5, cameraTransform_, directionalLight_);
 
 	for (int i = 0; i < kMaxObject; i++) {
 		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 1, cameraTransform_, directionalLight_);

@@ -3,12 +3,23 @@
 void TextureManager::Initialize(MyEngine* engine) {
 	engine_ = engine;
 
-	engine_->SettingTexture("Resource/uvChecker.png", 0);
+	//プレイヤーとゴールのテクスチャ
+	engine_->SettingTexture("Resource/texture/uvChecker.png", 0);
 
-	engine_->SettingTexture("Resource/cube.jpg", 1);
+	//ステージのリソース
+	engine_->SettingTexture("Resource/texture/cube.jpg", 1);
 
-	engine_->SettingTexture("Resource/haikei.png", 2);
+	//タイトルの画像
+	engine_->SettingTexture("Resource/texture/haikei.png", 2);
 
+	//クリア画面
+	engine_->SettingTexture("Resource/texture/monsterBall.png", 3);
+
+	//ゲームオーバー
+	engine_->SettingTexture("Resource/texture/unknown1.png", 4);
+
+	//ゴールのテクスチャ
+	engine_->SettingTexture("Resource/texture/unknown1.png", 5);
 }
 
 void TextureManager::Finalize() {
