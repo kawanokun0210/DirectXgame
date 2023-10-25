@@ -42,7 +42,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	playerTransform_ = { {1.0f * PlayerSize.num[0],1.0f * PlayerSize.num[1],1.0f * PlayerSize.num[2]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
-	goalTransform_ = { {1.0f * goalSize.num[0],1.0f * goalSize.num[1],1.0f * goalSize.num[2]},{0.0f,0.0f,0.0f},{-1.0f,6.0f,0.0f} };
+	goalTransform_ = { {1.0f * goalSize.num[0],1.0f * goalSize.num[1],1.0f * goalSize.num[2]},{0.0f,0.0f,0.0f},{-1.0f,20.0f,0.0f} };
 	goalMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	objectDraw_ = true;
