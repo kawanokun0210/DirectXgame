@@ -22,7 +22,7 @@ void TitleState::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
 
-	cubeResourceNum_ = 0;
+	cubeResourceNum_ = 2;
 
 }
 
