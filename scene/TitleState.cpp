@@ -13,7 +13,7 @@ void TitleState::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	spriteData_.RightDown[0] = { 1280.0f,720.0f,0.0f,1.0f };
 	spriteData_.LeftTop[1] = { 0.0f,0.0f,0.0f,1.0f };
 	spriteData_.RightDown[1] = { 1280.0f,720.0f,0.0f,1.0f };
-	spriteData_.material = { 1.0f,1.0f,1.0f,1.0f };
+	spriteData_.material = { 0.0f,0.0f,0.0f,0.0f };
 	spriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 	directionalLight_.color = { 1.0f,1.0f,1.0f,1.0f };
@@ -28,12 +28,32 @@ void TitleState::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 void TitleState::Update() {
 	directionalLight_.direction = Normalise(directionalLight_.direction);
+
+	if (isMaterial_ == false) {
+		spriteData_.material.num[0] += 0.002f;
+		spriteData_.material.num[1] += 0.002f;
+		spriteData_.material.num[2] += 0.002f;
+		spriteData_.material.num[3] += 0.002f;
+	}
+
+	if (spriteData_.material.num[0] >= 1.0f && spriteData_.material.num[1] >= 1.0f && spriteData_.material.num[2] >= 1.0f && spriteData_.material.num[3] >= 1.0f) {
+		isMaterial_ = true;
+	}
+
 }
 
 void TitleState::Draw() {
 	for (int i = 0; i < 1; i++) {
 		sprite_[i]->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_, spriteData_.material, cubeResourceNum_, directionalLight_);
 	}
+}
+
+SpriteData TitleState::SetSpriteDataMaterial(float x, float y, float z, float w) {
+	spriteData_.material.num[0] = x;
+	spriteData_.material.num[1] = y;
+	spriteData_.material.num[2] = z;
+	spriteData_.material.num[3] = w;
+	return spriteData_;
 }
 
 void TitleState::Finalize() {

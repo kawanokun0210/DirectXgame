@@ -10,7 +10,7 @@ void TextureManager::Initialize(MyEngine* engine) {
 	engine_->SettingTexture("Resource/texture/cube.jpg", 1);
 
 	//タイトルの画像
-	engine_->SettingTexture("Resource/texture/haikei.png", 2);
+	engine_->SettingTexture("Resource/texture/title.png", 2);
 
 	//クリア画面
 	engine_->SettingTexture("Resource/texture/monsterBall.png", 3);

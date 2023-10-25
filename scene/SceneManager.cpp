@@ -54,6 +54,8 @@ void SceneManager::ClearUpdate() {
 	clearState->Update();
 	input_->Update();
 
+	titleState->SetSpriteDataMaterial(1.0f, 1.0f, 1.0f, 1.0f);
+
 	if (input_->TriggerKey(DIK_SPACE)) {
 		sceneState = TITLE;
 	}
@@ -67,6 +69,8 @@ void SceneManager::ClearDraw() {
 void SceneManager::GameOverUpdate() {
 	overState->Update();
 	input_->Update();
+
+	titleState->SetSpriteDataMaterial(1.0f, 1.0f, 1.0f, 1.0f);
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		sceneState = TITLE;

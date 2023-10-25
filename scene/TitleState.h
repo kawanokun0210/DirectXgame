@@ -16,6 +16,8 @@ public:
 
 	void Finalize();
 
+	SpriteData SetSpriteDataMaterial(float x, float y, float z, float w);
+
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
@@ -31,5 +33,7 @@ private:
 	Transform spriteTransform_;
 
 	uint32_t cubeResourceNum_;
+
+	bool isMaterial_ = false;
 };
 
