@@ -58,6 +58,26 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	objectTransform_[13] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-6.0f,1.5f,0.0f} };
 
+	objectTransform_[14] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-10.0f,6.5f,0.0f} };
+
+	objectTransform_[15] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-12.0f,7.5f,0.0f} };
+
+	objectTransform_[16] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-4.0f,0.5f,0.0f} };
+
+	objectTransform_[17] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-9.0f,10.5f,0.0f} };
+
+	objectTransform_[18] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{0.0f,13.5f,0.0f} };
+
+	objectTransform_[19] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{5.0f,5.5f,0.0f} };
+
+	objectTransform_[20] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-7.0f,15.5f,0.0f} };
+
+	objectTransform_[21] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-5.0f,11.0f,0.0f} };
+
+	objectTransform_[22] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{1.0f,12.0f,0.0f} };
+
+	objectTransform_[23] = { {1.0f * ObjectSize[2].num[0],1.0f * ObjectSize[2].num[1],1.0f * ObjectSize[2].num[2]},{0.0f,0.0f,0.0f},{-3.0f,17.0f,0.0f} };
+
 	playerTransform_ = { {1.0f * PlayerSize.num[0],1.0f * PlayerSize.num[1],1.0f * PlayerSize.num[2]},{0.0f,0.0f,0.0f},{-5.0f,-2.8f,0.0f} };
 	playerMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
