@@ -21,6 +21,9 @@ void SceneManager::TitleUpdate() {
 	clearState->SetIsMaterial(false);
 	clearState->SetSpriteDataMaterial(1.0f, 1.0f, 1.0f, 1.0f);
 
+	overState->SetIsMaterial(false);
+	overState->SetSpriteDataMaterial(1.0f, 1.0f, 1.0f, 1.0f);
+
 	if(input_->TriggerKey(DIK_SPACE)){
 		sceneState = PLAY;
 	}
@@ -79,11 +82,17 @@ void SceneManager::GameOverUpdate() {
 	overState->Update();
 	input_->Update();
 
-	titleState->SetSpriteDataMaterial(1.0f, 1.0f, 1.0f, 1.0f);
+	titleState->SetSpriteDataMaterial(0.0f, 0.0f, 0.0f, 0.0f);
+	titleState->SetIsMaterial(false);
 
 	if (input_->TriggerKey(DIK_SPACE)) {
+		overState->SetIsMaterial(true);
+	}
+
+	if (overState->GetSpriteData().material.num[0] <= 0.0f && overState->GetSpriteData().material.num[1] <= 0.0f && overState->GetSpriteData().material.num[2] <= 0.0f && overState->GetSpriteData().material.num[3] <= 0.0f) {
 		sceneState = TITLE;
 	}
+
 }
 
 void SceneManager::GameOverDraw() {

@@ -28,6 +28,31 @@ void OverState::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 void OverState::Update() {
 	directionalLight_.direction = Normalise(directionalLight_.direction);
+
+	if (isMaterial_ == true) {
+		spriteData_.material.num[0] -= 0.01f;
+		spriteData_.material.num[1] -= 0.01f;
+		spriteData_.material.num[2] -= 0.01f;
+		spriteData_.material.num[3] -= 0.01f;
+	}
+
+	if (spriteData_.material.num[0] <= 0.0f && spriteData_.material.num[1] <= 0.0f && spriteData_.material.num[2] <= 0.0f && spriteData_.material.num[3] <= 0.0f) {
+		isMaterial_ = false;
+	}
+
+}
+
+bool OverState::SetIsMaterial(bool x) {
+	isMaterial_ = x;
+	return isMaterial_;
+}
+
+SpriteData OverState::SetSpriteDataMaterial(float x, float y, float z, float w) {
+	spriteData_.material.num[0] = x;
+	spriteData_.material.num[1] = y;
+	spriteData_.material.num[2] = z;
+	spriteData_.material.num[3] = w;
+	return spriteData_;
 }
 
 void OverState::Draw() {
