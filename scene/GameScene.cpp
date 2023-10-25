@@ -64,6 +64,8 @@ void GameScene::Update() {
 
 	playerAcceleration_ = -0.02f;
 
+	goalTransform_.rotate.num[1] += 0.1f;
+
 	if (drop == true && isJump_ == false) {
 		playerTransform_.translate.num[1] -= 0.01f;
 	}
