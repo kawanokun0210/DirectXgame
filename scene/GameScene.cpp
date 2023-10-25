@@ -68,10 +68,10 @@ void GameScene::Update() {
 		playerTransform_.translate.num[1] -= 0.01f;
 	}
 
-	if (input_->PushKey(DIK_LEFT)) {
+	if (input_->PushKey(DIK_LEFT) || (input_->PushKey(DIK_A))) {
 		playerTransform_.translate.num[0] -= 0.1f;
 	}
-	else if (input_->PushKey(DIK_RIGHT)) {
+	else if (input_->PushKey(DIK_RIGHT) || (input_->PushKey(DIK_D))) {
 		playerTransform_.translate.num[0] += 0.1f;
 	}
 

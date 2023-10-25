@@ -18,7 +18,7 @@ void SceneManager::TitleUpdate() {
 	titleState->Update();
 	gameScene->SetPlayer();
 
-	if(input_->TriggerKey(DIK_RETURN)){
+	if(input_->TriggerKey(DIK_SPACE)){
 		sceneState = PLAY;
 	}
 
@@ -54,7 +54,7 @@ void SceneManager::ClearUpdate() {
 	clearState->Update();
 	input_->Update();
 
-	if (input_->TriggerKey(DIK_RETURN)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
 		sceneState = TITLE;
 	}
 }
@@ -68,7 +68,7 @@ void SceneManager::GameOverUpdate() {
 	overState->Update();
 	input_->Update();
 
-	if (input_->TriggerKey(DIK_RETURN)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
 		sceneState = TITLE;
 	}
 }
