@@ -71,6 +71,7 @@ private:
 
 	Object* object_[kMaxObject];
 	Object* player_;
+	Vector3 playerSpeed_;
 	Transform objectTransform_[kMaxObject];
 	Vector4 objectMaterial_[kMaxObject];
 	Matrix4x4 objectMatrix_;
@@ -104,6 +105,5 @@ private:
 
 	Vector3 ObjectSize[kMaxObject];
 	Vector3 PlayerSize = { 0.2f,0.2f,0.2f };
-	float PlayerSpeed_;
 	float PlayerAcc_;
 };

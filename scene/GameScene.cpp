@@ -66,24 +66,27 @@ void GameScene::Update() {
 
 	MatrixUpdate();
 
+	playerSpeed_.num[0] = 0.0f;
 	preTransform_ = playerTransform_;
 
 	if (input_->PushKey(DIK_LEFT)) {
-		playerTransform_.translate.num[0] -= 0.1f;
+		//playerTransform_.translate.num[0] -= 0.1f;
+		playerSpeed_.num[0] -= 0.1f;
 	}
 	else if (input_->PushKey(DIK_RIGHT)) {
-		playerTransform_.translate.num[0] += 0.1f;
+		//playerTransform_.translate.num[0] += 0.1f;
+		playerSpeed_.num[0] += 0.1f;
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		//playerTransform_.translate.num[1] += 1.0f;
-		PlayerSpeed_ = 0.25f;
+		playerSpeed_.num[1] = 0.25f;
 		PlayerAcc_ = 0.015f;
 	}
 
-	playerTransform_.translate.num[1] += PlayerSpeed_;
+	playerTransform_.translate.num[1] += playerSpeed_.num[1];
 	if (drop == true) {
-		PlayerSpeed_ -= PlayerAcc_;
+		playerSpeed_.num[1] -= PlayerAcc_;
 		//playerTransform_.translate.num[1] -= 0.03f;
 	}
 	else {
@@ -101,17 +104,20 @@ void GameScene::Update() {
 		if (IsCollision(playerAABB, objAABB)) {
 			AABB preAABB = AABBadd(preTransform_.translate, PlayerSize);
 			//Left To Right
-			//if (preAABB.max.num[0] < objAABB.min.num[0]) {//前フレームのx座標の差
-			//	float distance = playerAABB.max.num[0] - objAABB.min.num[0];
-			//	playerTransform_.translate.num[0] -= distance;
-			//	break;
-			//}else if(preAABB.min.num[0] > objAABB.max.num[0]){
-			//	float distance = playerAABB.min.num[0] - objAABB.max.num[0];
-			//	playerTransform_.translate.num[0] += distance;
-			//	break;
-			//}
+			if (preAABB.max.num[0] >= objAABB.min.num[0]/* && preAABB.min.num[0] <= objAABB.max.num[0]*/) {
+				break;
+			}else if (preAABB.max.num[0] < objAABB.min.num[0]) {//前フレームのx座標の差
+				/*float distance = playerAABB.max.num[0] - objAABB.min.num[0];
+				playerTransform_.translate.num[0] -= distance;
+				preTransform_ = playerTransform_;*/
+				break;
+			}/*else if(preAABB.min.num[0] > objAABB.max.num[0]){
+				float distance = playerAABB.min.num[0] - objAABB.max.num[0];
+				playerTransform_.translate.num[0] += distance;
+				break;
+			}*/
 			drop = false;
-			PlayerSpeed_ = 0.0f;
+			playerSpeed_.num[1] = 0.0f;
 			break;
 		}
 		else {
@@ -125,6 +131,8 @@ void GameScene::Update() {
 	//else {
 	//	drop = true;
 	//}
+
+	playerTransform_.translate.num[0] += playerSpeed_.num[0];
 
 }
 
