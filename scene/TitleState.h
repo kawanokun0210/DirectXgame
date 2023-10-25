@@ -16,6 +16,8 @@ public:
 
 	void Finalize();
 
+	bool SetIsMaterial(bool x);
+
 	SpriteData SetSpriteDataMaterial(float x, float y, float z, float w);
 
 private:

@@ -48,6 +48,11 @@ void TitleState::Draw() {
 	}
 }
 
+bool TitleState::SetIsMaterial(bool x) {
+	isMaterial_ = x;
+	return isMaterial_;
+}
+
 SpriteData TitleState::SetSpriteDataMaterial(float x, float y, float z, float w) {
 	spriteData_.material.num[0] = x;
 	spriteData_.material.num[1] = y;
