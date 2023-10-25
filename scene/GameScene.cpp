@@ -55,7 +55,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 }
 
 void GameScene::Update() {
-
+	
 	input_->Update();
 
 	MatrixUpdate();

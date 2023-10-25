@@ -125,6 +125,7 @@ private:
 	float playerAcceleration_;
 	
 	bool isJump_ = false;
+	bool useGamePad = false;
 
 	Vector3 ObjectSize[kMaxObject];
 	Vector3 PlayerSize = { 0.2f,0.2f,0.2f };
