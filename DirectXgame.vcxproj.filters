@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -16,20 +12,11 @@
     <Filter Include="ソース ファイル\3d">
       <UniqueIdentifier>{dd825c44-7837-4c36-a510-695ba795f36e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\3d">
-      <UniqueIdentifier>{4b74e73c-5ae2-4346-b5b8-5a6855ed921a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{0798b278-bff0-406c-9e47-1502371307e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\math">
-      <UniqueIdentifier>{ffaa7628-01f8-43e0-b42f-6d827449dc0c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\base">
       <UniqueIdentifier>{5786913a-1d14-4cda-bf23-937693c9fa25}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\base">
-      <UniqueIdentifier>{76ee0b96-b1bf-498d-9466-794c3f7341e2}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\math">
       <UniqueIdentifier>{740b33a3-a5fd-41b6-bf17-55616e2dc5e4}</UniqueIdentifier>
@@ -37,20 +24,33 @@
     <Filter Include="ソース ファイル\scene">
       <UniqueIdentifier>{61420f71-4381-4653-8a5e-1286e4c6c2f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\scene">
-      <UniqueIdentifier>{0208b025-bddc-4ab4-9156-02d4e1924686}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\sound">
-      <UniqueIdentifier>{fb9608fc-7057-41f5-b4aa-174092a4303d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\sound">
       <UniqueIdentifier>{9522bebb-8fc7-4234-bf23-5df8815098fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\input">
-      <UniqueIdentifier>{b31f9480-b3ac-48c2-9324-d0456e488c77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\input">
       <UniqueIdentifier>{20c95069-20fc-4714-9456-883488d112a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\3d">
+      <UniqueIdentifier>{4b74e73c-5ae2-4346-b5b8-5a6855ed921a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\math">
+      <UniqueIdentifier>{ffaa7628-01f8-43e0-b42f-6d827449dc0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\base">
+      <UniqueIdentifier>{76ee0b96-b1bf-498d-9466-794c3f7341e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\scene">
+      <UniqueIdentifier>{0208b025-bddc-4ab4-9156-02d4e1924686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\sound">
+      <UniqueIdentifier>{fb9608fc-7057-41f5-b4aa-174092a4303d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\input">
+      <UniqueIdentifier>{b31f9480-b3ac-48c2-9324-d0456e488c77}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imgui_impl_win32.h">
       <Filter>imgui</Filter>
@@ -159,76 +159,76 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ResourceObject.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="base\DirectX.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="base\Engine.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="base\WinApp.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="math\MatrixCalculation.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Vector2.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Vector3.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Vector4.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Matrix3x3.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Matrix4x4.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="scene\GameScene.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="3d\Object.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Sphere.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Sprite.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Triangle.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="sound\Sound.h">
-      <Filter>ヘッダー ファイル\sound</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\sound</Filter>
     </ClInclude>
     <ClInclude Include="input\Input.h">
-      <Filter>ヘッダー ファイル\input</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\input</Filter>
     </ClInclude>
     <ClInclude Include="scene\TitleState.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="scene\SceneManager.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="scene\ClearState.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="scene\OverState.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="scene\GameSceneEnum.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="base\TextureManager.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
