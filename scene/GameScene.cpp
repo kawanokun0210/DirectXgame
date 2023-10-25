@@ -139,7 +139,7 @@ void GameScene::TDInitialize(DirectXCommon* dxCommon, MyEngine* engine) {
 	sound_ = new Sound();
 	sound_->Initialize();
 
-	input_ = new Input();
+	input_ = Input::GetInstance();
 	input_->Initialize();
 
 	player_ = new Object();
@@ -228,7 +228,6 @@ void GameScene::Finalize()
 
 	delete sphere_;
 	delete sound_;
-	delete input_;
 }
 
 void GameScene::SetPlayerPos(float y) {
