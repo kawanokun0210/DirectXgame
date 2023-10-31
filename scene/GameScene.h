@@ -10,6 +10,7 @@
 #include "Object.h"
 #include "Input.h"
 #include "Sound.h"
+#include "../Particle.h"
 
 class GameScene
 {
@@ -56,6 +57,11 @@ private:
 	SoundData soundDataHandle_;
 
 	Input* input_ = nullptr;
+
+	Particle* particle[10];
+	Transform particleTransforms[10];
+	Vector4 particleMaterial[10];
+
 
 	bool texture_;
 

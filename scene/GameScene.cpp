@@ -88,6 +88,17 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	objectTransform_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f} };
 
+	for (uint32_t index = 0; index < 10; ++index) {
+		particle[index] = new Particle();
+
+		particle[index]->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+		particleTransforms[index].scale = { 1.0f,1.0f,1.0f };
+		particleTransforms[index].rotate = { 0.0f,0.0f,0.0f };
+		particleTransforms[index].translate = { index * 0.1f,index * 0.1f,index * 0.1f };
+
+		particleMaterial[index] = { 1.0f,1.0f,1.0f,1.0f };
+	}
+
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
 }
 
@@ -293,6 +304,11 @@ void GameScene::Draw()
 			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 0, cameraTransform_, directionalLight_);
 		}
 	}
+
+	for (uint32_t index = 0; index < 10; ++index) {
+		particle[index]->Draw(particleMaterial[index], &particleTransforms[index], 0, cameraTransform_, directionalLight_);
+	}
+
 }
 
 void GameScene::Finalize()
@@ -321,5 +337,9 @@ void GameScene::Finalize()
 
 	delete sphere_;
 	delete sound_;
+
+	for (int i = 0; i < 10; i++) {
+		delete particle[i];
+	}
 	//delete input_;
 }
