@@ -287,6 +287,11 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+
+	for (uint32_t index = 0; index < 10; ++index) {
+		particle->Draw(particleMaterial[index], &particleTransforms[index], 1, cameraTransform_, directionalLight_);
+	}
+
 	if (triangleDrawA_)
 	{
 		triangle_[0]->Draw(triangleData_[0].position[0], triangleData_[0].position[1], triangleData_[0].position[2], triangleData_[0].material, transform_[0], cameraTransform_, uvResourceNum_, directionalLight_);
@@ -313,10 +318,6 @@ void GameScene::Draw()
 		for (int i = 0; i < 2; i++) {
 			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 1, cameraTransform_, directionalLight_);
 		}
-	}
-
-	for (uint32_t index = 0; index < 10; ++index) {
-		particle->Draw(particleMaterial[index], &particleTransforms[index], 0, cameraTransform_, directionalLight_);
 	}
 
 }

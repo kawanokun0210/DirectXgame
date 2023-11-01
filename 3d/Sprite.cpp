@@ -72,6 +72,12 @@ void Sprite::Draw(const Vector4& a, const Vector4& b, const Transform& transform
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 	materialData_->uvTransform = uvTransformMatrix;
 
+	//RootSignatureを設定。PS0とは別途設定が必要
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature().Get());
+
+	//PS0を設定
+	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState().Get());
+
 	//描画
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferViewSprite);

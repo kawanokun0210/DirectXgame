@@ -15,10 +15,10 @@ void Particle::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::
 	TransformMatrix();
 }
 
-void Particle::Draw(const Vector4& material,const Transform* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light)
+void Particle::Draw(const Vector4& material, const Transform* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light)
 {
-	
-		//Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
+
+	//Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
 	for (uint32_t index = 0; index < kNumInstance; ++index) {
 		Matrix4x4 worldMatrix = MakeAffineMatrix(transforms[index].scale, transforms[index].rotate, transforms[index].translate);
 		Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
@@ -41,23 +41,30 @@ void Particle::Draw(const Vector4& material,const Transform* transforms, uint32_
 		*directionalLight_ = light;
 	}
 
-		//VBVを設定
-		dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
+	//RootSignatureを設定。PS0とは別途設定が必要
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature2().Get());
 
-		//形状を設定。PS0に設定しているものとはまた別。同じものを設定する
-		dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//PS0を設定
+	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState2().Get());
 
-		//マテリアルCBufferの場所を設定
-		dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
-		dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
-		dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
+	//VBVを設定
+	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
-		//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
-		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, instancingSrvHandleGPU_);
+	//形状を設定。PS0に設定しているものとはまた別。同じものを設定する
+	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		//描画
-		//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
-		dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), kNumInstance, 0, 0);
+	//マテリアルCBufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
+
+	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, instancingSrvHandleGPU_);
+
+	//描画
+	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
+	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), kNumInstance, 0, 0);
 }
 
 void Particle::Finalize()

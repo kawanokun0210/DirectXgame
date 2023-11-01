@@ -47,6 +47,14 @@ public:
 
 	uint32_t GetdescriptorSizeSRV() { return descriptorSizeSRV; }
 
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature() { return rootSignature_[0]; }
+
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetGraphicsPipelineState() { return graphicsPipelineState_[0]; }
+
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature2() { return rootSignature_[1]; }
+
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetGraphicsPipelineState2() { return graphicsPipelineState_[1]; }
+
 private:
 
 	static	DirectXCommon* dxCommon_;
@@ -58,19 +66,19 @@ private:
 
 	ID3DBlob* signatureBlob_;
 	ID3DBlob* errorBlob_;
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_[2];
 
-	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_{};
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_[2]{};
 
-	D3D12_BLEND_DESC blendDesc_{};
+	D3D12_BLEND_DESC blendDesc_[2]{};
 
-	IDxcBlob* vertexShaderBlob_;
+	IDxcBlob* vertexShaderBlob_[2];
+	
+	IDxcBlob* pixelShaderBlob_[2];
 
-	IDxcBlob* pixelShaderBlob_;
+	D3D12_RASTERIZER_DESC rasterizerDesc_[2]{};
 
-	D3D12_RASTERIZER_DESC rasterizerDesc_{};
-
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_[2];
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
@@ -91,6 +99,8 @@ private:
 	uint32_t descriptorSizeSRV;
 	uint32_t descriptorSizeRTV;
 	uint32_t descriptorSizeDSV;
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 
 	IDxcBlob* CompileShader(
 		//CompileShaderするShaderファイルへのパス
