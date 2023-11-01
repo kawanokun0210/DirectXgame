@@ -58,7 +58,7 @@ private:
 
 	Input* input_ = nullptr;
 
-	Particle* particle[10];
+	Particle* particle;
 	Transform particleTransforms[10];
 	Vector4 particleMaterial[10];
 

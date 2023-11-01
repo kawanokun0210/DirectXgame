@@ -1,6 +1,6 @@
 #include "Particle.hlsli"
 
-ConstantBuffer<TransformationMatrix> gTransformationMatrices : register(t0);
+StructuredBuffer<TransformationMatrix> gTransformationMatrices : register(t0);
 
 VertexShaderOutput main(VertexShaderInput input, uint32_t instanceId : SV_InstanceID)
 {

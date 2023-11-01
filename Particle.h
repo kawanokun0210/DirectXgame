@@ -28,6 +28,8 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
 
+	TransformationMatrix* GetInstancingData() { return instancingData; }
+
 private:
 	void SettingVertex();
 

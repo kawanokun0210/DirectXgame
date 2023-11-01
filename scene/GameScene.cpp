@@ -88,10 +88,11 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	objectTransform_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f} };
 
-	for (uint32_t index = 0; index < 10; ++index) {
-		particle[index] = new Particle();
+	particle = new Particle();
 
-		particle[index]->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+
+	for (uint32_t index = 0; index < 10; ++index) {
 		particleTransforms[index].scale = { 1.0f,1.0f,1.0f };
 		particleTransforms[index].rotate = { 0.0f,0.0f,0.0f };
 		particleTransforms[index].translate = { index * 0.1f,index * 0.1f,index * 0.1f };
@@ -135,7 +136,6 @@ void GameScene::Update()
 	sphereMatrix_ = Multiply(sphereAffine, Multiply(viewMatrix, projectionMatrix));
 
 	directionalLight_.direction = Normalise(directionalLight_.direction);
-
 
 	ImGui::Begin("OPTION");
 	if (ImGui::TreeNode("Triangle"))
@@ -209,6 +209,16 @@ void GameScene::Update()
 		ImGui::DragFloat2("UVTranslate", &sphere_->uvTransformSprite.translate.x, 0.01f, -10.0f, 10.0f);
 		ImGui::DragFloat2("UVScale", &sphere_->uvTransformSprite.scale.x, 0.01f, -10.0f, 10.0f);
 		ImGui::SliderAngle("UVRotate", &sphere_->uvTransformSprite.rotate.z);
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Particle"))
+	{
+
+		ImGui::DragFloat3("Translate", &particleTransforms[0].translate.x, 0.05f);
+		ImGui::DragFloat3("Rotate", &particleTransforms[0].rotate.x, 0.05f);
+		ImGui::DragFloat3("Scale", &particleTransforms[0].scale.x, 0.05f);
 
 		ImGui::TreePop();
 	}
@@ -306,7 +316,7 @@ void GameScene::Draw()
 	}
 
 	for (uint32_t index = 0; index < 10; ++index) {
-		particle[index]->Draw(particleMaterial[index], &particleTransforms[index], 0, cameraTransform_, directionalLight_);
+		particle->Draw(particleMaterial[index], &particleTransforms[index], 0, cameraTransform_, directionalLight_);
 	}
 
 }
@@ -338,8 +348,6 @@ void GameScene::Finalize()
 	delete sphere_;
 	delete sound_;
 
-	for (int i = 0; i < 10; i++) {
-		delete particle[i];
-	}
+	delete particle;
 	//delete input_;
 }

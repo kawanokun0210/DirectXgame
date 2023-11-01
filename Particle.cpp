@@ -11,7 +11,7 @@ void Particle::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::
 	SettingColor();
 	SettingDictionalLight();
 	SetInstance();
-	//SettingInstance();
+	SettingInstance();
 	TransformMatrix();
 }
 
@@ -30,6 +30,7 @@ void Particle::Draw(const Vector4& material,const Transform* transforms, uint32_
 		instancingData[index].WVP = worldViewProjectionMatrix;
 		instancingData[index].World = worldMatrix;
 
+
 		uvTransformMatrix = MakeScaleMatrix(uvTransformSprite.scale);
 		uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 		uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
@@ -40,23 +41,23 @@ void Particle::Draw(const Vector4& material,const Transform* transforms, uint32_
 		*directionalLight_ = light;
 	}
 
-	//VBVを設定
-	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
+		//VBVを設定
+		dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
-	//形状を設定。PS0に設定しているものとはまた別。同じものを設定する
-	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		//形状を設定。PS0に設定しているものとはまた別。同じものを設定する
+		dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//マテリアルCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
+		//マテリアルCBufferの場所を設定
+		dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
+		dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+		dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
-	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU_);
+		//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
+		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, instancingSrvHandleGPU_);
 
-	//描画
-	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
-	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), kNumInstance, 0, 0);
+		//描画
+		//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
+		dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), kNumInstance, 0, 0);
 }
 
 void Particle::Finalize()
@@ -129,7 +130,7 @@ void Particle::SettingInstance() {
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(TransformationMatrix);
 
-	instancingSrvHandleCPU_ = engine_->GetCPUDescriptorHandle(dxCommon_->GetDsvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 3);
+	instancingSrvHandleCPU_ = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 3);
 	instancingSrvHandleGPU_ = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 3);
 
 	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResource.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
