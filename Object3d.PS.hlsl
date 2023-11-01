@@ -22,13 +22,13 @@ PixelShaderOutput main(VertexShaderOutput input)
 		discard;
 	}
 
-	if (textureColor.a == 0.0) {
-		discard;
-	}
+	//if (textureColor.a == 0.0) {
+	//	discard;
+	//}
 
-	if (output.color.a == 0.0) {
-		discard;
-	}
+	//if (output.color.a == 0.0) {
+	//	discard;
+	//}
 
 	if (gMaterial.enableLighting != 0)
 	{

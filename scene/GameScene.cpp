@@ -56,7 +56,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	engine_->SettingTexture("Resource/uvChecker.png", uvResourceNum_);
 
 	monsterBallResourceNum_ = 1;
-	engine_->SettingTexture("Resource/monsterBall.png", monsterBallResourceNum_);
+	engine_->SettingTexture("Resource/fence/fence.png", monsterBallResourceNum_);
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -75,7 +75,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	object_[0] = new Object();
 
-	object_[0]->Initialize(dxCommon_, engine_, "Resource/", "axis.obj");
+	object_[0]->Initialize(dxCommon_, engine_, "Resource/fence", "fence.obj");
 
 	object_[1] = new Object();
 
@@ -236,9 +236,9 @@ void GameScene::Update()
 			}
 		}
 
-		ImGui::DragFloat3("Translate", &objectTransform_[1].translate.x, 0.05f);
-		ImGui::DragFloat3("Rotate", &objectTransform_[1].rotate.x, 0.05f);
-		ImGui::DragFloat3("Scale", &objectTransform_[1].scale.x, 0.05f);
+		ImGui::DragFloat3("Translate", &objectTransform_[0].translate.x, 0.05f);
+		ImGui::DragFloat3("Rotate", &objectTransform_[0].rotate.x, 0.05f);
+		ImGui::DragFloat3("Scale", &objectTransform_[0].scale.x, 0.05f);
 		ImGui::ColorEdit4("Color", &objectMaterial_[1].x, 0);
 		//ImGui::Checkbox("ChangeTexture", &texture_);
 		ImGui::DragFloat4("LightColor", &directionalLight_.color.x, 1.0f);
@@ -311,7 +311,7 @@ void GameScene::Draw()
 	}
 	if (objectDraw_) {
 		for (int i = 0; i < 2; i++) {
-			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 0, cameraTransform_, directionalLight_);
+			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 1, cameraTransform_, directionalLight_);
 		}
 	}
 

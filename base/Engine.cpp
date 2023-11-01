@@ -272,7 +272,7 @@ void MyEngine::SettingDepth()
 {
 	//DepthStencilStateの設定
 	depthStencilDesc_.DepthEnable = true;//有効化
-	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み
+	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み
 	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
 }
 
