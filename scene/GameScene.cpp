@@ -289,7 +289,7 @@ void GameScene::Draw()
 {
 
 	for (uint32_t index = 0; index < 10; ++index) {
-		particle->Draw(particleMaterial[index], &particleTransforms[index], 1, cameraTransform_, directionalLight_);
+		particle->Draw(particleMaterial[index], &particleTransforms[index], 0, cameraTransform_, directionalLight_);
 	}
 
 	if (triangleDrawA_)
