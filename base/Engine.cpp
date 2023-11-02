@@ -71,18 +71,21 @@ IDxcBlob* MyEngine::CompileShader(const std::wstring& filePath, const wchar_t* p
 void MyEngine::InitializeDxcCompiler()
 {
 	HRESULT hr;
-	dxcUtils_ = nullptr;
-	dxcCompiler_ = nullptr;
+	//dxcUtils_ = nullptr;
+	//dxcCompiler_ = nullptr;
 
-	hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
-	assert(SUCCEEDED(hr));
-	hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_));
-	assert(SUCCEEDED(hr));
+	for (int i = 0; i < 2; i++) {
+		hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_[i]));
+		assert(SUCCEEDED(hr));
+		hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_[i]));
+		assert(SUCCEEDED(hr));
 
-	//現時点でincludeはしないが、includeに対応するための設定を行っていく
-	includeHandler_ = nullptr;
-	hr = dxcUtils_->CreateDefaultIncludeHandler(&includeHandler_);
-	assert(SUCCEEDED(hr));
+		//現時点でincludeはしないが、includeに対応するための設定を行っていく
+		includeHandler_[i] = nullptr;
+		hr = dxcUtils_[i]->CreateDefaultIncludeHandler(&includeHandler_[i]);
+		assert(SUCCEEDED(hr));
+	}
+
 }
 
 void MyEngine::CreateRootSignature()
@@ -93,27 +96,30 @@ void MyEngine::CreateRootSignature()
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	//RootParameter作成、複数設定可能な為、配列に
-	D3D12_ROOT_PARAMETER rootParameters[5] = {};
-	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
-	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
-	rootParameters[0].Descriptor.ShaderRegister = 0;//レジスタ番号0とバインド
-	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
-	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
-	rootParameters[1].Descriptor.ShaderRegister = 0;//レジスタ番号0とバインド
+	D3D12_ROOT_PARAMETER rootParameters[2][5] = {};
+	for (int i = 0; i < 2; i++) {
+		rootParameters[i][0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
+		rootParameters[i][0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+		rootParameters[i][0].Descriptor.ShaderRegister = 0;//レジスタ番号0とバインド
+		rootParameters[i][1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
+		rootParameters[i][1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
+		rootParameters[i][1].Descriptor.ShaderRegister = 0;//レジスタ番号0とバインド
 
-	D3D12_DESCRIPTOR_RANGE descriptoraRange[1] = {};
-	descriptoraRange[0].BaseShaderRegister = 0;//0から始まる
-	descriptoraRange[0].NumDescriptors = 1;//数は1つ
-	descriptoraRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
-	descriptoraRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//Descriptortableを使う
-	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixcelShaderを使う
-	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptoraRange;//tableの中身の配列を指定
-	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptoraRange);//Tableで利用する数
+		D3D12_DESCRIPTOR_RANGE descriptoraRange[1] = {};
+		descriptoraRange[0].BaseShaderRegister = 0;//0から始まる
+		descriptoraRange[0].NumDescriptors = 1;//数は1つ
+		descriptoraRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
+		descriptoraRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+		rootParameters[i][2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//Descriptortableを使う
+		rootParameters[i][2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixcelShaderを使う
+		rootParameters[i][2].DescriptorTable.pDescriptorRanges = descriptoraRange;//tableの中身の配列を指定
+		rootParameters[i][2].DescriptorTable.NumDescriptorRanges = _countof(descriptoraRange);//Tableで利用する数
 
-	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; //PixcelShaderで使う
-	rootParameters[3].Descriptor.ShaderRegister = 1;//レジスタ番号1を使う
+		rootParameters[i][3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
+		rootParameters[i][3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; //PixcelShaderで使う
+		rootParameters[i][3].Descriptor.ShaderRegister = 1;//レジスタ番号1を使う
+	}
+
 
 	D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};//Samplerの設定
 	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;//バイリニアフィルタ
@@ -127,19 +133,21 @@ void MyEngine::CreateRootSignature()
 	descriptionRootSignature.pStaticSamplers = staticSamplers;
 	descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers);
 
+
+	// particle
 	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
 	descriptorRangeForInstancing[0].BaseShaderRegister = 0;
 	descriptorRangeForInstancing[0].NumDescriptors = 1;
 	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-	rootParameters[4].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
-	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+	rootParameters[1][4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[1][4].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[1][4].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
+	rootParameters[1][4].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
 
-	descriptionRootSignature.pParameters = rootParameters;//ルートパラメータ配列へのポインタ
-	descriptionRootSignature.NumParameters = _countof(rootParameters);//配列の長さ
+	descriptionRootSignature.pParameters = rootParameters[1];//ルートパラメータ配列へのポインタ
+	descriptionRootSignature.NumParameters = _countof(rootParameters[1]);//配列の長さ
 
 	//シリアライズしてバイナリにする
 	signatureBlob_ = nullptr;
@@ -213,24 +221,23 @@ void MyEngine::RasterizerState()
 	}
 
 	//Shaderをコンパイルする
-	vertexShaderBlob_[0] = CompileShader(L"Object3d.VS.hlsl",
-		L"vs_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
+	vertexShaderBlob_ = CompileShader(L"Object3d.VS.hlsl",
+		L"vs_6_0", dxcUtils_[0], dxcCompiler_[0], includeHandler_[0]);
 	assert(vertexShaderBlob_ != nullptr);
 
 
-	pixelShaderBlob_[0] = CompileShader(L"Object3d.PS.hlsl",
-		L"ps_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
+	pixelShaderBlob_ = CompileShader(L"Object3d.PS.hlsl",
+		L"ps_6_0", dxcUtils_[0], dxcCompiler_[0], includeHandler_[0]);
 	assert(pixelShaderBlob_ != nullptr);
 
 	//Shaderをコンパイルする
-	vertexShaderBlob_[1] = CompileShader(L"Particle.VS.hlsl",
-		L"vs_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
-	assert(vertexShaderBlob_ != nullptr);
+	particleVertexShaderBlob_ = CompileShader(L"./Particle.VS.hlsl",
+		L"vs_6_0", dxcUtils_[1], dxcCompiler_[1], includeHandler_[1]);
+	assert(particleVertexShaderBlob_ != nullptr);
 
-
-	pixelShaderBlob_[1] = CompileShader(L"Particle.PS.hlsl",
-		L"ps_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
-	assert(pixelShaderBlob_ != nullptr);
+	particlePixelShaderBlob_ = CompileShader(L"Particle.PS.hlsl",
+		L"ps_6_0", dxcUtils_[1], dxcCompiler_[1], includeHandler_[1]);
+	assert(particlePixelShaderBlob_ != nullptr);
 }
 
 void MyEngine::InitializePSO()
@@ -239,10 +246,18 @@ void MyEngine::InitializePSO()
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 		graphicsPipelineStateDesc.pRootSignature = rootSignature_[i].Get();//RootSignature
 		graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_[i];//Inputlayout
-		graphicsPipelineStateDesc.VS = { vertexShaderBlob_[i]->GetBufferPointer(),
-			vertexShaderBlob_[i]->GetBufferSize()};//vertexShader
-		graphicsPipelineStateDesc.PS = { pixelShaderBlob_[i]->GetBufferPointer(),
-			pixelShaderBlob_[i]->GetBufferSize()};//pixcelShader
+		graphicsPipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),
+			vertexShaderBlob_->GetBufferSize() };//vertexShader
+		graphicsPipelineStateDesc.PS = { pixelShaderBlob_->GetBufferPointer(),
+			pixelShaderBlob_->GetBufferSize() };//pixcelShader
+
+		if (i == 1) {
+			graphicsPipelineStateDesc.VS = { particleVertexShaderBlob_->GetBufferPointer(),
+				particleVertexShaderBlob_->GetBufferSize() };//vertexShader
+			graphicsPipelineStateDesc.PS = { particlePixelShaderBlob_->GetBufferPointer(),
+				particlePixelShaderBlob_->GetBufferSize() };//pixcelShader
+		}
+
 		graphicsPipelineStateDesc.BlendState = blendDesc_[i];//BlendState
 		graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_[i];//rasterizerState
 

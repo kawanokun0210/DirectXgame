@@ -59,10 +59,10 @@ private:
 
 	static	DirectXCommon* dxCommon_;
 
-	IDxcUtils* dxcUtils_;
-	IDxcCompiler3* dxcCompiler_;
+	IDxcUtils* dxcUtils_[2];
+	IDxcCompiler3* dxcCompiler_[2];
 
-	IDxcIncludeHandler* includeHandler_;
+	IDxcIncludeHandler* includeHandler_[2];
 
 	ID3DBlob* signatureBlob_;
 	ID3DBlob* errorBlob_;
@@ -72,9 +72,12 @@ private:
 
 	D3D12_BLEND_DESC blendDesc_[2]{};
 
-	IDxcBlob* vertexShaderBlob_[2];
+	IDxcBlob* vertexShaderBlob_;
 	
-	IDxcBlob* pixelShaderBlob_[2];
+	IDxcBlob* pixelShaderBlob_;
+
+	IDxcBlob* particleVertexShaderBlob_;
+	IDxcBlob* particlePixelShaderBlob_;
 
 	D3D12_RASTERIZER_DESC rasterizerDesc_[2]{};
 

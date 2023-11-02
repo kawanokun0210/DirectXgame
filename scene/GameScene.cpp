@@ -95,12 +95,12 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	for (uint32_t index = 0; index < 10; ++index) {
 		particleTransforms[index].scale = { 1.0f,1.0f,1.0f };
 		particleTransforms[index].rotate = { 0.0f,0.0f,0.0f };
-		particleTransforms[index].translate = { index * 0.1f,index * 0.1f,index * 0.1f };
+		particleTransforms[index].translate = { index * 0.1f,index * 0.1f,30+index * 0.1f };
 
 		particleMaterial[index] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
-	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
+	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-20.0f} };
 }
 
 void GameScene::Update()
