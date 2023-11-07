@@ -123,7 +123,9 @@ void GameScene::Update()
 		sound_->PlayWave(soundDataHandle_, true, 1.0f);
 	}
 
-	sphereTransform_.rotate.y += 0.01f;
+	if (input_->PushKey(DIK_RETURN)) {
+		sphereTransform_.rotate.y += 0.01f;
+	}
 	sphereMatrix_ = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
 
 	Matrix4x4 sphereAffine = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
