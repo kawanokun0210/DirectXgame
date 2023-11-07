@@ -45,6 +45,9 @@ public:
 	//音声再生
 	void PlayWave(const SoundData& soundData, bool isLoop);
 
+	//音声を止める
+	void StopSound();
+
 	//XAudio2の解放
 	void Finalize();
 
@@ -56,6 +59,8 @@ private:
 
 	ComPtr<IXAudio2> xAudio2;
 	IXAudio2MasteringVoice* masterVoice;
+
+	IXAudio2SourceVoice* pSourceVoice = nullptr;
 
 	HRESULT result;
 
