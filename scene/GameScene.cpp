@@ -82,8 +82,8 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	object_[1]->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
 
 	for (int i = 0; i < 2; i++) {
-		objectTransform_[i] = {{0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
-		objectMaterial_[i] = {1.0f,1.0f,1.0f,1.0f};
+		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
 	objectTransform_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f} };
@@ -95,7 +95,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	for (uint32_t index = 0; index < 10; ++index) {
 		particleTransforms[index].scale = { 1.0f,1.0f,1.0f };
 		particleTransforms[index].rotate = { 0.0f,0.0f,0.0f };
-		particleTransforms[index].translate = { index * 0.1f,index * 0.1f,30+index * 0.1f };
+		particleTransforms[index].translate = { index * 0.1f,index * 0.1f,30 + index * 0.1f };
 
 		particleMaterial[index] = { 1.0f,1.0f,1.0f,1.0f };
 	}
@@ -114,7 +114,7 @@ void GameScene::Update()
 			return;
 		}*/
 		//if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-			transform_[i].rotate.y += 0.01f;
+		transform_[i].rotate.y += 0.01f;
 		//}
 		worldMatrix_ = MakeAffineMatrix(transform_[i].scale, transform_[i].rotate, transform_[i].translate);
 	}
@@ -290,9 +290,9 @@ void GameScene::Update()
 void GameScene::Draw()
 {
 
-	for (uint32_t index = 0; index < 10; ++index) {
-		particle->Draw(particleMaterial[index], &particleTransforms[index], 0, cameraTransform_, directionalLight_);
-	}
+
+	particle->Draw(particleMaterial[0], &particleTransforms[0], 0, cameraTransform_, directionalLight_);
+
 
 	if (triangleDrawA_)
 	{
