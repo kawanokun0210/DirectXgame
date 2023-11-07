@@ -43,7 +43,7 @@ public:
 	void UnLoad(SoundData* soundData);
 
 	//音声再生
-	void PlayWave(const SoundData& soundData, bool isLoop);
+	void PlayWave(const SoundData& soundData, bool isLoop, float volume);
 
 	//音声を止める
 	void StopSound();

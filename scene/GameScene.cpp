@@ -120,7 +120,7 @@ void GameScene::Update()
 	}
 
 	if (input_->PushKey(DIK_SPACE)) {
-		sound_->PlayWave(soundDataHandle_, true);
+		sound_->PlayWave(soundDataHandle_, true, 1.0f);
 	}
 
 	sphereTransform_.rotate.y += 0.01f;

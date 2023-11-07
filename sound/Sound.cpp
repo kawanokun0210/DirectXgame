@@ -75,7 +75,7 @@ SoundData Sound::LoadWave(const char* filename) {
 
 }
 
-void Sound::PlayWave(const SoundData& soundData, bool isLoop) {
+void Sound::PlayWave(const SoundData& soundData, bool isLoop, float volume) {
 	//波形フォーマットを元にSourceVoiceの生成
 	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
 	assert(SUCCEEDED(result));
@@ -92,6 +92,7 @@ void Sound::PlayWave(const SoundData& soundData, bool isLoop) {
 
 	//波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
+	result = pSourceVoice->SetVolume(volume);
 	result = pSourceVoice->Start();
 }
 
