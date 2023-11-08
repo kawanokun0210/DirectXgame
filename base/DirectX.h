@@ -5,7 +5,7 @@
 #include "WinApp.h"
 #include "../String.h"
 #include <wrl.h>
-#include "../externals/DirectXTex/DirectXTex.h"
+#include "DirectXTex.h"
 
 struct D3DResourceLeakChecker
 {
