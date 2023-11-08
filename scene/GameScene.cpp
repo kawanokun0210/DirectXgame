@@ -96,13 +96,13 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 
 	for (uint32_t index = 0; index < 10; ++index) {
-		particleTransforms[index].scale = { 1.0f,1.0f,1.0f };
-		particleTransforms[index].rotate = { 0.0f,0.0f,0.0f };
-		particleTransforms[index].translate = { distribution(randomEngine),distribution(randomEngine) ,20 + distribution(randomEngine) };
+		particles[index].transform.scale = { 1.0f,1.0f,1.0f };
+		particles[index].transform.rotate = { 0.0f,0.0f,0.0f };
+		particles[index].transform.translate = { distribution(randomEngine),distribution(randomEngine) ,20 + distribution(randomEngine) };
 
-		particleSpeed[index] = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
+		particles[index].speed = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
 
-		particleMaterial[index] = { 1.0f,1.0f,1.0f,1.0f };
+		particles[index].color = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-20.0f} };
@@ -145,8 +145,8 @@ void GameScene::Update()
 	directionalLight_.direction = Normalise(directionalLight_.direction);
 	
 	for (int i = 0; i < 10; i++) {
-		particleTransforms[i].translate.x += particleSpeed[i].x * kDeltaTime;
-		particleTransforms[i].translate.y += particleSpeed[i].y * kDeltaTime;
+		particles[i].transform.translate.x += particles[i].speed.x * kDeltaTime;
+		particles[i].transform.translate.y += particles[i].speed.y * kDeltaTime;
 	}
 
 	ImGui::Begin("OPTION");
@@ -228,9 +228,9 @@ void GameScene::Update()
 	if (ImGui::TreeNode("Particle"))
 	{
 		for (int i = 0; i < 10; i++) {
-			ImGui::DragFloat3("Translate", &particleTransforms[i].translate.x, 0.05f);
-			ImGui::DragFloat3("Rotate", &particleTransforms[i].rotate.x, 0.05f);
-			ImGui::DragFloat3("Scale", &particleTransforms[i].scale.x, 0.05f);
+			ImGui::DragFloat3("Translate", &particles[i].transform.translate.x, 0.05f);
+			ImGui::DragFloat3("Rotate", &particles[i].transform.rotate.x, 0.05f);
+			ImGui::DragFloat3("Scale", &particles[i].transform.scale.x, 0.05f);
 		}
 		ImGui::TreePop();
 	}
@@ -301,7 +301,7 @@ void GameScene::Draw()
 {
 
 
-	particle->Draw(particleMaterial[0], &particleTransforms[0], 0, cameraTransform_, directionalLight_);
+	particle->Draw(particles[0].color, &particles[0], 0, cameraTransform_, directionalLight_);
 
 
 	if (triangleDrawA_)

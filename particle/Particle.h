@@ -14,12 +14,18 @@
 
 class MyEngine;
 
+struct ParticleData {
+	Transform transform;
+	Vector3 speed;
+	Vector4 color;
+};
+
 class Particle
 {
 public:
 	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename);
 
-	void Draw(const Vector4& material,const Transform* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light);
+	void Draw(const Vector4& material, ParticleData* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light);
 
 	void Finalize();
 

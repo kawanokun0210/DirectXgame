@@ -60,9 +60,7 @@ private:
 	Input* input_ = nullptr;
 
 	Particle* particle;
-	Transform particleTransforms[10];
-	Vector4 particleMaterial[10];
-	Vector3 particleSpeed[10];
+	ParticleData particles[10];
 
 	std::random_device seedGenerator;
 
