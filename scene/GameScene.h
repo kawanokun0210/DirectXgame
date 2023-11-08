@@ -11,6 +11,7 @@
 #include "Input.h"
 #include "Sound.h"
 #include "Particle.h"
+#include <random>
 
 class GameScene
 {
@@ -61,7 +62,11 @@ private:
 	Particle* particle;
 	Transform particleTransforms[10];
 	Vector4 particleMaterial[10];
+	Vector3 particleSpeed[10];
 
+	std::random_device seedGenerator;
+
+	const float kDeltaTime = 1.0f / 60.0f;
 
 	bool texture_;
 

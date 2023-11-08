@@ -92,10 +92,15 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
 
+	std::mt19937 randomEngine(seedGenerator());
+	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
+
 	for (uint32_t index = 0; index < 10; ++index) {
 		particleTransforms[index].scale = { 1.0f,1.0f,1.0f };
 		particleTransforms[index].rotate = { 0.0f,0.0f,0.0f };
-		particleTransforms[index].translate = { index * 0.1f,index * 0.1f, 20 + index * 0.1f };
+		particleTransforms[index].translate = { distribution(randomEngine),distribution(randomEngine) ,20 + distribution(randomEngine) };
+
+		particleSpeed[index] = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
 
 		particleMaterial[index] = { 1.0f,1.0f,1.0f,1.0f };
 	}
@@ -138,6 +143,11 @@ void GameScene::Update()
 	sphereMatrix_ = Multiply(sphereAffine, Multiply(viewMatrix, projectionMatrix));
 
 	directionalLight_.direction = Normalise(directionalLight_.direction);
+	
+	for (int i = 0; i < 10; i++) {
+		particleTransforms[i].translate.x += particleSpeed[i].x * kDeltaTime;
+		particleTransforms[i].translate.y += particleSpeed[i].y * kDeltaTime;
+	}
 
 	ImGui::Begin("OPTION");
 	if (ImGui::TreeNode("Triangle"))
