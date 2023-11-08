@@ -11,7 +11,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
-	soundDataHandle_ = sound_->LoadWave("Audio/Alarm01.wav");
+	soundDataHandle_ = sound_->LoadWave("Resource/Audio/Alarm01.wav");
 
 	triangleData_[0].position[0] = { -0.5f,-0.5f,0.0f,1.0f };
 	triangleData_[0].position[1] = { 0.0f,0.5f,0.0f,1.0f };
