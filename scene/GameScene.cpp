@@ -102,7 +102,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 		particles[index].transform.rotate = { 0.0f,0.0f,0.0f };
 		particles[index].transform.translate = { distribution(randomEngine),distribution(randomEngine) ,20 + distribution(randomEngine) };
 		particles[index].speed = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
-		particles[index].color = { distColor(randomEngine),distColor(randomEngine),distColor(randomEngine), 1.0f};
+		particles[index].color = { distColor(randomEngine),distColor(randomEngine),distColor(randomEngine), 1.0f };
 		particles[index].lifeTime = distTime(randomEngine);
 		particles[index].currentTime = { 0.0f };
 	}
@@ -145,7 +145,7 @@ void GameScene::Update()
 	sphereMatrix_ = Multiply(sphereAffine, Multiply(viewMatrix, projectionMatrix));
 
 	directionalLight_.direction = Normalise(directionalLight_.direction);
-	
+
 	//for (int i = 0; i < 10; i++) {
 	//	if (particles[i].lifeTime <= particles[i].currentTime) {
 	//		continue;
@@ -307,10 +307,6 @@ void GameScene::Update()
 void GameScene::Draw()
 {
 
-
-	particle->Draw(&particles[0], 0, cameraTransform_, directionalLight_);
-
-
 	if (triangleDrawA_)
 	{
 		triangle_[0]->Draw(triangleData_[0].position[0], triangleData_[0].position[1], triangleData_[0].position[2], triangleData_[0].material, transform_[0], cameraTransform_, uvResourceNum_, directionalLight_);
@@ -338,6 +334,8 @@ void GameScene::Draw()
 			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 1, cameraTransform_, directionalLight_);
 		}
 	}
+
+	particle->Draw(&particles[0], 0, cameraTransform_, directionalLight_);
 
 }
 
