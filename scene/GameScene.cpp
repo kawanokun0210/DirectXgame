@@ -95,7 +95,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	for (uint32_t index = 0; index < 10; ++index) {
 		particleTransforms[index].scale = { 1.0f,1.0f,1.0f };
 		particleTransforms[index].rotate = { 0.0f,0.0f,0.0f };
-		particleTransforms[index].translate = { index * 0.1f,index * 0.1f,20 + index * 0.1f };
+		particleTransforms[index].translate = { index * 0.1f,index * 0.1f, 20 + index * 0.1f };
 
 		particleMaterial[index] = { 1.0f,1.0f,1.0f,1.0f };
 	}
