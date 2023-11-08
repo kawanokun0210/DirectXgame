@@ -10,7 +10,7 @@
 #include "Object.h"
 #include "Input.h"
 #include "Sound.h"
-#include "../Particle.h"
+#include "Particle.h"
 
 class GameScene
 {

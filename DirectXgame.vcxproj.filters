@@ -52,6 +52,12 @@
     <Filter Include="ソース ファイル\input">
       <UniqueIdentifier>{20c95069-20fc-4714-9456-883488d112a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\particle">
+      <UniqueIdentifier>{3173105d-182a-4063-87b8-57e2a400a9f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\particle">
+      <UniqueIdentifier>{d56af4bb-37d5-4ef3-b46d-1c22a1845fb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="String.cpp">
@@ -114,8 +120,8 @@
     <ClCompile Include="input\Input.cpp">
       <Filter>ソース ファイル\input</Filter>
     </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="particle\Particle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,8 +206,8 @@
     <ClInclude Include="input\Input.h">
       <Filter>ヘッダー ファイル\input</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="particle\Particle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
