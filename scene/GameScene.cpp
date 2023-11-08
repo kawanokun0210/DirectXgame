@@ -95,15 +95,16 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	std::mt19937 randomEngine(seedGenerator());
 	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
+	std::uniform_real_distribution<float> distTime(1.0f, 3.0f);
 
 	for (uint32_t index = 0; index < 10; ++index) {
 		particles[index].transform.scale = { 1.0f,1.0f,1.0f };
 		particles[index].transform.rotate = { 0.0f,0.0f,0.0f };
 		particles[index].transform.translate = { distribution(randomEngine),distribution(randomEngine) ,20 + distribution(randomEngine) };
-
 		particles[index].speed = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
-
-		particles[index].color = { distColor(randomEngine),distColor(randomEngine),distColor(randomEngine),1.0f };
+		particles[index].color = { distColor(randomEngine),distColor(randomEngine),distColor(randomEngine), 1.0f};
+		particles[index].lifeTime = distTime(randomEngine);
+		particles[index].currentTime = { 0.0f };
 	}
 
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-20.0f} };
@@ -145,10 +146,15 @@ void GameScene::Update()
 
 	directionalLight_.direction = Normalise(directionalLight_.direction);
 	
-	for (int i = 0; i < 10; i++) {
-		particles[i].transform.translate.x += particles[i].speed.x * kDeltaTime;
-		particles[i].transform.translate.y += particles[i].speed.y * kDeltaTime;
-	}
+	//for (int i = 0; i < 10; i++) {
+	//	if (particles[i].lifeTime <= particles[i].currentTime) {
+	//		continue;
+	//	}
+	//	particles[i].transform.translate.x += particles[i].speed.x * kDeltaTime;
+	//	particles[i].transform.translate.y += particles[i].speed.y * kDeltaTime;
+	//	particles[i].currentTime += kDeltaTime;
+	//	
+	//}
 
 	ImGui::Begin("OPTION");
 	if (ImGui::TreeNode("Triangle"))

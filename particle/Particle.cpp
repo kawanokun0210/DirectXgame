@@ -27,9 +27,20 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 		Matrix4x4 wvpMatrix_ = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
 		Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, projectionMatrix);
 
+		if (transforms[index].lifeTime <= transforms[index].currentTime) {
+			continue;
+		}
+		transforms[index].transform.translate.x += transforms[index].speed.x * kDeltaTime;
+		transforms[index].transform.translate.y += transforms[index].speed.y * kDeltaTime;
+		transforms[index].currentTime += kDeltaTime;
 		instancingData[index].WVP = worldViewProjectionMatrix;
 		instancingData[index].World = worldMatrix;
 		instancingData[index].color = transforms[index].color;
+		++numInstance;
+
+		alpha = 1.0f - (transforms[index].currentTime / transforms[index].lifeTime);
+
+		instancingData[numInstance].color.x = alpha;
 
 		uvTransformMatrix = MakeScaleMatrix(uvTransformSprite.scale);
 		uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
@@ -64,7 +75,7 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
-	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), kNumInstance, 0, 0);
+	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), numInstance, 0, 0);
 }
 
 void Particle::Finalize()

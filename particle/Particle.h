@@ -18,6 +18,8 @@ struct ParticleData {
 	Transform transform;
 	Vector3 speed;
 	Vector4 color;
+	float lifeTime;
+	float currentTime;
 };
 
 class Particle
@@ -79,7 +81,13 @@ private:
 	const uint32_t kNumInstance = 10;
 
 	ParticleForGPU* instancingData;
-	
+
+	uint32_t numInstance = 0;
+
+	float alpha;
+
+	const float kDeltaTime = 1.0f / 60.0f;
+
 	Microsoft::WRL::ComPtr<ID3D12Resource> instancingResource;
 };
 
