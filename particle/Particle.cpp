@@ -94,7 +94,7 @@ void Particle::SettingVertex()
 
 void Particle::TransformMatrix()
 {
-	wvpResource_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(TransformationMatrix) * kNumInstance);
+	wvpResource_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(ParticleForGPU) * kNumInstance);
 	wvpResource_->Map(0, NULL, reinterpret_cast<void**>(&wvpData_));
 	wvpData_->WVP = MakeIdentity4x4();
 }
