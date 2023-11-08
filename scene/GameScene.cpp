@@ -94,6 +94,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	std::mt19937 randomEngine(seedGenerator());
 	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
+	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
 
 	for (uint32_t index = 0; index < 10; ++index) {
 		particles[index].transform.scale = { 1.0f,1.0f,1.0f };
@@ -102,7 +103,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 		particles[index].speed = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
 
-		particles[index].color = { 1.0f,1.0f,1.0f,1.0f };
+		particles[index].color = { distColor(randomEngine),distColor(randomEngine),distColor(randomEngine),1.0f };
 	}
 
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-20.0f} };
@@ -301,7 +302,7 @@ void GameScene::Draw()
 {
 
 
-	particle->Draw(particles[0].color, &particles[0], 0, cameraTransform_, directionalLight_);
+	particle->Draw(&particles[0], 0, cameraTransform_, directionalLight_);
 
 
 	if (triangleDrawA_)

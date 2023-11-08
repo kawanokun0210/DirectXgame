@@ -25,7 +25,7 @@ class Particle
 public:
 	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename);
 
-	void Draw(const Vector4& material, ParticleData* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light);
+	void Draw(ParticleData* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light);
 
 	void Finalize();
 
@@ -40,7 +40,7 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
 
-	TransformationMatrix* GetInstancingData() { return instancingData; }
+	ParticleForGPU* GetInstancingData() { return instancingData; }
 
 private:
 	void SettingVertex();
@@ -78,7 +78,7 @@ private:
 
 	const uint32_t kNumInstance = 10;
 
-	TransformationMatrix* instancingData;
+	ParticleForGPU* instancingData;
 	
 	Microsoft::WRL::ComPtr<ID3D12Resource> instancingResource;
 };

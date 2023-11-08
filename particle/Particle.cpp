@@ -15,7 +15,7 @@ void Particle::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::
 	TransformMatrix();
 }
 
-void Particle::Draw(const Vector4& material, ParticleData* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light)
+void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light)
 {
 
 	//Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
@@ -29,13 +29,13 @@ void Particle::Draw(const Vector4& material, ParticleData* transforms, uint32_t 
 
 		instancingData[index].WVP = worldViewProjectionMatrix;
 		instancingData[index].World = worldMatrix;
-
+		instancingData[index].color = transforms[index].color;
 
 		uvTransformMatrix = MakeScaleMatrix(uvTransformSprite.scale);
 		uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 		uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
-		*materialData_ = { material,true };
+		*materialData_ = { transforms[index].color,true };
 		materialData_->uvTransform = uvTransformMatrix;
 		*wvpData_ = { wvpMatrix_,worldMatrix };
 		*directionalLight_ = light;
@@ -116,7 +116,7 @@ void Particle::SettingDictionalLight()
 
 void Particle::SetInstance() {
 
-	instancingResource = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(TransformationMatrix) * kNumInstance);
+	instancingResource = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(ParticleForGPU) * kNumInstance);
 
 	instancingData = nullptr;
 	instancingResource->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
@@ -124,6 +124,7 @@ void Particle::SetInstance() {
 	for (uint32_t index = 0; index < kNumInstance; ++index) {
 		instancingData[index].WVP = MakeIdentity4x4();
 		instancingData[index].World = MakeIdentity4x4();
+		instancingData[index].color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 }
 
@@ -135,7 +136,7 @@ void Particle::SettingInstance() {
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(TransformationMatrix);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
 	instancingSrvHandleCPU_ = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 3);
 	instancingSrvHandleGPU_ = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 3);
