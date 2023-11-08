@@ -217,11 +217,11 @@ void GameScene::Update()
 
 	if (ImGui::TreeNode("Particle"))
 	{
-
-		ImGui::DragFloat3("Translate", &particleTransforms[0].translate.x, 0.05f);
-		ImGui::DragFloat3("Rotate", &particleTransforms[0].rotate.x, 0.05f);
-		ImGui::DragFloat3("Scale", &particleTransforms[0].scale.x, 0.05f);
-
+		for (int i = 0; i < 10; i++) {
+			ImGui::DragFloat3("Translate", &particleTransforms[i].translate.x, 0.05f);
+			ImGui::DragFloat3("Rotate", &particleTransforms[i].rotate.x, 0.05f);
+			ImGui::DragFloat3("Scale", &particleTransforms[i].scale.x, 0.05f);
+		}
 		ImGui::TreePop();
 	}
 
