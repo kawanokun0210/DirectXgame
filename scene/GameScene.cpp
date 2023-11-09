@@ -93,18 +93,9 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
 
 	std::mt19937 randomEngine(seedGenerator());
-	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
-	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
-	std::uniform_real_distribution<float> distTime(1.0f, 3.0f);
-
+	
 	for (uint32_t index = 0; index < 10; ++index) {
-		particles[index].transform.scale = { 1.0f,1.0f,1.0f };
-		particles[index].transform.rotate = { 0.0f,0.0f,0.0f };
-		particles[index].transform.translate = { distribution(randomEngine),distribution(randomEngine) ,20 + distribution(randomEngine) };
-		particles[index].speed = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
-		particles[index].color = { distColor(randomEngine),distColor(randomEngine),distColor(randomEngine), 1.0f };
-		particles[index].lifeTime = distTime(randomEngine);
-		particles[index].currentTime = { 0.0f };
+		particles[index] = particle->MakeNewParticle(randomEngine);
 	}
 
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-20.0f} };

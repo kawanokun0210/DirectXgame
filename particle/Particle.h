@@ -10,6 +10,7 @@
 #include <dxcapi.h>
 #include <cstdlib>
 #include <dxgi1_6.h>
+#include <random>
 #pragma comment(lib,"dxcompiler.lib")
 
 class MyEngine;
@@ -32,6 +33,8 @@ public:
 	void Finalize();
 
 	void SettingInstance();
+
+	ParticleData MakeNewParticle(std::mt19937& randomEngine);
 
 	Transform uvTransformSprite{
 		{1.0f,1.0f,1.0f},
