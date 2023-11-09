@@ -58,7 +58,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	monsterBallResourceNum_ = 1;
 	engine_->SettingTexture("Resource/fence/fence.png", monsterBallResourceNum_);
 
-	//engine_->SettingTexture("Resource/circle.png", 2);
+	engine_->SettingTexture("Resource/circle.png", 2);
 
 	for (int i = 0; i < 2; i++)
 	{

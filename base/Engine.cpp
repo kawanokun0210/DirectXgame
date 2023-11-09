@@ -189,6 +189,11 @@ void MyEngine::CreateInputlayOut()
 	inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 	inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
+	inputElementDescs_[3].SemanticName = "COLOR";
+	inputElementDescs_[3].SemanticIndex = 0;
+	inputElementDescs_[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs_[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
 	for (int i = 0; i < 2; i++) {
 		inputLayoutDesc_[i].pInputElementDescs = inputElementDescs_;
 		inputLayoutDesc_[i].NumElements = _countof(inputElementDescs_);
