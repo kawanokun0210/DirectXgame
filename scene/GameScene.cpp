@@ -58,6 +58,8 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	monsterBallResourceNum_ = 1;
 	engine_->SettingTexture("Resource/fence/fence.png", monsterBallResourceNum_);
 
+	engine_->SettingTexture("Resource/circle.png", 2);
+
 	for (int i = 0; i < 2; i++)
 	{
 		triangle_[i] = new Triangle();
@@ -326,7 +328,7 @@ void GameScene::Draw()
 		}
 	}
 
-	particle->Draw(&particles[0], 0, cameraTransform_, directionalLight_);
+	particle->Draw(&particles[0], 2, cameraTransform_, directionalLight_);
 
 }
 
