@@ -11,18 +11,19 @@
 #include "Input.h"
 #include "Sound.h"
 #include "Particle.h"
+#include "../BaseScene.h"
 #include <random>
 
-class GameScene
+class GameScene : public BaseScene
 {
 public:
-	void Initialize(MyEngine* engine, DirectXCommon* dxCommon);
+	void Initialize(MyEngine* engine, DirectXCommon* dxCommon) override;
 
-	void Update();
+	void Update() override;
 
-	void Draw();
+	void Draw() override;
 
-	void Finalize();
+	void Finalize() override;
 
 private:
 	MyEngine* engine_;

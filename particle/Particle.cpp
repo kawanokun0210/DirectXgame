@@ -42,7 +42,7 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 
 		alpha = 1.0f - (transforms[index].currentTime / transforms[index].lifeTime);
 
-		instancingData[numInstance].color.x = alpha;
+		//instancingData[numInstance].color.x = alpha;
 
 		uvTransformMatrix = MakeScaleMatrix(uvTransformSprite.scale);
 		uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
