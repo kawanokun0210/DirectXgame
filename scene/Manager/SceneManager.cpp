@@ -1,9 +1,8 @@
 #include "SceneManager.h"
 
-SceneManager::SceneManager(const wchar_t kWindowTitle[], int32_t Hight, int32_t Right) {
-
-	//初期化
-	engine_->Initialize(kWindowTitle, Hight, Right);
+SceneManager::SceneManager(MyEngine* engine, DirectXCommon* dxCommon) {
+	engine_ = engine;
+	dxCommon_ = dxCommon;
 
 	//各シーンの配列
 	sceneArr_[TITLE] = std::make_unique<TitleScene>();
@@ -14,8 +13,7 @@ SceneManager::SceneManager(const wchar_t kWindowTitle[], int32_t Hight, int32_t 
 }
 
 SceneManager::~SceneManager() {
-	delete engine_;
-	delete dxCommon_;
+	
 };
 
 int SceneManager::Run() {

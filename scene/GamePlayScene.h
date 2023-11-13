@@ -11,7 +11,7 @@
 #include "Input.h"
 #include "Sound.h"
 #include "Particle.h"
-#include "../BaseScene.h"
+#include "BaseScene.h"
 #include <random>
 
 class GameScene : public BaseScene

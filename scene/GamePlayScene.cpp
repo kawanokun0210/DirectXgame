@@ -1,4 +1,4 @@
-#include "GameScene.h"
+#include "GamePlayScene.h"
 
 void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 {

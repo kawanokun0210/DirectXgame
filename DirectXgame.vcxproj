@@ -109,6 +109,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="base\DirectX.cpp" />
     <ClCompile Include="base\Engine.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="externals\imgui\imgui.cpp" />
     <ClCompile Include="externals\imgui\imgui_demo.cpp" />
     <ClCompile Include="externals\imgui\imgui_draw.cpp" />
@@ -121,9 +122,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="math\MatrixCalculation.cpp" />
     <ClCompile Include="particle\Particle.cpp" />
     <ClCompile Include="scene\BaseScene.cpp" />
-    <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\Manager\SceneManager.cpp" />
-    <ClCompile Include="scene\TitleScene.cpp" />
+    <ClCompile Include="scene\GameTitleScene.cpp" />
     <ClCompile Include="sound\Sound.cpp" />
     <ClCompile Include="String.cpp" />
   </ItemGroup>
@@ -135,6 +136,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="base\DirectX.h" />
     <ClInclude Include="base\Engine.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="GameClearScene.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />
     <ClInclude Include="externals\imgui\imgui.h" />
     <ClInclude Include="externals\imgui\imgui_impl_dx12.h" />
@@ -153,9 +155,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="particle\Particle.h" />
     <ClInclude Include="ResourceObject.h" />
     <ClInclude Include="scene\BaseScene.h" />
-    <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="scene\GamePlayScene.h" />
     <ClInclude Include="scene\Manager\SceneManager.h" />
-    <ClInclude Include="scene\TitleScene.h" />
+    <ClInclude Include="scene\GameTitleScene.h" />
     <ClInclude Include="sound\Sound.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="Vertex.h" />

@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+#include "GameTitleScene.h"
 
 void TitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	dxCommon_ = dxCommon;

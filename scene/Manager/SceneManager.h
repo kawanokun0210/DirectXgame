@@ -2,8 +2,8 @@
 
 #include <memory>
 #include "BaseScene.h"
-#include "TitleScene.h"
-#include "GameScene.h"
+#include "GameTitleScene.h"
+#include "GamePlayScene.h"
 
 class SceneManager 
 {
@@ -15,11 +15,11 @@ private:
 	int currentSceneNo_;
 	int prevSceneNo_;
 
-	MyEngine* engine_ = new MyEngine();
-	DirectXCommon* dxCommon_ = new DirectXCommon();
+	MyEngine* engine_;
+	DirectXCommon* dxCommon_;
 	BaseScene* baseScene;
 public:
-	SceneManager(const wchar_t kWindowTitle[], int32_t Hight, int32_t Right);
+	SceneManager(MyEngine* engine, DirectXCommon* dxCommon);
 	~SceneManager();
 
 	int Run();
