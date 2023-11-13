@@ -58,6 +58,12 @@
     <Filter Include="ヘッダー ファイル\particle">
       <UniqueIdentifier>{d56af4bb-37d5-4ef3-b46d-1c22a1845fb5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\scene\manager">
+      <UniqueIdentifier>{2503a174-9236-42c6-a986-0d5892bdae4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\scene\manager">
+      <UniqueIdentifier>{6b8d2239-cea3-4080-a517-6b84d46b611c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="String.cpp">
@@ -123,14 +129,14 @@
     <ClCompile Include="particle\Particle.cpp">
       <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
-    <ClCompile Include="BaseScene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="scene\BaseScene.cpp">
+      <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="scene\TitleScene.cpp">
+      <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="scene\Manager\SceneManager.cpp">
+      <Filter>ソース ファイル\scene\manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,14 +224,14 @@
     <ClInclude Include="particle\Particle.h">
       <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
-    <ClInclude Include="BaseScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="scene\BaseScene.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="scene\TitleScene.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="TitleScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="scene\Manager\SceneManager.h">
+      <Filter>ヘッダー ファイル\scene\manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

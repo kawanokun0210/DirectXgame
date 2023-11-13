@@ -106,7 +106,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="3d\Sphere.cpp" />
     <ClCompile Include="3d\Sprite.cpp" />
     <ClCompile Include="3d\Triangle.cpp" />
-    <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="base\DirectX.cpp" />
     <ClCompile Include="base\Engine.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
@@ -121,18 +120,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MatrixCalculation.cpp" />
     <ClCompile Include="particle\Particle.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="scene\BaseScene.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="scene\Manager\SceneManager.cpp" />
+    <ClCompile Include="scene\TitleScene.cpp" />
     <ClCompile Include="sound\Sound.cpp" />
     <ClCompile Include="String.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\Object.h" />
     <ClInclude Include="3d\Sphere.h" />
     <ClInclude Include="3d\Sprite.h" />
     <ClInclude Include="3d\Triangle.h" />
-    <ClInclude Include="BaseScene.h" />
     <ClInclude Include="base\DirectX.h" />
     <ClInclude Include="base\Engine.h" />
     <ClInclude Include="base\WinApp.h" />
@@ -153,11 +152,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="particle\Particle.h" />
     <ClInclude Include="ResourceObject.h" />
-    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="scene\BaseScene.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="scene\Manager\SceneManager.h" />
+    <ClInclude Include="scene\TitleScene.h" />
     <ClInclude Include="sound\Sound.h" />
     <ClInclude Include="String.h" />
-    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
