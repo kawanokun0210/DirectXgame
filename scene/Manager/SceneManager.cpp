@@ -8,7 +8,6 @@ SceneManager::SceneManager(MyEngine* engine, DirectXCommon* dxCommon) {
 	sceneArr_[TITLE] = std::make_unique<GameTitleScene>();
 	sceneArr_[PLAY] = std::make_unique<GamePlayScene>();
 	sceneArr_[CLEAR] = std::make_unique<GameClearScene>();
-	sceneArr_[OVER] = std::make_unique<GameOverScene>();
 
 	//初期シーンの設定
 	currentSceneNo_ = baseScene->GetSceneNo();
