@@ -43,6 +43,7 @@ int SceneManager::Run() {
 	}
 
 	sceneArr_[currentSceneNo_]->Finalize();
+	engine_->Finalize();
 
 	CoUninitialize();
 
