@@ -116,13 +116,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MatrixCalculation.cpp" />
     <ClCompile Include="particle\Particle.cpp" />
     <ClCompile Include="scene\BaseScene.cpp" />
     <ClCompile Include="scene\GameClearScene.cpp" />
+    <ClCompile Include="scene\GameOverScene.cpp" />
     <ClCompile Include="scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\Manager\SceneManager.cpp" />
     <ClCompile Include="scene\GameTitleScene.cpp" />
@@ -145,7 +145,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
-    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="math\Matrix3x3.h" />
     <ClInclude Include="math\Matrix4x4.h" />
@@ -157,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="ResourceObject.h" />
     <ClInclude Include="scene\BaseScene.h" />
     <ClInclude Include="scene\GameClearScene.h" />
+    <ClInclude Include="scene\GameOverScene.h" />
     <ClInclude Include="scene\GamePlayScene.h" />
     <ClInclude Include="scene\Manager\SceneManager.h" />
     <ClInclude Include="scene\GameTitleScene.h" />

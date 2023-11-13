@@ -5,7 +5,7 @@
 #include "GameTitleScene.h"
 #include "GamePlayScene.h"
 #include "GameClearScene.h"
-#include "../GameOverScene.h"
+#include "GameOverScene.h"
 
 class SceneManager 
 {
