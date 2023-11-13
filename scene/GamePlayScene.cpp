@@ -1,6 +1,6 @@
 #include "GamePlayScene.h"
 
-void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
+void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 {
 	engine_ = engine;
 	dxCommon_ = dxCommon;
@@ -103,7 +103,7 @@ void GameScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-20.0f} };
 }
 
-void GameScene::Update()
+void GamePlayScene::Update()
 {
 	//XINPUT_STATE joyState;
 	input_->Update();
@@ -297,7 +297,7 @@ void GameScene::Update()
 	ImGui::End();
 }
 
-void GameScene::Draw()
+void GamePlayScene::Draw()
 {
 
 	if (triangleDrawA_)
@@ -332,7 +332,7 @@ void GameScene::Draw()
 
 }
 
-void GameScene::Finalize()
+void GamePlayScene::Finalize()
 {
 	for (int i = 0; i < 2; i++)
 	{

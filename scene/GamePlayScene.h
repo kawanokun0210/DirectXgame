@@ -14,7 +14,7 @@
 #include "BaseScene.h"
 #include <random>
 
-class GameScene : public BaseScene
+class GamePlayScene : public BaseScene
 {
 public:
 	void Initialize(MyEngine* engine, DirectXCommon* dxCommon) override;

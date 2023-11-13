@@ -1,11 +1,11 @@
 #include "GameTitleScene.h"
 
-void TitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
+void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	dxCommon_ = dxCommon;
 	engine_ = engine;
 }
 
-void TitleScene::Update() {
+void GameTitleScene::Update() {
 	time++;
 
 	if (time >= 60) {
@@ -13,10 +13,10 @@ void TitleScene::Update() {
 	}
 }
 
-void TitleScene::Draw() {
+void GameTitleScene::Draw() {
 
 }
 
-void TitleScene::Finalize() {
+void GameTitleScene::Finalize() {
 
 }

@@ -5,8 +5,8 @@ SceneManager::SceneManager(MyEngine* engine, DirectXCommon* dxCommon) {
 	dxCommon_ = dxCommon;
 
 	//各シーンの配列
-	sceneArr_[TITLE] = std::make_unique<TitleScene>();
-	sceneArr_[PLAY] = std::make_unique<GameScene>();
+	sceneArr_[TITLE] = std::make_unique<GameTitleScene>();
+	sceneArr_[PLAY] = std::make_unique<GamePlayScene>();
 	sceneArr_[CLEAR] = std::make_unique<GameClearScene>();
 
 	//初期シーンの設定
