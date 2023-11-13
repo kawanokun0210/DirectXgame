@@ -4,7 +4,7 @@
 #include "BaseScene.h"
 #include "GameTitleScene.h"
 #include "GamePlayScene.h"
-#include "../GameClearScene.h"
+#include "GameClearScene.h"
 
 class SceneManager 
 {
