@@ -43,10 +43,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	engine->Finalize();
 
+	CoUninitialize();
+
 	delete engine;
 	delete gameScene;
-
-	CoUninitialize();
 
 	return 0;
 }
