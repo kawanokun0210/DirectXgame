@@ -12,6 +12,9 @@ SceneManager::SceneManager(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	//初期シーンの設定
 	currentSceneNo_ = baseScene->GetSceneNo();
+
+	//初期シーンの初期化処理
+	sceneArr_[currentSceneNo_]->Initialize(engine_, dxCommon_);
 }
 
 SceneManager::~SceneManager() {
@@ -36,6 +39,7 @@ int SceneManager::Run() {
 		//シーン要件チェック
 		if (prevSceneNo_ != currentSceneNo_) {
 			sceneArr_[currentSceneNo_]->Initialize(engine_, dxCommon_);
+			sceneArr_[prevSceneNo_]->Finalize();
 		}
 
 		//更新処理
