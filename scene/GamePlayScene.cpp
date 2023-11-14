@@ -51,14 +51,14 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	directionalLight_.direction = { 0.0f,-1.0f,0.0f };
 	directionalLight_.intensity = 1.0f;
 
-	texture_ = 0;
-	uvResourceNum_ = 0;
-	engine_->SettingTexture("Resource/uvChecker.png", uvResourceNum_);
+	engine_->SettingTexture("Resource/uvChecker.png", 1);
 
 	monsterBallResourceNum_ = 1;
-	engine_->SettingTexture("Resource/fence/fence.png", monsterBallResourceNum_);
+	engine_->SettingTexture("Resource/fence/fence.png", 2);
 
-	engine_->SettingTexture("Resource/circle.png", 2);
+	engine_->SettingTexture("Resource/circle.png", 4);
+
+	engine_->SettingTexture("Resource/particle.png", 5);
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -302,33 +302,33 @@ void GamePlayScene::Draw()
 
 	if (triangleDrawA_)
 	{
-		triangle_[0]->Draw(triangleData_[0].position[0], triangleData_[0].position[1], triangleData_[0].position[2], triangleData_[0].material, transform_[0], cameraTransform_, uvResourceNum_, directionalLight_);
+		triangle_[0]->Draw(triangleData_[0].position[0], triangleData_[0].position[1], triangleData_[0].position[2], triangleData_[0].material, transform_[0], cameraTransform_, 1, directionalLight_);
 	}
 
 	if (triangleDrawB_)
 	{
-		triangle_[1]->Draw(triangleData_[1].position[0], triangleData_[1].position[1], triangleData_[1].position[2], triangleData_[1].material, transform_[1], cameraTransform_, uvResourceNum_, directionalLight_);
+		triangle_[1]->Draw(triangleData_[1].position[0], triangleData_[1].position[1], triangleData_[1].position[2], triangleData_[1].material, transform_[1], cameraTransform_, 1, directionalLight_);
 	}
 
 	if (sphereDraw_)
 	{
-		sphere_->Draw(sphereMaterial_, sphereTransform_, texture_, cameraTransform_, directionalLight_);
+		sphere_->Draw(sphereMaterial_, sphereTransform_, 1, cameraTransform_, directionalLight_);
 	}
 
 	if (spriteDraw_)
 	{
 		for (int i = 0; i < 1; i++)
 		{
-			sprite_[i]->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_, spriteData_.material, uvResourceNum_, directionalLight_);
+			sprite_[i]->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_, spriteData_.material, 1, directionalLight_);
 		}
 	}
 	if (objectDraw_) {
 		for (int i = 0; i < 2; i++) {
-			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 1, cameraTransform_, directionalLight_);
+			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 2, cameraTransform_, directionalLight_);
 		}
 	}
 
-	particle->Draw(&particles[0], 0, cameraTransform_, directionalLight_);
+	particle->Draw(&particles[0], 4, cameraTransform_, directionalLight_);
 
 }
 
