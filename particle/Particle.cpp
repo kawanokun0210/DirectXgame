@@ -38,8 +38,7 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 		instancingData[index].WVP = worldViewProjectionMatrix;
 		instancingData[index].World = worldMatrix;
 		instancingData[index].color = transforms[index].color;
-		++numInstance;
-
+		
 		alpha = 1.0f - (transforms[index].currentTime / transforms[index].lifeTime);
 
 		instancingData[index].color.w = alpha;
