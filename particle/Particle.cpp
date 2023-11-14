@@ -42,13 +42,13 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 
 		alpha = 1.0f - (transforms[index].currentTime / transforms[index].lifeTime);
 
-		//instancingData[numInstance].color.x = alpha;
+		instancingData[index].color.w = alpha;
 
 		uvTransformMatrix = MakeScaleMatrix(uvTransformSprite.scale);
 		uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 		uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
-		*materialData_ = { transforms[index].color,true };
+		*materialData_ = { transforms[0].color,true };
 		materialData_->uvTransform = uvTransformMatrix;
 		*wvpData_ = { wvpMatrix_,worldMatrix };
 		*directionalLight_ = light;
