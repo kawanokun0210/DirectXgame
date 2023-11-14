@@ -248,41 +248,52 @@ void MyEngine::RasterizerState()
 void MyEngine::InitializePSO()
 {
 	for (int i = 0; i < 2; i++) {
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
-		graphicsPipelineStateDesc.pRootSignature = rootSignature_[i].Get();//RootSignature
-		graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_[i];//Inputlayout
-		graphicsPipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),
-			vertexShaderBlob_->GetBufferSize() };//vertexShader
-		graphicsPipelineStateDesc.PS = { pixelShaderBlob_->GetBufferPointer(),
-			pixelShaderBlob_->GetBufferSize() };//pixcelShader
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc[2]{};
+		graphicsPipelineStateDesc[i].pRootSignature = rootSignature_[i].Get();//RootSignature
+		graphicsPipelineStateDesc[i].InputLayout = inputLayoutDesc_[i];//Inputlayout
+
+		if (i == 0) {
+			graphicsPipelineStateDesc[0].VS = {vertexShaderBlob_->GetBufferPointer(),
+				vertexShaderBlob_->GetBufferSize() };//vertexShader
+			graphicsPipelineStateDesc[0].PS = {pixelShaderBlob_->GetBufferPointer(),
+				pixelShaderBlob_->GetBufferSize() };//pixcelShader
+		}
 
 		if (i == 1) {
-			graphicsPipelineStateDesc.VS = { particleVertexShaderBlob_->GetBufferPointer(),
+			graphicsPipelineStateDesc[1].VS = {particleVertexShaderBlob_->GetBufferPointer(),
 				particleVertexShaderBlob_->GetBufferSize() };//vertexShader
-			graphicsPipelineStateDesc.PS = { particlePixelShaderBlob_->GetBufferPointer(),
+			graphicsPipelineStateDesc[1].PS = {particlePixelShaderBlob_->GetBufferPointer(),
 				particlePixelShaderBlob_->GetBufferSize() };//pixcelShader
 		}
 
-		graphicsPipelineStateDesc.BlendState = blendDesc_[i];//BlendState
-		graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_[i];//rasterizerState
+		graphicsPipelineStateDesc[i].BlendState = blendDesc_[i];//BlendState
+		graphicsPipelineStateDesc[i].RasterizerState = rasterizerDesc_[i];//rasterizerState
 
 		//書き込むRTVの情報
-		graphicsPipelineStateDesc.NumRenderTargets = 1;
-		graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		graphicsPipelineStateDesc[i].NumRenderTargets = 1;
+		graphicsPipelineStateDesc[i].RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 		//利用するトポロジ（形状）のタイプ。三角形
-		graphicsPipelineStateDesc.PrimitiveTopologyType =
+		graphicsPipelineStateDesc[i].PrimitiveTopologyType =
 			D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
 		//どのように画面に色を打ち込むのかの設定（気にしなく良い）
-		graphicsPipelineStateDesc.SampleDesc.Count = 1;
-		graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-		graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
-		graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		graphicsPipelineStateDesc[i].SampleDesc.Count = 1;
+		graphicsPipelineStateDesc[i].SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+		if (i == 0) {
+			graphicsPipelineStateDesc[0].DepthStencilState = depthStencilDesc_[0];
+		}
+
+		if(i == 1){
+			graphicsPipelineStateDesc[0].DepthStencilState = depthStencilDesc_[0];
+		}
+
+		graphicsPipelineStateDesc[i].DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 		//実際に生成
 		graphicsPipelineState_[i] = nullptr;
-		HRESULT hr = dxCommon_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		HRESULT hr = dxCommon_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc[i],
 			IID_PPV_ARGS(&graphicsPipelineState_[i]));
 		assert(SUCCEEDED(hr));
 	}
@@ -311,9 +322,13 @@ void MyEngine::ScissorRect()
 void MyEngine::SettingDepth()
 {
 	//DepthStencilStateの設定
-	depthStencilDesc_.DepthEnable = true;//有効化
-	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み
-	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
+	depthStencilDesc_[0].DepthEnable = true;//有効化
+	depthStencilDesc_[0].DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み
+	depthStencilDesc_[0].DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
+
+	depthStencilDesc_[1].DepthEnable = true;//有効化
+	depthStencilDesc_[1].DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み
+	depthStencilDesc_[1].DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
 }
 
 void MyEngine::Initialize(const wchar_t* title, int32_t width, int32_t height)

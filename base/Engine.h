@@ -95,7 +95,7 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> textureResource_[kMaxResources];
 
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_{};
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_[2]{};
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource_[kMaxResources];
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResources_[kMaxResources];
