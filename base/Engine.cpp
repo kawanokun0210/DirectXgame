@@ -322,10 +322,12 @@ void MyEngine::ScissorRect()
 void MyEngine::SettingDepth()
 {
 	//DepthStencilStateの設定
+	//0番がオブジェクト用
 	depthStencilDesc_[0].DepthEnable = true;//有効化
 	depthStencilDesc_[0].DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み
 	depthStencilDesc_[0].DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
 
+	//1番がパーティクル用
 	depthStencilDesc_[1].DepthEnable = true;//有効化
 	depthStencilDesc_[1].DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み
 	depthStencilDesc_[1].DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
