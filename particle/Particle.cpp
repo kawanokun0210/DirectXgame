@@ -31,9 +31,9 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 		Matrix4x4 wvpMatrix_ = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
 		Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, projectionMatrix);
 
-		/*transforms[index].transform.translate.x += transforms[index].speed.x * kDeltaTime;
+		transforms[index].transform.translate.x += transforms[index].speed.x * kDeltaTime;
 		transforms[index].transform.translate.y += transforms[index].speed.y * kDeltaTime;
-		transforms[index].currentTime += kDeltaTime;*/
+		transforms[index].currentTime += kDeltaTime;
 
 		instancingData[index].WVP = wvpMatrix_;
 		instancingData[index].World = worldMatrix;
@@ -160,7 +160,7 @@ ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine) {
 	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
 	std::uniform_real_distribution<float> distTime(1.0f, 3.0f);
 	ParticleData particle;
-	particle.transform.scale = { 1.0f,1.0f,1.0f };
+	particle.transform.scale = { 0.7f,0.7f,0.7f };
 	particle.transform.rotate = { 0.0f,0.0f,0.0f };
 	particle.transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particle.speed = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
