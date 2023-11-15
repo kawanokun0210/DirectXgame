@@ -1,5 +1,7 @@
 #pragma once
 #include "BaseScene.h"
+#include "Input.h"
+#include "MatrixCalculation.h"
 
 class GameTitleScene : public BaseScene 
 {
@@ -16,7 +18,12 @@ public:
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
+	Input* input_;
 
 	int time;
+
+	Vector3 axis;
+	float angle;
+	Matrix4x4 rotateMatrix;
 
 };
