@@ -31,9 +31,9 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 		Matrix4x4 wvpMatrix_ = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
 		Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, projectionMatrix);
 
-		transforms[index].transform.translate.x += transforms[index].speed.x * kDeltaTime;
+		/*transforms[index].transform.translate.x += transforms[index].speed.x * kDeltaTime;
 		transforms[index].transform.translate.y += transforms[index].speed.y * kDeltaTime;
-		transforms[index].currentTime += kDeltaTime;
+		transforms[index].currentTime += kDeltaTime;*/
 
 		instancingData[index].WVP = worldViewProjectionMatrix;
 		instancingData[index].World = worldMatrix;
