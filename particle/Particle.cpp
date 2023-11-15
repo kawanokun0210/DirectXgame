@@ -35,7 +35,7 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 		transforms[index].transform.translate.y += transforms[index].speed.y * kDeltaTime;
 		transforms[index].currentTime += kDeltaTime;*/
 
-		instancingData[index].WVP = worldViewProjectionMatrix;
+		instancingData[index].WVP = wvpMatrix_;
 		instancingData[index].World = worldMatrix;
 		instancingData[index].color = transforms[index].color;
 		
@@ -66,7 +66,7 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
-	//dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 	//dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
@@ -162,7 +162,7 @@ ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine) {
 	ParticleData particle;
 	particle.transform.scale = { 1.0f,1.0f,1.0f };
 	particle.transform.rotate = { 0.0f,0.0f,0.0f };
-	particle.transform.translate = { distribution(randomEngine),distribution(randomEngine),20 + distribution(randomEngine) };
+	particle.transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particle.speed = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particle.color = { distColor(randomEngine),distColor(randomEngine),distColor(randomEngine), 1.0f };
 	particle.lifeTime = distTime(randomEngine);
