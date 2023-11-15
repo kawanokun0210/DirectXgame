@@ -15,7 +15,7 @@ void Particle::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::
 	TransformMatrix();
 }
 
-void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light)
+void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& cameraTransform)
 {
 
 	//Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
@@ -50,7 +50,6 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 		*materialData_ = { transforms[0].color,true };
 		materialData_->uvTransform = uvTransformMatrix;
 		*wvpData_ = { wvpMatrix_,worldMatrix };
-		*directionalLight_ = light;
 	}
 
 	//RootSignatureを設定。PS0とは別途設定が必要
@@ -68,7 +67,7 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, const Transform& c
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
+	//dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);

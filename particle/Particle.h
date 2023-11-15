@@ -28,7 +28,7 @@ class Particle
 public:
 	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename);
 
-	void Draw(ParticleData* transforms, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light);
+	void Draw(ParticleData* transforms, uint32_t index, const Transform& cameraTransform);
 
 	void Finalize();
 

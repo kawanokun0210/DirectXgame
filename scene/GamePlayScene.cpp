@@ -328,7 +328,7 @@ void GamePlayScene::Draw()
 		}
 	}
 
-	particle->Draw(&particles[0], 1, cameraTransform_, directionalLight_);
+	particle->Draw(&particles[0], 1, cameraTransform_);
 
 }
 
