@@ -286,7 +286,7 @@ void MyEngine::InitializePSO()
 		}
 
 		if(i == 1){
-			graphicsPipelineStateDesc[0].DepthStencilState = depthStencilDesc_[0];
+			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[1];
 		}
 
 		graphicsPipelineStateDesc[i].DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
