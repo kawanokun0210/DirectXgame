@@ -160,7 +160,7 @@ ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine) {
 	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
 	std::uniform_real_distribution<float> distTime(1.0f, 3.0f);
 	ParticleData particle;
-	particle.transform.scale = { 0.7f,0.7f,0.7f };
+	particle.transform.scale = { 0.4f,0.4f,0.4f };
 	particle.transform.rotate = { 0.0f,0.0f,0.0f };
 	particle.transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particle.speed = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
