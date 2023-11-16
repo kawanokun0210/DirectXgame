@@ -79,7 +79,7 @@ private:
 	IDxcBlob* particleVertexShaderBlob_;
 	IDxcBlob* particlePixelShaderBlob_;
 
-	D3D12_RASTERIZER_DESC rasterizerDesc_[2]{};
+	D3D12_RASTERIZER_DESC rasterizerDesc_{};
 
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_[2];
 

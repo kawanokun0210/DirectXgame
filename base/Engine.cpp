@@ -217,13 +217,12 @@ void MyEngine::BlendState()
 
 void MyEngine::RasterizerState()
 {
-	for (int i = 0; i < 2; i++) {
-		//裏面（時計回り）を表示しない
-		rasterizerDesc_[i].CullMode = D3D12_CULL_MODE_BACK;
 
-		//三角形の中を塗りつぶす
-		rasterizerDesc_[i].FillMode = D3D12_FILL_MODE_SOLID;
-	}
+	//裏面（時計回り）を表示しない
+	rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
+
+	//三角形の中を塗りつぶす
+	rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 
 	//Shaderをコンパイルする
 	vertexShaderBlob_ = CompileShader(L"Object3d.VS.hlsl",
@@ -253,21 +252,21 @@ void MyEngine::InitializePSO()
 		graphicsPipelineStateDesc[i].InputLayout = inputLayoutDesc_[i];//Inputlayout
 
 		if (i == 0) {
-			graphicsPipelineStateDesc[0].VS = {vertexShaderBlob_->GetBufferPointer(),
+			graphicsPipelineStateDesc[0].VS = { vertexShaderBlob_->GetBufferPointer(),
 				vertexShaderBlob_->GetBufferSize() };//vertexShader
-			graphicsPipelineStateDesc[0].PS = {pixelShaderBlob_->GetBufferPointer(),
+			graphicsPipelineStateDesc[0].PS = { pixelShaderBlob_->GetBufferPointer(),
 				pixelShaderBlob_->GetBufferSize() };//pixcelShader
 		}
 
 		if (i == 1) {
-			graphicsPipelineStateDesc[1].VS = {particleVertexShaderBlob_->GetBufferPointer(),
+			graphicsPipelineStateDesc[1].VS = { particleVertexShaderBlob_->GetBufferPointer(),
 				particleVertexShaderBlob_->GetBufferSize() };//vertexShader
-			graphicsPipelineStateDesc[1].PS = {particlePixelShaderBlob_->GetBufferPointer(),
+			graphicsPipelineStateDesc[1].PS = { particlePixelShaderBlob_->GetBufferPointer(),
 				particlePixelShaderBlob_->GetBufferSize() };//pixcelShader
 		}
 
 		graphicsPipelineStateDesc[i].BlendState = blendDesc_[i];//BlendState
-		graphicsPipelineStateDesc[i].RasterizerState = rasterizerDesc_[i];//rasterizerState
+		graphicsPipelineStateDesc[i].RasterizerState = rasterizerDesc_;//rasterizerState
 
 		//書き込むRTVの情報
 		graphicsPipelineStateDesc[i].NumRenderTargets = 1;
@@ -285,7 +284,7 @@ void MyEngine::InitializePSO()
 			graphicsPipelineStateDesc[0].DepthStencilState = depthStencilDesc_[0];
 		}
 
-		if(i == 1){
+		if (i == 1) {
 			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[1];
 		}
 
