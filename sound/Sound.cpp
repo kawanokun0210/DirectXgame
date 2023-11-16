@@ -97,8 +97,12 @@ void Sound::PlayWave(const SoundData& soundData, bool isLoop, float volume) {
 }
 
 void Sound::StopSound() {
-	pSourceVoice->Stop();
-	pSourceVoice->FlushSourceBuffers();
+	if (pSourceVoice) {
+		//音声の停止
+		pSourceVoice->Stop();
+		//再生キューのクリア
+		pSourceVoice->FlushSourceBuffers();
+	}
 }
 
 void Sound::UnLoad(SoundData* soundData) {
