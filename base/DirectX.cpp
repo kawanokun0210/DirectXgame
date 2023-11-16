@@ -10,6 +10,13 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "Winmm.lib")
 
+DirectXCommon* DirectXCommon::GetInstance()
+{
+	static DirectXCommon instance;
+
+	return &instance;
+}
+
 void DirectXCommon::Initialization(const wchar_t* title, int32_t backBufferWidth, int32_t backBufferHeight)
 {
 	backBufferWidth_ = backBufferWidth;

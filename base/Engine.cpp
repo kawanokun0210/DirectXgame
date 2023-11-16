@@ -3,6 +3,13 @@
 #include <fstream>
 #include <sstream>
 
+MyEngine* MyEngine::GetInstance()
+{
+	static MyEngine instance;
+
+	return &instance;
+}
+
 IDxcBlob* MyEngine::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
 	//これからシェーダーをコンパイルする旨をログに出す
 	Log(ConvertString(std::format(L"Begin CompileShader, path:{},profile:{}\n", filePath, profile)));

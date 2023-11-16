@@ -19,6 +19,8 @@ private:
 	static const int kMaxResources = 100;
 
 public:
+	static MyEngine* GetInstance();
+
 	void Initialize(const wchar_t* title, int32_t width, int32_t height);
 
 	void BeginFrame();
