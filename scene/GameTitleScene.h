@@ -22,8 +22,13 @@ private:
 
 	int time;
 
-	Vector3 axis;
-	float angle;
-	Matrix4x4 rotateMatrix;
+	Vector3 from0;
+	Vector3 to0;
+	Vector3 from1;
+	Vector3 to1;
+	//MT
+	Matrix4x4 rotateMatrix0;
+	Matrix4x4 rotateMatrix1;
+	Matrix4x4 rotateMatrix2;
 
 };

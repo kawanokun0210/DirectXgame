@@ -62,3 +62,8 @@ Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float botto
 
 //任意軸回転行列の作成関数
 Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle);
+
+//ある方向からある方向へ向ける回転行列
+Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to);
+
+Vector3 Cross(const Vector3& v1, const Vector3& v2);
