@@ -57,6 +57,10 @@ private:
 
 	void CreateDepthStensil();
 
+	void InitializeFixFPS();
+
+	void UpdateFixFPS();
+
 private:
 	
 	//DXGIファクトリーの生成
@@ -103,6 +107,8 @@ private:
 	D3D12_RESOURCE_BARRIER barrier_{};
 
 	HRESULT hr_;
+
+	std::chrono::steady_clock::time_point reference_;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthStencilResource_;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_;
