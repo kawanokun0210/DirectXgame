@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 #include "Input.h"
 #include "MatrixCalculation.h"
+#include "../Quaternion.h"
 
 class GameTitleScene : public BaseScene 
 {
@@ -30,5 +31,13 @@ private:
 	Matrix4x4 rotateMatrix0;
 	Matrix4x4 rotateMatrix1;
 	Matrix4x4 rotateMatrix2;
+
+	Quaternion identity;
+	Quaternion conj;
+	Quaternion inv;
+	Quaternion normal;
+	Quaternion mul1;
+	Quaternion mul2;
+	float norm;
 
 };
