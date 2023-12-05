@@ -6,7 +6,7 @@
 #include "../Vertex.h"
 #include "WinApp.h"
 #include "MatrixCalculation.h"
-#include "../externals/DirectXTex/DirectXTex.h"
+#include "DirectXTex.h"
 #include <dxcapi.h>
 #include <cstdlib>
 #include <dxgi1_6.h>
