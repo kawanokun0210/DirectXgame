@@ -169,3 +169,17 @@ ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine) {
 	particle.currentTime = { 0.0f };
 	return particle;
 }
+
+ParticleData Particle::MakeNewParticleSetPos(std::mt19937& randomEngine, Transform& transform) {
+	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
+	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
+	ParticleData particle;
+	particle.transform.scale = { 0.4f,0.4f,0.4f };
+	particle.transform.rotate = { 0.0f,0.0f,0.0f };
+	particle.transform.translate = { transform.translate.x,transform.translate.y,transform.translate.z };
+	particle.speed = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
+	particle.color = { distColor(randomEngine),distColor(randomEngine),distColor(randomEngine), 1.0f };
+	particle.lifeTime = 1.0f;
+	particle.currentTime = { 0.0f };
+	return particle;
+}

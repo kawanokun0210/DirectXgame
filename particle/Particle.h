@@ -36,6 +36,8 @@ public:
 
 	ParticleData MakeNewParticle(std::mt19937& randomEngine);
 
+	ParticleData MakeNewParticleSetPos(std::mt19937& randomEngine, Transform& transform);
+
 	Transform uvTransformSprite{
 		{1.0f,1.0f,1.0f},
 		{0.0f,0.0f,0.0f},
