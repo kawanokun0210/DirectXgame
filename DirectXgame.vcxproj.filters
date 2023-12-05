@@ -64,6 +64,12 @@
     <Filter Include="ヘッダー ファイル\scene\manager">
       <UniqueIdentifier>{6b8d2239-cea3-4080-a517-6b84d46b611c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\math\quaternion">
+      <UniqueIdentifier>{b1581fde-7069-4dec-b63f-cb7169352d3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\math\quaternion">
+      <UniqueIdentifier>{6b1a7271-652d-493e-8c1f-f89fcfb21493}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="String.cpp">
@@ -144,8 +150,8 @@
     <ClCompile Include="scene\GameOverScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Quaternion.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="math\quaternion\Quaternion.cpp">
+      <Filter>ソース ファイル\math\quaternion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,8 +254,8 @@
     <ClInclude Include="scene\GameOverScene.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Quaternion.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="math\quaternion\Quaternion.h">
+      <Filter>ヘッダー ファイル\math\quaternion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

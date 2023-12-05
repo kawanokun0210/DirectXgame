@@ -60,7 +60,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)3d;$(ProjectDir)sound;$(ProjectDir)base;$(ProjectDir)math;$(ProjectDir)scene;$(ProjectDir)input;$(ProjectDir)particle;$(ProjectDir)scene/Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3d;$(ProjectDir)sound;$(ProjectDir)base;$(ProjectDir)math;$(ProjectDir)scene;$(ProjectDir)input;$(ProjectDir)particle;$(ProjectDir)scene/Manager;$(ProjectDir)math/quaternion;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,7 +85,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir)3d;$(ProjectDir)sound;$(ProjectDir)base;$(ProjectDir)math;$(ProjectDir)scene;$(ProjectDir)input;$(ProjectDir)particle;$(ProjectDir)scene/Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3d;$(ProjectDir)sound;$(ProjectDir)base;$(ProjectDir)math;$(ProjectDir)scene;$(ProjectDir)input;$(ProjectDir)particle;$(ProjectDir)scene/Manager;$(ProjectDir)math/quaternion;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,8 +119,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MatrixCalculation.cpp" />
+    <ClCompile Include="math\quaternion\Quaternion.cpp" />
     <ClCompile Include="particle\Particle.cpp" />
-    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="scene\BaseScene.cpp" />
     <ClCompile Include="scene\GameClearScene.cpp" />
     <ClCompile Include="scene\GameOverScene.cpp" />
@@ -150,11 +150,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="math\Matrix3x3.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\MatrixCalculation.h" />
+    <ClInclude Include="math\quaternion\Quaternion.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="particle\Particle.h" />
-    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="ResourceObject.h" />
     <ClInclude Include="scene\BaseScene.h" />
     <ClInclude Include="scene\GameClearScene.h" />

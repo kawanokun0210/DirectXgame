@@ -2,7 +2,7 @@
 #include "BaseScene.h"
 #include "Input.h"
 #include "MatrixCalculation.h"
-#include "../Quaternion.h"
+#include "Quaternion.h"
 
 class GameTitleScene : public BaseScene 
 {
