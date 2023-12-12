@@ -324,7 +324,7 @@ void GamePlayScene::Draw()
 	}
 	if (objectDraw_) {
 		for (int i = 0; i < 2; i++) {
-			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, cameraTransform_, directionalLight_);
+			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, cameraTransform_, directionalLight_, true);
 		}
 	}
 

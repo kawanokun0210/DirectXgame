@@ -13,7 +13,7 @@ void Object::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::st
 	TransformMatrix();
 }
 
-void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light)
+void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light, bool isLighting)
 {
 	Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
 	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
@@ -26,7 +26,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
-	*materialData_ = { material,true };
+	*materialData_ = { material,isLighting };
 	materialData_->uvTransform = uvTransformMatrix;
 	*wvpData_ = { wvpMatrix_,worldMatrix };
 	*directionalLight_ = light;
