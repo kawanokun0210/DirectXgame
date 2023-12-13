@@ -67,3 +67,5 @@ Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle);
 Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to);
 
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
+
+Vector3 VectorTransform(const Vector3& vector, const Matrix4x4& matrix);

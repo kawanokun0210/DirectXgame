@@ -6,36 +6,30 @@ void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
-	Quaternion q1 = { 2.0f,3.0f,4.0f,1.0f };
-	Quaternion q2 = { 1.0f,3.0f,5.0f,2.0f };
-	identity = IdentityQuaternion();
-	conj = Conjugate(q1);
-	inv = Inverse(q1);
-	normal = Normalize(q1);
-	mul1 = Multiply(q1, q2);
-	mul2 = Multiply(q2, q1);
-	norm = Norm(q1);
+	//MT
+	rotation = MakeRotateAxisAngleQuaternion(Normalise(Vector3{ 1.0f,0.4f,-0.2f }), 0.45f);
+	Vector3 pointY = { 2.1f,-0.9f,1.3f };
+	rotateMatrix = MakeRotateMatrix(rotation);
+	rotateByQuaternion = RotateVector(pointY, rotation);
+	rotateByMatrix = VectorTransform(pointY, rotateMatrix);
 
 }
 
 void GameTitleScene::Update() {
 	input_->Update();
 
-	ImGui::Begin("MT4_01_03");
-	ImGui::Text("identity");
-	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", identity.x, identity.y, identity.z, identity.w);
-	ImGui::Text("conjugate");
-	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", conj.x, conj.y, conj.z, conj.w);
-	ImGui::Text("Inverse");
-	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", inv.x, inv.y, inv.z, inv.w);
-	ImGui::Text("normalize");
-	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", normal.x, normal.y, normal.z, normal.w);
-	ImGui::Text("mul1");
-	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", mul1.x, mul1.y, mul1.z, mul1.w);
-	ImGui::Text("mul2");
-	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", mul2.x, mul2.y, mul2.z, mul2.w);
-	ImGui::Text("norm");
-	ImGui::Text("%4.2f", norm);
+	ImGui::Begin("MT4_01_04");
+	ImGui::Text("rotation");
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", rotation.x, rotation.y, rotation.z, rotation.w);
+	ImGui::Text("rotateMatrix");
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix.m[0][0], rotateMatrix.m[0][1], rotateMatrix.m[0][2], rotateMatrix.m[0][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix.m[1][0], rotateMatrix.m[1][1], rotateMatrix.m[1][2], rotateMatrix.m[1][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix.m[2][0], rotateMatrix.m[2][1], rotateMatrix.m[2][2], rotateMatrix.m[2][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix.m[3][0], rotateMatrix.m[3][1], rotateMatrix.m[3][2], rotateMatrix.m[3][3]);
+	ImGui::Text("rotateByQuaternion");
+	ImGui::Text("%4.2f %4.2f %4.2f", rotateByQuaternion.x, rotateByQuaternion.y, rotateByQuaternion.z);
+	ImGui::Text("rotateByMatrix");
+	ImGui::Text("%4.2f %4.2f %4.2f", rotateByMatrix.x, rotateByMatrix.y, rotateByMatrix.z);
 	ImGui::End();
 
 	if (input_->TriggerKey(DIK_SPACE)) {
