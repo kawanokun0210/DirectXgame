@@ -13,9 +13,13 @@
 #include "Particle.h"
 #include "BaseScene.h"
 #include <random>
+#include "../Player.h"
 
 class GamePlayScene : public BaseScene
 {
+private:
+	Player* player_;
+
 public:
 	void Initialize(MyEngine* engine, DirectXCommon* dxCommon) override;
 
