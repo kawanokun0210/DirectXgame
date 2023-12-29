@@ -5,6 +5,9 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	engine_ = engine;
 	dxCommon_ = dxCommon;
 
+	textureManager_ = new TextureManager();
+	textureManager_->Initialize(engine_);
+
 	directionalLight_.color = { 1.0f,1.0f,1.0f,1.0f };
 	directionalLight_.direction = { 0.0f,-1.0f,0.0f };
 	directionalLight_.intensity = 1.0f;
@@ -27,5 +30,7 @@ void GamePlayScene::Draw()
 
 void GamePlayScene::Finalize()
 {
+	delete textureManager_;
 	player_->Finalize();
+
 }

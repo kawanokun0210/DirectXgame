@@ -11,8 +11,6 @@ void Player::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	object_->Initialize(dxCommon_,engine_,"Resource/","player.obj");
 
-	engine_->SettingTexture("Resource/uvChecker.png", 2);
-
 	player = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 }
 

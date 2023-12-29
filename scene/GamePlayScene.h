@@ -14,6 +14,7 @@
 #include "BaseScene.h"
 #include <random>
 #include "../Player.h"
+#include "../TextureManager.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -32,6 +33,7 @@ public:
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
+	TextureManager* textureManager_;
 
 	Triangle* triangle_[2];
 	TriangleData triangleData_[2];
