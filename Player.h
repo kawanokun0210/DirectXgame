@@ -17,6 +17,10 @@ public:
 	void Finalize();
 
 private:
+
+	void Move();
+
+private:
 	Object* object_;
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;

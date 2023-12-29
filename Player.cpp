@@ -19,6 +19,17 @@ void Player::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 void Player::Update() {
 	input_->Update();
 
+	Move();
+
+}
+
+void Player::Draw(Transform camera, DirectionalLight directionalLight) {
+
+	object_->Draw(material, player, 2, camera, directionalLight, true);
+
+}
+
+void Player::Move() {
 	//左右の移動
 	if (input_->PushKey(DIK_A)) {
 		player.translate.x -= 0.1f;
@@ -50,13 +61,6 @@ void Player::Update() {
 	else if (player.translate.y >= 6.2f) {
 		player.translate.y -= 0.1f;
 	}
-
-}
-
-void Player::Draw(Transform camera, DirectionalLight directionalLight) {
-
-	object_->Draw(material, player, 2, camera, directionalLight, true);
-
 }
 
 void Player::Finalize() {
