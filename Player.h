@@ -2,6 +2,7 @@
 #include "MatrixCalculation.h"
 #include "Object.h"
 #include "Engine.h"
+#include "Input.h"
 
 class Player
 {
@@ -19,6 +20,7 @@ private:
 	Object* object_;
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
+	Input* input_;
 
 	Transform player;
 

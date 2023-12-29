@@ -9,7 +9,7 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	directionalLight_.direction = { 0.0f,-1.0f,0.0f };
 	directionalLight_.intensity = 1.0f;
 
-	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
+	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-30.0f} };
 
 	player_ = new Player();
 	player_->Initialize(engine_,dxCommon_);
@@ -17,7 +17,7 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 void GamePlayScene::Update()
 {
-	
+	player_->Update();
 }
 
 void GamePlayScene::Draw()
