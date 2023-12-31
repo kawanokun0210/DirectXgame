@@ -14,7 +14,7 @@ void SkyDome::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 void SkyDome::Update() {
 	
-	
+	skyDome.rotate.y += 0.001f;
 
 }
 
