@@ -16,21 +16,26 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	player_ = new Player();
 	player_->Initialize(engine_,dxCommon_);
+
+	skydome_ = new SkyDome();
+	skydome_->Initialize(engine_, dxCommon_);
 }
 
 void GamePlayScene::Update()
 {
 	player_->Update();
+	skydome_->Update();
 }
 
 void GamePlayScene::Draw()
 {
 	player_->Draw(cameraTransform_, directionalLight_);
+	skydome_->Draw(cameraTransform_, directionalLight_);
 }
 
 void GamePlayScene::Finalize()
 {
 	delete textureManager_;
 	player_->Finalize();
-
+	skydome_->Finalize();
 }

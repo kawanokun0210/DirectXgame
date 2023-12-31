@@ -15,11 +15,13 @@
 #include <random>
 #include "../Player.h"
 #include "../TextureManager.h"
+#include "../SkyDome.h"
 
 class GamePlayScene : public BaseScene
 {
 private:
 	Player* player_;
+	SkyDome* skydome_;
 
 public:
 	void Initialize(MyEngine* engine, DirectXCommon* dxCommon) override;
