@@ -6,6 +6,8 @@ void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
+	time = 0;
+
 	//MT
 	rotation = MakeRotateAxisAngleQuaternion(Normalise(Vector3{ 1.0f,0.4f,-0.2f }), 0.45f);
 	Vector3 pointY = { 2.1f,-0.9f,1.3f };
@@ -32,7 +34,9 @@ void GameTitleScene::Update() {
 	ImGui::Text("%4.2f %4.2f %4.2f", rotateByMatrix.x, rotateByMatrix.y, rotateByMatrix.z);
 	ImGui::End();
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	time++;
+
+	if (input_->TriggerKey(DIK_SPACE) || time == 60) {
 		sceneNo = PLAY;
 	}
 }
