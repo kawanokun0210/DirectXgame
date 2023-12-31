@@ -2,13 +2,10 @@
 #include "MatrixCalculation.h"
 #include "Object.h"
 #include "Engine.h"
-#include "Input.h"
-#include "PlayerBullet.h"
 
-class Player
+class PlayerBullet
 {
 public:
-	~Player();
 
 	void Initialize(MyEngine* engine, DirectXCommon* dxCommon);
 
@@ -18,26 +15,26 @@ public:
 
 	void Finalize();
 
+public:
+
+	bool IsDead() const { return isDead_; }
+
+	void SetBullet(Transform player);
+
 private:
-
-	void Move();
-
-	void Attack();
-
-private:
-	Object* object_;
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
-	Input* input_;
+	Object* object_;
 
-	Transform player;
+	Transform bullet;
 
 	Vector4 material;
 
-	std::list<PlayerBullet*> bullets_;
+	static const int32_t kLifeTime = 120;
 
-	int count = 0;
-	bool isShot = false;
+	int32_t deathTimer_ = kLifeTime;
+
+	bool isDead_ = false;
 
 };
 
