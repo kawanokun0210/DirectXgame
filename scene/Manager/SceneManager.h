@@ -1,11 +1,11 @@
 #pragma once
-
 #include <memory>
 #include "BaseScene.h"
 #include "GameTitleScene.h"
 #include "GamePlayScene.h"
 #include "GameClearScene.h"
 #include "GameOverScene.h"
+#include "Input.h"
 
 class SceneManager 
 {
@@ -20,6 +20,8 @@ private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 	BaseScene* baseScene;
+
+	Input* input_;
 public:
 	SceneManager(MyEngine* engine, DirectXCommon* dxCommon);
 	~SceneManager();
