@@ -15,7 +15,7 @@ void PlayerBullet::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 void PlayerBullet::Update() {
 
-	bullet.translate.z += 0.1f;
+	bullet.translate.z += 1.0f;
 
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
