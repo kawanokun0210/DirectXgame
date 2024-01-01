@@ -6,6 +6,7 @@
 class PlayerBullet
 {
 public:
+	~PlayerBullet();
 
 	void Initialize(MyEngine* engine, DirectXCommon* dxCommon);
 

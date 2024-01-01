@@ -1,5 +1,9 @@
 #include "PlayerBullet.h"
 
+PlayerBullet::~PlayerBullet() {
+	delete object_;
+}
+
 void PlayerBullet::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	dxCommon_ = dxCommon;
 	engine_ = engine;
