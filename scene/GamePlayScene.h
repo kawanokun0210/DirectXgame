@@ -16,12 +16,22 @@
 #include "../Player.h"
 #include "../TextureManager.h"
 #include "../SkyDome.h"
+#include "../Enemy.h"
 
 class GamePlayScene : public BaseScene
 {
 private:
 	Player* player_;
 	SkyDome* skydome_;
+	std::list<Enemy*> enemy_;
+	Transform enemyTransform_;
+
+	int enemySpornTimer = 0;
+	int enemyCount = 0;
+
+private:
+
+	void EnemySporn();
 
 public:
 	void Initialize(MyEngine* engine, DirectXCommon* dxCommon) override;
