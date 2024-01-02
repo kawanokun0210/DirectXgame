@@ -18,6 +18,8 @@ public:
 
 	void Finalize();
 
+	Transform GetPosition() { return player; }
+
 private:
 
 	void Move();

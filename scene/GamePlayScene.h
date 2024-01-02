@@ -29,6 +29,9 @@ private:
 	int enemySpornTimer = 0;
 	int enemyCount = 0;
 
+	bool particleSporn = false;
+	int particleCount = 0;
+
 private:
 
 	void EnemySporn();
@@ -81,7 +84,7 @@ private:
 	Particle* particle;
 	ParticleData particles[10];
 
-	std::random_device seedGenerator;
+	std::random_device generator;
 
 	const float kDeltaTime = 1.0f / 60.0f;
 

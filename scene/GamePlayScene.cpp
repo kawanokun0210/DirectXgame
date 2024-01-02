@@ -20,6 +20,15 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	skydome_ = new SkyDome();
 	skydome_->Initialize(engine_, dxCommon_);
 
+	particle = new Particle();
+	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+
+	std::mt19937 random(generator());
+
+	for (uint32_t index = 0; index < 10; ++index) {
+		particles[index] = particle->MakeNewParticleSetPos(random, player_->GetPosition());
+	}
+
 }
 
 void GamePlayScene::Update()
@@ -48,6 +57,10 @@ void GamePlayScene::Draw()
 	for (Enemy* enemy : enemy_) {
 		enemy->Draw(cameraTransform_, directionalLight_);
 	}
+
+
+	particle->Draw(&particles[0], 5, cameraTransform_);
+
 }
 
 void GamePlayScene::EnemySporn() {
@@ -79,4 +92,5 @@ void GamePlayScene::Finalize()
 	for (Enemy* enemy : enemy_) {
 		delete enemy;
 	}
+	delete particle;
 }

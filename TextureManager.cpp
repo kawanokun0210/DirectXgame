@@ -8,4 +8,8 @@ void TextureManager::Initialize(MyEngine* engine) {
 
 	engine_->SettingTexture("Resource/skydome/skydomeTex.png", 3);
 
+	engine_->SettingTexture("Resource/circle.png", 4);
+
+	engine_->SettingTexture("Resource/particle.png", 5);
+
 }
