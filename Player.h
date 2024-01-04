@@ -24,8 +24,6 @@ private:
 
 	void Move();
 
-	void Attack();
-
 private:
 	Object* object_;
 	MyEngine* engine_;
@@ -35,11 +33,6 @@ private:
 	Transform player;
 
 	Vector4 material;
-
-	std::list<PlayerBullet*> bullets_;
-
-	int count = 0;
-	bool isShot = false;
 
 };
 

@@ -21,6 +21,12 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
+	Transform GetPosition() { return enemy; }
+
+	bool GetAlive() { return isAlive_; }
+
+	bool SetAlive(bool a);
+
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
@@ -33,6 +39,8 @@ private:
 	std::random_device seedGenerator;
 
 	bool isDead_ = false;
+
+	bool isAlive_;
 
 };
 

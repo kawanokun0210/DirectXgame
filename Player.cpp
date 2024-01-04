@@ -1,9 +1,7 @@
 #include "Player.h"
 
 Player::~Player() {
-	for (PlayerBullet* bullet : bullets_) {
-		delete bullet;
-	}
+	
 }
 
 void Player::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
@@ -26,29 +24,11 @@ void Player::Update() {
 
 	Move();
 
-	Attack();
-
-	bullets_.remove_if([](PlayerBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
-
-	for (PlayerBullet* bullet : bullets_) {
-		bullet->Update();
-	}
-
 }
 
 void Player::Draw(Transform camera, DirectionalLight directionalLight) {
 
 	object_->Draw(material, player, 2, camera, directionalLight, true);
-
-	for (PlayerBullet* bullet : bullets_) {
-		bullet->Draw(camera, directionalLight);
-	}
 
 }
 
@@ -86,38 +66,6 @@ void Player::Move() {
 	}
 }
 
-void Player::Attack() {
-
-	if (input_->PushKey(DIK_SPACE)) {
-		isShot = true;
-	}
-	else {
-		isShot = false;
-	}
-
-	if (isShot == true && count == 0) {
-
-		count++;
-
-		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(engine_, dxCommon_);
-
-		newBullet->SetBullet(player);
-
-		bullets_.push_back(newBullet);
-	}
-	else if(count != 0){
-		count++;
-		if (count == 60) {
-			count = 0;
-		}
-	}
-
-}
-
 void Player::Finalize() {
 	delete object_;
-	for (PlayerBullet* bullet : bullets_) {
-		delete bullet;
-	}
 }

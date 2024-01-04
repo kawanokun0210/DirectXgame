@@ -19,6 +19,8 @@ void Enemy::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	std::uniform_real_distribution<float> enemyTranslateZ(40.0f, 60.0f);
 
 	enemy = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{enemyTranslateX(randomEngine),enemyTranslateY(randomEngine),enemyTranslateZ(randomEngine)} };
+
+	isAlive_ = false;
 }
 
 void Enemy::Update() {
@@ -39,6 +41,11 @@ void Enemy::Draw(Transform camera, DirectionalLight directionalLight) {
 
 	object_->Draw(material, enemy, 2, camera, directionalLight, true);
 
+}
+
+bool Enemy::SetAlive(bool a) {
+	isAlive_ = a;
+	return isAlive_;
 }
 
 void Enemy::Finalize() {

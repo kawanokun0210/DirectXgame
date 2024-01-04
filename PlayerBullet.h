@@ -22,6 +22,8 @@ public:
 
 	void SetBullet(Transform player);
 
+	Transform GetBullet() { return bullet; }
+
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;

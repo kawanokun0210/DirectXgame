@@ -18,16 +18,26 @@
 #include "../SkyDome.h"
 #include "../Enemy.h"
 
+struct AABB {
+	Vector3 min;
+	Vector3 max;
+};
+
+
 class GamePlayScene : public BaseScene
 {
 private:
 	Player* player_;
 	SkyDome* skydome_;
 	std::list<Enemy*> enemy_;
+	std::list<PlayerBullet*> bullets_;
 	Transform enemyTransform_;
 
 	int enemySpornTimer = 0;
 	int enemyCount = 0;
+
+	int count = 0;
+	bool isShot = false;
 
 	bool particleSporn = false;
 	int particleCount = 0;
@@ -35,6 +45,12 @@ private:
 private:
 
 	void EnemySporn();
+
+	bool IsCollision(const AABB& aabb1, const AABB& aabb2);
+
+	void PlayerAttack();
+
+	AABB AABBadd(Vector3 a, Vector3 objectSize);
 
 public:
 	void Initialize(MyEngine* engine, DirectXCommon* dxCommon) override;
@@ -46,6 +62,18 @@ public:
 	void Finalize() override;
 
 private:
+
+	AABB aabb1{
+
+		.min{1.0f,1.0f,-1.0f},
+		.max{-1.0f,-1.0f,1.0f},
+	};
+
+	AABB aabb2{
+		.min{1.0f,1.0f,-1.0f},
+		.max{-1.0f,-1.0f,1.0f},
+	};
+
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 	TextureManager* textureManager_;
