@@ -149,6 +149,7 @@ void GamePlayScene::Update()
 	//}
 
 	ImGui::Begin("OPTION");
+	ImGui::Text("Push Particle");
 	if (ImGui::TreeNode("Triangle"))
 	{
 		if (ImGui::Button("TriangleA"))
