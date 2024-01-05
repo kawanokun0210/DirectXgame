@@ -25,6 +25,8 @@ public:
 
 	void Finalize() override;
 
+	void ParticlePop();
+
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
@@ -59,6 +61,9 @@ private:
 	SoundData soundDataHandle_;
 
 	Input* input_ = nullptr;
+
+	bool particlePop = false;
+	int count = 0;
 
 	Particle* particle;
 	ParticleData particles[10];

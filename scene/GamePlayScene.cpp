@@ -91,11 +91,10 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	objectTransform_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f} };
 
 	particle = new Particle();
-
 	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
 
 	std::mt19937 randomEngine(seedGenerator());
-	
+
 	for (uint32_t index = 0; index < 10; ++index) {
 		particles[index] = particle->MakeNewParticle(randomEngine);
 	}
@@ -227,6 +226,10 @@ void GamePlayScene::Update()
 
 	if (ImGui::TreeNode("Particle"))
 	{
+		if (ImGui::Button("Particle"))
+		{
+			ParticlePop();
+		}
 		for (int i = 0; i < 10; i++) {
 			ImGui::DragFloat3("Translate", &particles[i].transform.translate.x, 0.05f);
 			ImGui::DragFloat3("Rotate", &particles[i].transform.rotate.x, 0.05f);
@@ -294,6 +297,7 @@ void GamePlayScene::Update()
 		ImGui::DragFloat3("Scale", &cameraTransform_.scale.x, 0.05f);
 		ImGui::TreePop();
 	}
+
 	ImGui::End();
 }
 
@@ -329,6 +333,18 @@ void GamePlayScene::Draw()
 	}
 
 	particle->Draw(&particles[0], 4, cameraTransform_);
+
+}
+
+void GamePlayScene::ParticlePop() {
+
+	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+
+	std::mt19937 randomEngine(seedGenerator());
+
+	for (uint32_t index = 0; index < 10; ++index) {
+		particles[index] = particle->MakeNewParticle(randomEngine);
+	}
 
 }
 
