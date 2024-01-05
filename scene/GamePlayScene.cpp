@@ -93,8 +93,13 @@ void GamePlayScene::Draw()
 		enemy->Draw(cameraTransform_, directionalLight_);
 	}
 
-
 	particle->Draw(&particles[0], 5, cameraTransform_);
+
+	sceneChangeTimer++;
+
+	if (sceneChangeTimer >= 3600) {
+		sceneNo = CLEAR;
+	}
 
 }
 

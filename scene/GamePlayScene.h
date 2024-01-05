@@ -42,6 +42,8 @@ private:
 	bool particleSporn = false;
 	int particleCount = 0;
 
+	int sceneChangeTimer = 0;
+
 private:
 
 	void EnemySporn();

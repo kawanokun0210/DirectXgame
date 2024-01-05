@@ -34,9 +34,7 @@ void GameTitleScene::Update() {
 	ImGui::Text("%4.2f %4.2f %4.2f", rotateByMatrix.x, rotateByMatrix.y, rotateByMatrix.z);
 	ImGui::End();
 
-	time++;
-
-	if (input_->TriggerKey(DIK_SPACE) || time == 60) {
+	if (input_->PushKey(DIK_SPACE)) {
 		sceneNo = PLAY;
 	}
 }
