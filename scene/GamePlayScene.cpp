@@ -26,6 +26,19 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	particle = new Particle();
 	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
 
+	enemySpornTimer = 0;
+	enemyCount = 0;
+
+	count = 0;
+	isShot = false;
+
+	particleSporn = false;
+	particleCount = 0;
+
+	sceneChangeTimer = 0;
+	scoar = 0;
+	boxScoar = 0;
+
 }
 
 void GamePlayScene::Update()
@@ -56,6 +69,10 @@ void GamePlayScene::Update()
 			aabb2 = AABBadd(enemy->GetPosition().translate, { 1.0f,1.0f,1.0f });
 			if (IsCollision(aabb1, aabb2)) {
 				enemy->SetAlive(false);
+
+				scoar += 100;
+				boxScoar += 100;
+
 				particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
 
 				std::mt19937 random(generator());
@@ -68,7 +85,7 @@ void GamePlayScene::Update()
 	}
 
 	enemy_.remove_if([](Enemy* enemy) {
-		if (enemy->GetAlive() == false || enemy->IsDead()) {
+		if (enemy->GetAlive() == false || enemy->IsDead() == true) {
 			delete enemy;
 			return true;
 		}
@@ -81,7 +98,18 @@ void GamePlayScene::Update()
 
 	sceneChangeTimer++;
 
-	if (sceneChangeTimer >= 3600) {
+	if (sceneChangeTimer >= 600) {
+		bullets_.remove_if([](PlayerBullet* bullet) {
+			delete bullet;
+			return true;
+			});
+
+		enemy_.remove_if([](Enemy* enemy) {
+
+			delete enemy;
+			return true;
+			});
+
 		sceneNo = CLEAR;
 	}
 

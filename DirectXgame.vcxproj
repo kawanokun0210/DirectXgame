@@ -130,6 +130,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\Manager\SceneManager.cpp" />
     <ClCompile Include="scene\GameTitleScene.cpp" />
+    <ClCompile Include="Scoar.cpp" />
     <ClCompile Include="SkyDome.cpp" />
     <ClCompile Include="sound\Sound.cpp" />
     <ClCompile Include="String.cpp" />
@@ -170,6 +171,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="scene\GamePlayScene.h" />
     <ClInclude Include="scene\Manager\SceneManager.h" />
     <ClInclude Include="scene\GameTitleScene.h" />
+    <ClInclude Include="Scoar.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="sound\Sound.h" />
     <ClInclude Include="String.h" />

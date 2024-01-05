@@ -24,7 +24,7 @@ struct AABB {
 };
 
 
-class GamePlayScene : public BaseScene
+class GamePlayScene : public BaseScene 
 {
 private:
 	Player* player_;

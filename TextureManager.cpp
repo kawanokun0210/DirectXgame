@@ -12,4 +12,16 @@ void TextureManager::Initialize(MyEngine* engine) {
 
 	engine_->SettingTexture("Resource/particle.png", 5);
 
+	//ここからナンバーズ
+	engine_->SettingTexture("Resource/numbers/count1.png", 6);
+	engine_->SettingTexture("Resource/numbers/count2.png", 7);
+	engine_->SettingTexture("Resource/numbers/count3.png", 8);
+	engine_->SettingTexture("Resource/numbers/count4.png", 9);
+	engine_->SettingTexture("Resource/numbers/count5.png", 10);
+	engine_->SettingTexture("Resource/numbers/count6.png", 11);
+	engine_->SettingTexture("Resource/numbers/count7.png", 12);
+	engine_->SettingTexture("Resource/numbers/count8.png", 13);
+	engine_->SettingTexture("Resource/numbers/count9.png", 14);
+	engine_->SettingTexture("Resource/numbers/count10.png", 15);
+
 }

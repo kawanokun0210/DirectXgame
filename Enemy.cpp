@@ -31,7 +31,7 @@ void Enemy::Update() {
 		material.w -= 0.005f;
 	}
 
-	if (material.w <= 0.0f) {
+	if (material.w <= 0.000f) {
 		isDead_ = true;
 	}
 

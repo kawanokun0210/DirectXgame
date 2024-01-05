@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseScene.h"
 #include "Input.h"
+#include "Sprite.h"
+#include "../TextureManager.h"
 
 class GameClearScene : public BaseScene
 {
@@ -18,8 +20,16 @@ private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 
+	Sprite* sprite_[6];
+	SpriteData spriteData_[6];
+	Transform spriteTransform_[6];
+
+	TextureManager* textureManager_;
+
+	DirectionalLight directionalLight_;
+
 	Input* input_;
 
-	int time;
+	int eachScoar[6] = {};
 
 };
