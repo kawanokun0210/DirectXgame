@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseScene.h"
+#include "Input.h"
 
 class GameClearScene : public BaseScene
 {
@@ -16,6 +17,8 @@ public:
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
+
+	Input* input_;
 
 	int time;
 

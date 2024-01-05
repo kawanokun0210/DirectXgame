@@ -3,14 +3,20 @@
 void GameClearScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	dxCommon_ = dxCommon;
 	engine_ = engine;
+
+	input_ = Input::GetInstance();
+	input_->Initialize();
+
 }
 
 void GameClearScene::Update() {
-	time++;
+	
+	input_->Update();
 
-	if (time >= 60) {
+	if (input_->PushKey(DIK_RETURN)) {
 		sceneNo = TITLE;
 	}
+
 }
 
 void GameClearScene::Draw() {

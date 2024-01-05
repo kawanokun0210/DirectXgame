@@ -78,6 +78,13 @@ void GamePlayScene::Update()
 	for (Enemy* enemy : enemy_) {
 		enemy->Update();
 	}
+
+	sceneChangeTimer++;
+
+	if (sceneChangeTimer >= 3600) {
+		sceneNo = CLEAR;
+	}
+
 }
 
 void GamePlayScene::Draw()
@@ -94,12 +101,6 @@ void GamePlayScene::Draw()
 	}
 
 	particle->Draw(&particles[0], 5, cameraTransform_);
-
-	sceneChangeTimer++;
-
-	if (sceneChangeTimer >= 3600) {
-		sceneNo = CLEAR;
-	}
 
 }
 
