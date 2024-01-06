@@ -24,4 +24,8 @@ void TextureManager::Initialize(MyEngine* engine) {
 	engine_->SettingTexture("Resource/numbers/count9.png", 14);
 	engine_->SettingTexture("Resource/numbers/count10.png", 15);
 
+	//ここからシーン別
+	engine_->SettingTexture("Resource/skyTitle.png", 16);
+	engine_->SettingTexture("Resource/skyTitle2.png", 17);
+
 }

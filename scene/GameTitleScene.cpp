@@ -24,10 +24,18 @@ void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	sprite_ = new Sprite();
 	sprite_->Initialize(dxCommon_, engine_);
 
+	time = 0;
+
 }
 
 void GameTitleScene::Update() {
 	input_->Update();
+
+	time++;
+
+	if (time >= 90) {
+		time = 0;
+	}
 
 	if (input_->PushKey(DIK_RETURN)) {
 		sceneNo = PLAY;
@@ -35,9 +43,17 @@ void GameTitleScene::Update() {
 }
 
 void GameTitleScene::Draw() {
-	for (int i = 0; i < 1; i++)
-	{
-		sprite_->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_, spriteData_.material, 3, directionalLight_);
+	if (time <= 0 || time <= 45) {
+		for (int i = 0; i < 1; i++)
+		{
+			sprite_->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_, spriteData_.material, 16, directionalLight_);
+		}
+	}
+	else if (time >= 45) {
+		for (int i = 0; i < 1; i++)
+		{
+			sprite_->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_, spriteData_.material, 17, directionalLight_);
+		}
 	}
 }
 
