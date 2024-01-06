@@ -3,6 +3,8 @@
 #include "Input.h"
 #include "MatrixCalculation.h"
 #include "Quaternion.h"
+#include "Sprite.h"
+#include "../TextureManager.h"
 
 class GameTitleScene : public BaseScene 
 {
@@ -20,6 +22,15 @@ private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 	Input* input_;
+
+	Sprite* sprite_;
+
+	SpriteData spriteData_;
+	Transform spriteTransform_;
+
+	TextureManager* textureManager_;
+
+	DirectionalLight directionalLight_;
 
 	int time;
 
