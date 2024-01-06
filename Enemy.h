@@ -27,8 +27,6 @@ public:
 
 	bool SetAlive(bool a);
 
-	int GetTimer() { return timer; }
-
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;

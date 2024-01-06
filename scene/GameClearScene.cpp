@@ -68,13 +68,13 @@ void GameClearScene::Update() {
 void GameClearScene::Draw() {
 
 	for (int s = 0; s < 10; s++) {
-		if (eachScoar[1] == s) {
+		if (eachScoar[1] == s && eachScoar[1] != 0) {
 			for (int i = 0; i < 1; i++)
 			{
 				sprite_[0]->Draw(spriteData_[0].LeftTop[i], spriteData_[0].RightDown[i], spriteTransform_[0], spriteData_[0].material, s + 6, directionalLight_);
 			}
 		}
-		if (eachScoar[2] == s) {
+		if (eachScoar[2] == s && eachScoar[2] != 0) {
 			for (int i = 0; i < 1; i++)
 			{
 				sprite_[1]->Draw(spriteData_[0].LeftTop[i], spriteData_[0].RightDown[i], spriteTransform_[1], spriteData_[0].material, s + 6, directionalLight_);
