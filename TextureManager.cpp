@@ -28,4 +28,7 @@ void TextureManager::Initialize(MyEngine* engine) {
 	engine_->SettingTexture("Resource/skyTitle.png", 16);
 	engine_->SettingTexture("Resource/skyTitle2.png", 17);
 
+	engine_->SettingTexture("Resource/skyScore.png", 18);
+	engine_->SettingTexture("Resource/skyScore2.png", 19);
+
 }

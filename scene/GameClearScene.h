@@ -20,7 +20,7 @@ private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 
-	Sprite* sprite_[6];
+	Sprite* sprite_[7];
 	SpriteData spriteData_[6];
 	Transform spriteTransform_[6];
 
@@ -29,6 +29,8 @@ private:
 	DirectionalLight directionalLight_;
 
 	Input* input_;
+
+	int time;
 
 	int eachScoar[6] = {};
 
