@@ -1,6 +1,6 @@
 #include "BaseScene.h"
 
-int BaseScene::sceneNo = CLEAR;
+int BaseScene::sceneNo = TITLE;
 
 int BaseScene::scoar = 0;
 

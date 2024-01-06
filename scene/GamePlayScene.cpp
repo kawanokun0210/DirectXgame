@@ -98,7 +98,7 @@ void GamePlayScene::Update()
 
 	sceneChangeTimer++;
 
-	if (sceneChangeTimer >= 600) {
+	if (sceneChangeTimer >= 3600) {
 		bullets_.remove_if([](PlayerBullet* bullet) {
 			delete bullet;
 			return true;
