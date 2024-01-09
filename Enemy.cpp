@@ -39,7 +39,7 @@ void Enemy::Update() {
 
 void Enemy::Draw(Transform camera, DirectionalLight directionalLight) {
 
-	object_->Draw(material, enemy, 2, camera, directionalLight, true);
+	object_->Draw(material, enemy, 20, camera, directionalLight, true);
 
 }
 

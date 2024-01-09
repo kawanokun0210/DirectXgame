@@ -4,13 +4,17 @@ void TextureManager::Initialize(MyEngine* engine) {
 	engine_ = engine;
 
 	//0と1番は使えない
-	engine_->SettingTexture("Resource/uvChecker.png", 2);
+	engine_->SettingTexture("Resource/bg.png", 2);
 
 	engine_->SettingTexture("Resource/skydome/skydomeTex.png", 3);
 
 	engine_->SettingTexture("Resource/circle.png", 4);
 
 	engine_->SettingTexture("Resource/particle.png", 5);
+
+	engine_->SettingTexture("Resource/cube.jpg", 20);
+
+	engine_->SettingTexture("Resource/monsterBall.png", 21);
 
 	//ここからナンバーズ
 	engine_->SettingTexture("Resource/numbers/count1.png", 6);

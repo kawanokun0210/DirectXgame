@@ -35,7 +35,7 @@ void PlayerBullet::SetBullet(Transform player) {
 
 void PlayerBullet::Draw(Transform camera, DirectionalLight directionalLight) {
 
-	object_->Draw(material, bullet, 2, camera, directionalLight, true);
+	object_->Draw(material, bullet, 21, camera, directionalLight, true);
 
 }
 
