@@ -385,7 +385,7 @@ void MyEngine::BeginFrame()
 	//dxCommon_->GetCommandList()->SetPipelineState(graphicsPipelineState_.Get());
 
 	//開発用UIの処理
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 }
 
 void MyEngine::EndFrame()

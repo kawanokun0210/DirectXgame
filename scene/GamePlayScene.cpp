@@ -49,8 +49,8 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	particleSporn = false;
 	particleCount = 0;
 
-	sceneChangeTimer = 3600;
-	boxTimer = 3600;
+	sceneChangeTimer = 3000;
+	boxTimer = 3000;
 	scoar = 0;
 	boxScoar = 0;
 
