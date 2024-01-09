@@ -42,7 +42,10 @@ private:
 	bool particleSporn = false;
 	int particleCount = 0;
 
-	int sceneChangeTimer = 0;
+	int sceneChangeTimer = 3600;
+	int boxTimer = 3600;
+
+	int eachTimer[2];
 
 private:
 
@@ -87,7 +90,7 @@ private:
 
 	Sprite* sprite_[2];
 	SpriteData spriteData_;
-	Transform spriteTransform_;
+	Transform spriteTransform_[2];
 
 	Sphere* sphere_;
 	Transform sphereTransform_;

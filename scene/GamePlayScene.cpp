@@ -26,6 +26,20 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	particle = new Particle();
 	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
 
+	spriteData_.LeftTop[0] = { 0.0f,0.0f,0.0f,1.0f };
+	spriteData_.RightDown[0] = { 60.0f,60.0f,0.0f,1.0f };
+	spriteData_.LeftTop[1] = { 0.0f,0.0f,0.0f,1.0f };
+	spriteData_.RightDown[1] = { 60.0f,60.0f,0.0f,1.0f };
+	spriteData_.material = { 1.0f,1.0f,1.0f,1.0f };
+
+	spriteTransform_[0] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	spriteTransform_[1] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{30.0f,0.0f,0.0f} };
+
+	for (int i = 0; i < 2; i++) {
+		sprite_[i] = new Sprite();
+		sprite_[i]->Initialize(dxCommon_, engine_);
+	}
+
 	enemySpornTimer = 0;
 	enemyCount = 0;
 
@@ -35,7 +49,8 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	particleSporn = false;
 	particleCount = 0;
 
-	sceneChangeTimer = 0;
+	sceneChangeTimer = 3600;
+	boxTimer = 3600;
 	scoar = 0;
 	boxScoar = 0;
 
@@ -96,9 +111,19 @@ void GamePlayScene::Update()
 		enemy->Update();
 	}
 
-	sceneChangeTimer++;
+	sceneChangeTimer--;
 
-	if (sceneChangeTimer >= 3600) {
+	eachTimer[1] = sceneChangeTimer / 100;
+	boxTimer = boxTimer % 1;
+
+	eachTimer[0] = sceneChangeTimer / 1000;
+	boxTimer = boxTimer % 10;
+
+	for (int i = 0; i < 2; i++) {
+		eachTimer[i] %= 10;
+	}
+
+	if (sceneChangeTimer <= 0) {
 		bullets_.remove_if([](PlayerBullet* bullet) {
 			delete bullet;
 			return true;
@@ -126,6 +151,21 @@ void GamePlayScene::Draw()
 
 	for (Enemy* enemy : enemy_) {
 		enemy->Draw(cameraTransform_, directionalLight_);
+	}
+
+	for (int s = 0; s < 10; s++) {
+		if (eachTimer[0] == s) {
+			for (int i = 0; i < 1; i++)
+			{
+				sprite_[0]->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_[0], spriteData_.material, s + 6, directionalLight_);
+			}
+		}
+		if (eachTimer[1] == s) {
+			for (int i = 0; i < 1; i++)
+			{
+				sprite_[1]->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_[1], spriteData_.material, s + 6, directionalLight_);
+			}
+		}
 	}
 
 	particle->Draw(&particles[0], 5, cameraTransform_);
@@ -220,6 +260,9 @@ void GamePlayScene::Finalize()
 	}
 	for (PlayerBullet* bullet : bullets_) {
 		delete bullet;
+	}
+	for (int i = 0; i < 2; i++) {
+		delete sprite_[i];
 	}
 	delete particle;
 }
