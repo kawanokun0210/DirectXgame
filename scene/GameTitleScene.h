@@ -29,8 +29,9 @@ private:
 	Vector3 to1;
 
 	//MT
-	Quaternion rotation;
-	Matrix4x4 rotateMatrix;
-	Vector3 rotateByQuaternion;
-	Vector3 rotateByMatrix;
+	Quaternion interpolate0;
+	Quaternion interpolate1;
+	Quaternion interpolate2;
+	Quaternion interpolate3;
+	Quaternion interpolate4;
 };
