@@ -54,6 +54,9 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	scoar = 0;
 	boxScoar = 0;
 
+	isEnemyAttack = true;
+	enemyCoolDown = 0;
+
 }
 
 void GamePlayScene::Update()
