@@ -17,7 +17,7 @@
 #include "../TextureManager.h"
 #include "../SkyDome.h"
 #include "../Enemy.h"
-
+#include "../EnemyBullet.h"
 
 struct AABB {
 	Vector3 min;
@@ -31,6 +31,7 @@ private:
 	Player* player_;
 	SkyDome* skydome_;
 	std::list<Enemy*> enemy_;
+	std::list<EnemyBullet*> enemyBullets_;
 	std::list<PlayerBullet*> bullets_;
 	Transform enemyTransform_;
 
@@ -48,6 +49,9 @@ private:
 
 	int eachTimer[2];
 
+	bool isEnemyAttack = true;
+	int enemyCoolDown = 0;
+
 private:
 
 	void EnemySporn();
@@ -55,6 +59,8 @@ private:
 	bool IsCollision(const AABB& aabb1, const AABB& aabb2);
 
 	void PlayerAttack();
+
+	void EnemyAttack();
 
 	AABB AABBadd(Vector3 a, Vector3 objectSize);
 

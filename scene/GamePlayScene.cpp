@@ -64,6 +64,7 @@ void GamePlayScene::Update()
 	skydome_->Update();
 
 	PlayerAttack();
+	EnemyAttack();
 	EnemySporn();
 
 	bullets_.remove_if([](PlayerBullet* bullet) {
@@ -75,6 +76,18 @@ void GamePlayScene::Update()
 		});
 
 	for (PlayerBullet* bullet : bullets_) {
+		bullet->Update();
+	}
+
+	enemyBullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+		});
+
+	for (EnemyBullet* bullet : enemyBullets_) {
 		bullet->Update();
 	}
 
@@ -129,6 +142,11 @@ void GamePlayScene::Update()
 			return true;
 			});
 
+		enemyBullets_.remove_if([](EnemyBullet* bullet) {
+			delete bullet;
+			return true;
+			});
+
 		enemy_.remove_if([](Enemy* enemy) {
 
 			delete enemy;
@@ -146,6 +164,10 @@ void GamePlayScene::Draw()
 	skydome_->Draw(cameraTransform_, directionalLight_);
 
 	for (PlayerBullet* bullet : bullets_) {
+		bullet->Draw(cameraTransform_, directionalLight_);
+	}
+
+	for (EnemyBullet* bullet : enemyBullets_) {
 		bullet->Draw(cameraTransform_, directionalLight_);
 	}
 
@@ -222,6 +244,31 @@ void GamePlayScene::PlayerAttack() {
 	}
 }
 
+void GamePlayScene::EnemyAttack() {
+
+	for (Enemy* enemy : enemy_) {
+		if (isEnemyAttack == true) {
+
+			isEnemyAttack = false;
+
+			EnemyBullet* newBullet = new EnemyBullet();
+			newBullet->Initialize(engine_, dxCommon_);
+
+			newBullet->SetBullet(enemy->GetPosition());
+
+			enemyBullets_.push_back(newBullet);
+		}
+		else if (isEnemyAttack == false) {
+			enemyCoolDown++;
+			if (enemyCoolDown >= 60) {
+				enemyCoolDown = 0;
+				isEnemyAttack = true;
+			}
+		}
+	}
+
+}
+
 bool GamePlayScene::IsCollision(const AABB& aabb1, const AABB& aabb2) {
 	if (aabb1.min.x >= aabb2.max.x && aabb1.max.x <= aabb2.min.x && //左右
 		aabb1.min.y >= aabb2.max.y && aabb1.max.y <= aabb2.min.y &&
@@ -259,6 +306,9 @@ void GamePlayScene::Finalize()
 		delete enemy;
 	}
 	for (PlayerBullet* bullet : bullets_) {
+		delete bullet;
+	}
+	for (EnemyBullet* bullet : enemyBullets_) {
 		delete bullet;
 	}
 	for (int i = 0; i < 2; i++) {
