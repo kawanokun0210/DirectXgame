@@ -21,6 +21,14 @@ void EnemyBullet::Update() {
 
 	bullet.translate.z -= 1.0f;
 
+	if (bullet.translate.z <= 0.0f) {
+		material.w -= 0.05f;
+	}
+
+	if (material.w <= 0.000f) {
+		isDead_ = true;
+	}
+
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
 	}
