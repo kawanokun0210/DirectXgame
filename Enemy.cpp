@@ -2,6 +2,7 @@
 
 Enemy::~Enemy() {
 	delete object_;
+	delete state;
 }
 
 void Enemy::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
@@ -21,11 +22,14 @@ void Enemy::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	enemy = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{enemyTranslateX(randomEngine),enemyTranslateY(randomEngine),enemyTranslateZ(randomEngine)} };
 
 	isAlive_ = false;
+
+	state = new EnemyStateApproah();
+	state->SetEnemy(this);
 }
 
 void Enemy::Update() {
 
-	enemy.translate.z -= 0.2f;
+	state->Update();
 
 	if (enemy.translate.z <= 0.0f) {
 		material.w -= 0.005f;
@@ -41,6 +45,17 @@ void Enemy::Draw(Transform camera, DirectionalLight directionalLight) {
 
 	object_->Draw(material, enemy, 20, camera, directionalLight, true);
 
+}
+
+void Enemy::SetPosition(Vector3 speed) {
+	enemy.translate = Add(enemy.translate, speed);
+}
+
+void Enemy::ChangeState(EnemyState* newEnemyState) {
+	delete state;
+
+	state = newEnemyState;
+	state->SetEnemy(this);
 }
 
 bool Enemy::SetAlive(bool a) {

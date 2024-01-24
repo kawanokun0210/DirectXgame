@@ -3,6 +3,9 @@
 #include "Object.h"
 #include "Engine.h"
 #include <random>
+#include "EnemyState.h"
+
+class EnemyState;
 
 class Enemy
 {
@@ -27,6 +30,10 @@ public:
 
 	bool SetAlive(bool a);
 
+	void SetPosition(Vector3 speed);
+
+	void ChangeState(EnemyState* newEnemyState);
+
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
@@ -37,6 +44,8 @@ private:
 	Vector4 material;
 
 	std::random_device seedGenerator;
+
+	EnemyState* state;
 
 	bool isDead_ = false;
 

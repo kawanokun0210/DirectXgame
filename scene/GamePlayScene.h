@@ -18,6 +18,7 @@
 #include "../SkyDome.h"
 #include "../Enemy.h"
 
+
 struct AABB {
 	Vector3 min;
 	Vector3 max;
