@@ -24,6 +24,8 @@ private:
 
 	void Move();
 
+	void Gimmick();
+
 private:
 	Object* object_;
 	MyEngine* engine_;

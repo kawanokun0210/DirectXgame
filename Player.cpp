@@ -24,6 +24,10 @@ void Player::Update() {
 
 	Move();
 
+	Gimmick();
+
+	player.rotate.y += 0.02f;
+
 }
 
 void Player::Draw(Transform camera, DirectionalLight directionalLight) {
@@ -64,6 +68,24 @@ void Player::Move() {
 	else if (player.translate.y >= 6.2f) {
 		player.translate.y -= 0.1f;
 	}
+}
+
+void Player::Gimmick() {
+
+	float parameter = 0.0f;
+
+	const uint16_t shuki = 60;
+
+	const float step = 2.0f * 3.14f / shuki;
+
+	parameter += step;
+
+	parameter = std::fmod(parameter, 2.0f * 3.14f);
+
+	const float haba = 2.0f;
+
+	player.translate.y = std::sin(parameter) * haba;
+
 }
 
 void Player::Finalize() {
