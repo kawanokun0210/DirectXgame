@@ -24,7 +24,7 @@ void Player::Update() {
 
 	Move();
 
-	Gimmick();
+	//Gimmick();
 
 	player.rotate.y += 0.02f;
 
