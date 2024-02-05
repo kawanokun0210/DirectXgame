@@ -114,7 +114,9 @@ void GamePlayScene::Update()
 			return;
 		}*/
 		//if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-		transform_[i].rotate.y += 0.01f;
+		if (input_->PushKey(DIK_R)) {
+			transform_[i].rotate.y += 0.01f;
+		}
 		//}
 		worldMatrix_ = MakeAffineMatrix(transform_[i].scale, transform_[i].rotate, transform_[i].translate);
 	}
@@ -152,6 +154,7 @@ void GamePlayScene::Update()
 	ImGui::Begin("OPTION");
 	if (ImGui::TreeNode("Triangle"))
 	{
+		ImGui::Text("Rotate Push [R]");
 		if (ImGui::Button("TriangleA"))
 		{
 			if (triangleDrawA_ == false)
@@ -200,6 +203,7 @@ void GamePlayScene::Update()
 	}
 	if (ImGui::TreeNode("Sphere"))
 	{
+		ImGui::Text("Rotate Push [ENTER]");
 		if (ImGui::Button("Sphere"))
 		{
 			if (sphereDraw_ == false)

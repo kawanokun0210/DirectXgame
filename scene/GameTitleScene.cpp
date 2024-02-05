@@ -32,6 +32,7 @@ void GameTitleScene::Update() {
 	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", interpolate3.x, interpolate3.y, interpolate3.z, interpolate3.w);
 	ImGui::Text("interpolate4");
 	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", interpolate4.x, interpolate4.y, interpolate4.z, interpolate4.w);
+	ImGui::Text("Scene Change Push [SPACE]");
 	ImGui::End();
 
 	if (input_->TriggerKey(DIK_SPACE)) {
