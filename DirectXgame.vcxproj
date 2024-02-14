@@ -61,6 +61,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(ProjectDir)3d;$(ProjectDir)sound;$(ProjectDir)base;$(ProjectDir)math;$(ProjectDir)scene;$(ProjectDir)input;$(ProjectDir)particle;$(ProjectDir)scene/Manager;$(ProjectDir)math/quaternion;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>MinSpace</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -86,6 +87,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(ProjectDir)3d;$(ProjectDir)sound;$(ProjectDir)base;$(ProjectDir)math;$(ProjectDir)scene;$(ProjectDir)input;$(ProjectDir)particle;$(ProjectDir)scene/Manager;$(ProjectDir)math/quaternion;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>MinSpace</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
