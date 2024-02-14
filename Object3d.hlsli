@@ -41,4 +41,6 @@ struct DirectionalLight
 
 struct Camera {
 	float32_t3 worldPosition;
+	float32_t3 scale;
+	float32_t3 rotate;
 };
