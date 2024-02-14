@@ -29,6 +29,8 @@ private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 
+	CameraForGPU cameraGPU;
+
 	Triangle* triangle_[2];
 	TriangleData triangleData_[2];
 	Transform transform_[2];
