@@ -19,6 +19,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
 	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
+	Matrix4x4 scaleMatrix = Inverse(worldMatrix);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
 
 	Matrix4x4 wvpMatrix_ = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
@@ -29,9 +30,9 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	*materialData_ = { material,isLighting };
 	materialData_->uvTransform = uvTransformMatrix;
-	*wvpData_ = { wvpMatrix_,worldMatrix };
+	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
 	*directionalLight_ = light;
-	materialData_->shininess = 1.0f;
+	materialData_->shininess = 50.0f;
 	*cameraData_ = cameraTransform.translate;
 
 	//RootSignatureを設定。PS0とは別途設定が必要
