@@ -69,3 +69,6 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to);
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
 Vector3 VectorTransform(const Vector3& vector, const Matrix4x4& matrix);
+
+//正射影行列
+Matrix4x4 MakeOrthographicmatrix(float left, float top, float right, float bottom, float nearClip, float farClip);
