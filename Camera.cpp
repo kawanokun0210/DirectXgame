@@ -1,14 +1,18 @@
 #include "Camera.h"
 
-void Camera::Initialize() {
+void Camera::Initialize(DirectXCommon* dxCommon) {
 	winApp_ = WinApp::GetInstance();
-	dxCommon_ = DirectXCommon::GetInstance();
+	dxCommon_ = dxCommon;
 
-	transform_ = { 
+	transform_ = {
 		{1.0f,1.0f,1.0f},//scale
 		{0.0f,0.0f,0.0f},//rotate
 		{0.0f,0.0f,-10.0f}//translate
 	};
+
+	CreateBuffer();
+	TransferMatrix();
+	UpdateMatrix();
 }
 
 void Camera::CreateBuffer() {
@@ -23,6 +27,8 @@ void Camera::TransferMatrix() {
 
 	cameraData_->sview = smatView;
 	cameraData_->sprojection = smatProjection;
+
+	cameraData_->worldPosition = transform_.translate;
 }
 
 void Camera::UpdateMatrix() {

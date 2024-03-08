@@ -101,7 +101,7 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	}
 
 	camera_ = new Camera();
-	camera_->Initialize();
+	camera_->Initialize(dxCommon_);
 	//cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
 
 }
@@ -278,13 +278,13 @@ void GamePlayScene::Update()
 		ImGui::TreePop();
 	}
 
-	if (ImGui::TreeNode("Camera"))
+	/*if (ImGui::TreeNode("Camera"))
 	{
 		ImGui::DragFloat3("Translate", &camera_->GetTransform().translate.x, 0.05f);
 		ImGui::DragFloat3("Rotate", &camera_->GetTransform().rotate.x, 0.05f);
 		ImGui::DragFloat3("Scale", &camera_->GetTransform().scale.x, 0.05f);
 		ImGui::TreePop();
-	}
+	}*/
 	ImGui::End();
 }
 
@@ -349,6 +349,8 @@ void GamePlayScene::Finalize()
 
 	delete sphere_;
 	delete sound_;
+
+	delete camera_;
 
 	delete particle;
 	//delete input_;

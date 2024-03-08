@@ -43,3 +43,13 @@ struct DirectionalLight
 struct Camera {
 	float32_t3 worldPosition;
 };
+
+struct CameraData{
+	float32_t4x4 view;
+	float32_t4x4 projection;
+
+	float32_t4x4 sview;
+	float32_t4x4 sprojection;
+
+	float32_t3 worldPosition;
+};

@@ -11,13 +11,15 @@ struct CameraData
 
 	Matrix4x4 sview;       
 	Matrix4x4 sprojection;
+
+	Vector3 worldPosition;
 };
 
 class Camera
 {
 public:
 	
-	void Initialize();
+	void Initialize(DirectXCommon* dxCommon);
 
 	void CreateBuffer();
 
@@ -28,6 +30,8 @@ public:
 public:
 
 	Transform GetTransform() { return transform_; }
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> GetConstBuffer() { return constBuffer_; }
 
 private:
 	WinApp* winApp_;
