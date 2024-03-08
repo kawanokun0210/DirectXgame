@@ -1,6 +1,7 @@
 #pragma once
 #include "Vertex.h"
 #include "MatrixCalculation.h"
+#include "WinApp.h"
 
 class Camera
 {
@@ -11,6 +12,8 @@ public:
 	void UpdateMatrix();
 
 private:
+	WinApp* winApp_;
+
 	// 垂直方向視野角
 	float fovAngleY = 45.0f * 3.141592654f / 180.0f;
 	// ビューポートのアスペクト比

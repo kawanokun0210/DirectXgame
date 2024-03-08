@@ -1,6 +1,8 @@
 #include "Camera.h"
 
 void Camera::Initialize() {
+	winApp_ = WinApp::GetInstance();
+
 	transform_ = { 
 		{1.0f,1.0f,1.0f},//scale
 		{0.0f,0.0f,0.0f},//rotate
@@ -16,7 +18,7 @@ void Camera::UpdateMatrix() {
 
 	smatView = MakeIdentity4x4();
 
-	matProjection = MakePerspectiveFovMatrix(0.45f, float(winApp->kCilentWidth) / float(winApp->kCilentHeight), nearZ, farZ);
+	matProjection = MakePerspectiveFovMatrix(0.45f, float(winApp_->kClientWidth) / float(winApp_->kClientHeight), nearZ, farZ);
 
-	smatProjection = MakeOrthographicmatrix(0.0f, 0.0f, float(winApp->kCilentWidth), float(winApp->kCilentHeight), 0.0f, 100.0f);
+	smatProjection = MakeOrthographicmatrix(0.0f, 0.0f, float(winApp_->kClientWidth), float(winApp_->kClientHeight), 0.0f, 100.0f);
 }
