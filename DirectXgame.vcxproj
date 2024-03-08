@@ -134,6 +134,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="scene\GameTitleScene.cpp" />
     <ClCompile Include="sound\Sound.cpp" />
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\Object.h" />
@@ -171,6 +172,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="sound\Sound.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="WorldTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">
