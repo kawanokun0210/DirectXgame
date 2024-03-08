@@ -5,6 +5,7 @@
 #include "Vector4.h"
 #include "../Vertex.h"
 #include "Engine.h"
+#include "../Camera.h"
 
 class Sprite
 {

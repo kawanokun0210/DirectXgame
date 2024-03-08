@@ -5,6 +5,7 @@
 #include "Vector4.h"
 #include "../Vertex.h"
 #include "MatrixCalculation.h"
+#include "../Camera.h"
 
 class MyEngine;
 
@@ -13,7 +14,7 @@ class Sphere
 public:
 	void Initialize(DirectXCommon* dxCommon, MyEngine* engine);
 
-	void Draw(const Vector4& material, const Transform& transform, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light);
+	void Draw(const Vector4& material, const Transform& transform, uint32_t index,Camera* cameraTransform, const DirectionalLight& light);
 
 	void Finalize();
 
@@ -59,6 +60,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource_;
 
 	Matrix4x4 uvTransformMatrix;
+
+	Camera* camera_;
 
 	ModelData modelData;
 };

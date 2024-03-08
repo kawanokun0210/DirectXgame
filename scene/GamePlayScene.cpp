@@ -100,7 +100,9 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 		particles[index] = particle->MakeNewParticle(randomEngine);
 	}
 
-	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
+	camera_ = new Camera();
+	camera_->Initialize();
+	//cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
 
 }
 
@@ -132,25 +134,9 @@ void GamePlayScene::Update()
 	sphereMatrix_ = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
 
 	Matrix4x4 sphereAffine = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
-	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
-	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
-	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix_, Multiply(viewMatrix, projectionMatrix));
-
-	worldMatrix_ = worldViewProjectionMatrix;
-	sphereMatrix_ = Multiply(sphereAffine, Multiply(viewMatrix, projectionMatrix));
-
+	
 	directionalLight_.direction = Normalise(directionalLight_.direction);
-
-	//for (int i = 0; i < 10; i++) {
-	//	if (particles[i].lifeTime <= particles[i].currentTime) {
-	//		continue;
-	//	}
-	//	particles[i].transform.translate.x += particles[i].speed.x * kDeltaTime;
-	//	particles[i].transform.translate.y += particles[i].speed.y * kDeltaTime;
-	//	particles[i].currentTime += kDeltaTime;
-	//	
-	//}
 
 	ImGui::Begin("OPTION");
 	if (ImGui::TreeNode("Triangle"))
@@ -294,9 +280,9 @@ void GamePlayScene::Update()
 
 	if (ImGui::TreeNode("Camera"))
 	{
-		ImGui::DragFloat3("Translate", &cameraTransform_.translate.x, 0.05f);
-		ImGui::DragFloat3("Rotate", &cameraTransform_.rotate.x, 0.05f);
-		ImGui::DragFloat3("Scale", &cameraTransform_.scale.x, 0.05f);
+		ImGui::DragFloat3("Translate", &camera_->GetTransform().translate.x, 0.05f);
+		ImGui::DragFloat3("Rotate", &camera_->GetTransform().rotate.x, 0.05f);
+		ImGui::DragFloat3("Scale", &camera_->GetTransform().scale.x, 0.05f);
 		ImGui::TreePop();
 	}
 	ImGui::End();
@@ -307,17 +293,17 @@ void GamePlayScene::Draw()
 
 	if (triangleDrawA_)
 	{
-		triangle_[0]->Draw(triangleData_[0].position[0], triangleData_[0].position[1], triangleData_[0].position[2], triangleData_[0].material, transform_[0], cameraTransform_, 2, directionalLight_);
+		triangle_[0]->Draw(triangleData_[0].position[0], triangleData_[0].position[1], triangleData_[0].position[2], triangleData_[0].material, transform_[0], camera_, 2, directionalLight_);
 	}
 
 	if (triangleDrawB_)
 	{
-		triangle_[1]->Draw(triangleData_[1].position[0], triangleData_[1].position[1], triangleData_[1].position[2], triangleData_[1].material, transform_[1], cameraTransform_, 2, directionalLight_);
+		triangle_[1]->Draw(triangleData_[1].position[0], triangleData_[1].position[1], triangleData_[1].position[2], triangleData_[1].material, transform_[1], camera_, 2, directionalLight_);
 	}
 
 	if (sphereDraw_)
 	{
-		sphere_->Draw(sphereMaterial_, sphereTransform_, 2, cameraTransform_, directionalLight_);
+		sphere_->Draw(sphereMaterial_, sphereTransform_, 2, camera_, directionalLight_);
 	}
 
 	if (spriteDraw_)
@@ -329,11 +315,11 @@ void GamePlayScene::Draw()
 	}
 	if (objectDraw_) {
 		for (int i = 0; i < 2; i++) {
-			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, cameraTransform_, directionalLight_, true);
+			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, camera_, directionalLight_, true);
 		}
 	}
 
-	particle->Draw(&particles[0], 4, cameraTransform_);
+	particle->Draw(&particles[0], 4, camera_);
 
 }
 

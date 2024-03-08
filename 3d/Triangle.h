@@ -7,6 +7,7 @@
 #include "Matrix4x4.h"
 #include "String.h"
 #include "MatrixCalculation.h"
+#include "../Camera.h"
 
 class MyEngine;
 
@@ -15,7 +16,7 @@ class Triangle
 public:
 	void Initialize(DirectXCommon* dxCommon, MyEngine* engine);
 
-	void Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material, const Transform& transform, const Transform& cameraTransform, uint32_t index, const DirectionalLight& light);
+	void Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material, const Transform& transform,Camera* cameraTransform, uint32_t index, const DirectionalLight& light);
 
 	void Finalize();
 
@@ -59,6 +60,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource_;
 
 	Matrix4x4 uvTransformMatrix;
+
+	Camera* camera_;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;

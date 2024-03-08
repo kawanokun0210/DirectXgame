@@ -11,6 +11,8 @@
 #include <cstdlib>
 #include <dxgi1_6.h>
 #include <random>
+#include "../Camera.h"
+
 #pragma comment(lib,"dxcompiler.lib")
 
 class MyEngine;
@@ -28,7 +30,7 @@ class Particle
 public:
 	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename);
 
-	void Draw(ParticleData* transforms, uint32_t index, const Transform& cameraTransform);
+	void Draw(ParticleData* transforms, uint32_t index, Camera* cameraTransform);
 
 	void Finalize();
 
@@ -88,6 +90,8 @@ private:
 	ParticleForGPU* instancingData;
 
 	uint32_t numInstance = 0;
+
+	Camera* camera_;
 
 	float alpha;
 

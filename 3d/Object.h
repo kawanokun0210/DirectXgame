@@ -5,6 +5,7 @@
 #include "Vector4.h"
 #include "../Vertex.h"
 #include "MatrixCalculation.h"
+#include "../Camera.h"
 
 class MyEngine;
 
@@ -13,7 +14,7 @@ class Object
 public:
 	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename);
 
-	void Draw(const Vector4& material, const Transform& transform, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light, bool isLighting);
+	void Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 
 	void Finalize();
 
@@ -54,6 +55,8 @@ private:
 	Matrix4x4 uvTransformMatrix;
 
 	ModelData modelData;
+
+	Camera* camera_;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;

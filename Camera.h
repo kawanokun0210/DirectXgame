@@ -11,6 +11,10 @@ public:
 
 	void UpdateMatrix();
 
+public:
+
+	Transform GetTransform() { return transform_; }
+
 private:
 	WinApp* winApp_;
 

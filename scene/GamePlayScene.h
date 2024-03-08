@@ -13,6 +13,7 @@
 #include "Particle.h"
 #include "BaseScene.h"
 #include <random>
+#include "../Camera.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -59,6 +60,8 @@ private:
 	SoundData soundDataHandle_;
 
 	Input* input_ = nullptr;
+
+	Camera* camera_ = nullptr;
 
 	Particle* particle;
 	ParticleData particles[10];

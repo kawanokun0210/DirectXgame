@@ -15,10 +15,12 @@ void Sphere::Initialize(DirectXCommon* dxCommon, MyEngine* engine)
 	CameraResource();
 }
 
-void Sphere::Draw(const Vector4& material, const Transform& transform, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light)
+void Sphere::Draw(const Vector4& material, const Transform& transform, uint32_t index,Camera* cameraTransform, const DirectionalLight& light)
 {
+	camera_ = cameraTransform;
+
 	Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
-	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
+	Matrix4x4 cameraMatrix = MakeAffineMatrix(camera_->GetTransform().scale, camera_->GetTransform().rotate, camera_->GetTransform().translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
 	Matrix4x4 scaleMatrix = Inverse(worldMatrix);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
@@ -29,7 +31,7 @@ void Sphere::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
-	*cameraData_ = cameraTransform.translate;
+	*cameraData_ = camera_->GetTransform().translate;
 
 	//経度分割一つ分の角度
 	const float kLonEvery = pi * 2.0f / float(kSubDivision);
