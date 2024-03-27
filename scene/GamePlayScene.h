@@ -36,8 +36,8 @@ private:
 	Matrix4x4 worldMatrix_;
 
 	Sprite* sprite_[2];
-	SpriteData spriteData_;
-	Transform spriteTransform_;
+	SpriteData spriteData_[2];
+	Transform spriteTransform_[2];
 
 	Sphere* sphere_;
 	Transform sphereTransform_;
