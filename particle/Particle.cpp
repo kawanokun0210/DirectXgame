@@ -74,7 +74,7 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, Camera* cameraTran
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, instancingSrvHandleGPU_[index_]);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, instancingSrvHandleGPU_);
 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
@@ -152,10 +152,10 @@ void Particle::SettingInstance() {
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
-	instancingSrvHandleCPU_[index_] = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 1);
-	instancingSrvHandleGPU_[index_] = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 1);
+	instancingSrvHandleCPU_ = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), index_);
+	instancingSrvHandleGPU_ = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), index_);
 
-	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResource.Get(), &instancingSrvDesc, instancingSrvHandleCPU_[index_]);
+	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResource.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 }
 
 ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine) {

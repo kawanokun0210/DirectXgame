@@ -46,8 +46,8 @@ public:
 		{0.0f,0.0f,0.0f}
 	};
 
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_[2];
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_[2];
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
 
 	ParticleForGPU* GetInstancingData() { return instancingData; }
 

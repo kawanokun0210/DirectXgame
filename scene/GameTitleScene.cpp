@@ -6,10 +6,10 @@ void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
-	engine_->SettingTexture("Resource/uvChecker.png", 2);
-	engine_->SettingTexture("Resource/fence/fence.png", 3);
-	engine_->SettingTexture("Resource/circle.png", 4);
-	engine_->SettingTexture("Resource/particle.png", 5);
+	engine_->SettingTexture("Resource/uvChecker.png", 3);
+	engine_->SettingTexture("Resource/fence/fence.png", 4);
+	engine_->SettingTexture("Resource/circle.png", 5);
+	engine_->SettingTexture("Resource/particle.png", 6);
 
 	directionalLight_.color = { 1.0f,1.0f,1.0f,1.0f };
 	directionalLight_.direction = { 0.0f,-1.0f,0.0f };
@@ -29,10 +29,10 @@ void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	objectTransform_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f} };
 
 	particle_[0] = new Particle();
-	particle_[0]->Initialize(dxCommon_, engine_, 0, "Resource/", "plane.obj");
+	particle_[0]->Initialize(dxCommon_, engine_, 1, "Resource/", "plane.obj");
 
-	//particle_[1] = new Particle();
-	//particle_[1]->Initialize(dxCommon_, engine_, 1, "Resource/", "plane.obj");
+	particle_[1] = new Particle();
+	particle_[1]->Initialize(dxCommon_, engine_, 2, "Resource/", "plane.obj");
 
 	PTrans = { { 0.4f,0.4f,0.4f }, { 0.0f, 0.0f, 0.0f }, { 1.0f,-1.0f,0.0f } };
 
@@ -40,7 +40,7 @@ void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	for (uint32_t index = 0; index < 10; ++index) {
 		particles[index] = particle_[0]->MakeNewParticle(randomEngine);
-		//particles_[index] = particle_[1]->MakeNewParticleSetPos(randomEngine,PTrans);
+		particles_[index] = particle_[1]->MakeNewParticleSetPos(randomEngine,PTrans);
 	}
 
 	camera_ = new Camera();
@@ -64,8 +64,8 @@ void GameTitleScene::Draw() {
 		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, camera_, directionalLight_, true);
 	}
 
-	particle_[0]->Draw(&particles[0], 4, camera_);
-	//particle_[1]->Draw(&particles_[0], 2, camera_);
+	particle_[0]->Draw(&particles[0], 5, camera_);
+	particle_[1]->Draw(&particles_[0], 3, camera_);
 
 }
 
@@ -77,7 +77,7 @@ void GameTitleScene::Finalize() {
 	delete object_[1];
 
 	delete particle_[0];
-	//delete particle_[1];
+	delete particle_[1];
 
 	delete camera_;
 }
