@@ -61,7 +61,7 @@ void GameTitleScene::Update() {
 void GameTitleScene::Draw() {
 
 	for (int i = 0; i < 2; i++) {
-		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, camera_, directionalLight_, true);
+		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 4, camera_, directionalLight_, true);
 	}
 
 	particle_[0]->Draw(&particles[0], 5, camera_);
