@@ -92,10 +92,10 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	particle = new Particle();
 
-	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+	particle->Initialize(dxCommon_, engine_, 0, "Resource/", "plane.obj");
 
 	std::mt19937 randomEngine(seedGenerator());
-	
+
 	for (uint32_t index = 0; index < 10; ++index) {
 		particles[index] = particle->MakeNewParticle(randomEngine);
 	}
@@ -135,7 +135,7 @@ void GamePlayScene::Update()
 
 	Matrix4x4 sphereAffine = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
-	
+
 	directionalLight_.direction = Normalise(directionalLight_.direction);
 
 	ImGui::Begin("OPTION");

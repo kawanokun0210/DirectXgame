@@ -2,10 +2,11 @@
 #include "Engine.h"
 #include <cmath>
 
-void Particle::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename)
+void Particle::Initialize(DirectXCommon* dxCommon, MyEngine* engine, uint32_t index, const std::string& directoryPath, const std::string& filename)
 {
 	dxCommon_ = dxCommon;
 	engine_ = engine;
+	index_ = index;
 	modelData = engine_->LoadObjFile(directoryPath, filename);
 	SettingVertex();
 	SettingColor();
@@ -73,7 +74,7 @@ void Particle::Draw(ParticleData* transforms, uint32_t index, Camera* cameraTran
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, instancingSrvHandleGPU_);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, instancingSrvHandleGPU_[index_]);
 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
@@ -151,10 +152,10 @@ void Particle::SettingInstance() {
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
-	instancingSrvHandleCPU_ = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 1);
-	instancingSrvHandleGPU_ = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 1);
+	instancingSrvHandleCPU_[index_] = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 1);
+	instancingSrvHandleGPU_[index_] = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 1);
 
-	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResource.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
+	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResource.Get(), &instancingSrvDesc, instancingSrvHandleCPU_[index_]);
 }
 
 ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine) {

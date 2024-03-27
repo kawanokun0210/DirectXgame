@@ -29,16 +29,18 @@ void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	objectTransform_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f} };
 
 	particle_[0] = new Particle();
-	particle_[0]->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+	particle_[0]->Initialize(dxCommon_, engine_, 0, "Resource/", "plane.obj");
 
-	particle_[1] = new Particle();
-	particle_[1]->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+	//particle_[1] = new Particle();
+	//particle_[1]->Initialize(dxCommon_, engine_, 1, "Resource/", "plane.obj");
+
+	PTrans = { { 0.4f,0.4f,0.4f }, { 0.0f, 0.0f, 0.0f }, { 1.0f,-1.0f,0.0f } };
 
 	std::mt19937 randomEngine(seedGenerator());
 
 	for (uint32_t index = 0; index < 10; ++index) {
 		particles[index] = particle_[0]->MakeNewParticle(randomEngine);
-		particles_[index] = particle_[1]->MakeNewParticle(randomEngine);
+		//particles_[index] = particle_[1]->MakeNewParticleSetPos(randomEngine,PTrans);
 	}
 
 	camera_ = new Camera();
@@ -63,7 +65,7 @@ void GameTitleScene::Draw() {
 	}
 
 	particle_[0]->Draw(&particles[0], 4, camera_);
-	particle_[1]->Draw(&particles_[0], 2, camera_);
+	//particle_[1]->Draw(&particles_[0], 2, camera_);
 
 }
 
@@ -75,7 +77,7 @@ void GameTitleScene::Finalize() {
 	delete object_[1];
 
 	delete particle_[0];
-	delete particle_[1];
+	//delete particle_[1];
 
 	delete camera_;
 }

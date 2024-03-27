@@ -28,7 +28,7 @@ struct ParticleData {
 class Particle
 {
 public:
-	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename);
+	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, uint32_t index, const std::string& directoryPath, const std::string& filename);
 
 	void Draw(ParticleData* transforms, uint32_t index, Camera* cameraTransform);
 
@@ -46,8 +46,8 @@ public:
 		{0.0f,0.0f,0.0f}
 	};
 
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_[2];
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_[2];
 
 	ParticleForGPU* GetInstancingData() { return instancingData; }
 
@@ -80,6 +80,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource_;
 
 	Matrix4x4 uvTransformMatrix;
+
+	uint32_t index_;
 
 	ModelData modelData;
 

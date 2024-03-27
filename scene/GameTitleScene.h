@@ -39,10 +39,12 @@ private:
 
 	DirectionalLight directionalLight_;
 
+	Transform PTrans;
+
 	Camera* camera_;
 
 	std::random_device seedGenerator;
-
+	
 	//MT
 	Vector3 from0;
 	Vector3 to0;
