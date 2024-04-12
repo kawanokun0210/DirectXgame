@@ -18,6 +18,7 @@
 #include "../SkyDome.h"
 #include "../Enemy.h"
 #include "../EnemyBullet.h"
+#include "../Camera.h"
 
 struct AABB {
 	Vector3 min;
@@ -122,6 +123,8 @@ private:
 	SoundData soundDataHandle_;
 
 	Input* input_ = nullptr;
+
+	Camera* camera_ = nullptr;
 
 	Particle* particle;
 	ParticleData particles[10];

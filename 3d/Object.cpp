@@ -11,13 +11,17 @@ void Object::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::st
 	SettingColor();
 	SettingDictionalLight();
 	TransformMatrix();
+	CameraResource();
 }
 
-void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, const Transform& cameraTransform, const DirectionalLight& light, bool isLighting)
+void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
 {
+	camera_ = cameraTransform;
+
 	Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
-	Matrix4x4 cameraMatrix = MakeAffineMatrix(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
+	Matrix4x4 cameraMatrix = MakeAffineMatrix(camera_->GetTransform().scale, camera_->GetTransform().rotate, camera_->GetTransform().translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
+	Matrix4x4 scaleMatrix = Inverse(worldMatrix);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
 
 	Matrix4x4 wvpMatrix_ = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
@@ -28,8 +32,10 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	*materialData_ = { material,isLighting };
 	materialData_->uvTransform = uvTransformMatrix;
-	*wvpData_ = { wvpMatrix_,worldMatrix };
+	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
 	*directionalLight_ = light;
+	materialData_->shininess = 50.0f;
+	*cameraData_ = camera_->GetTransform().translate;
 
 	//RootSignatureを設定。PS0とは別途設定が必要
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature().Get());
@@ -45,8 +51,10 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(6, camera_->GetConstBuffer()->GetGPUVirtualAddress());
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(5, cameraResource_->GetGPUVirtualAddress());
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
@@ -101,4 +109,10 @@ void Object::SettingDictionalLight()
 {
 	directionalLightResource_ = DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(DirectionalLight));
 	directionalLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLight_));
+}
+
+void Object::CameraResource() {
+	cameraResource_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(CameraForGPU));
+
+	cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraData_));
 }

@@ -5,6 +5,7 @@
 #include "Vector4.h"
 #include "../Vertex.h"
 #include "Engine.h"
+#include "../Camera.h"
 
 class Sprite
 {
@@ -31,6 +32,8 @@ private:
 	void SettingIndex();
 
 	void SettingColor();
+
+	void CameraResource();
 
 private:
 	DirectXCommon* dxCommon_;
@@ -62,4 +65,6 @@ private:
 
 	bool IsusedSpriteIndex[kMaxSprite];
 
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
+	Vector3* cameraData_;
 };

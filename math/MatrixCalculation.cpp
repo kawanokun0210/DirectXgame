@@ -555,10 +555,30 @@ Vector3 VectorTransform(const Vector3& vector, const Matrix4x4& matrix)
 	return result;
 }
 
-Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
-	Vector3 result{
-		v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0],
-		v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1],
-		v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2] };
+Matrix4x4 MakeOrthographicmatrix(float left, float top, float right, float bottom, float nearClip, float farClip)
+{
+	Matrix4x4 result;
+
+	result.m[0][0] = 2 / (right - left);
+	result.m[0][1] = 0;
+	result.m[0][2] = 0;
+	result.m[0][3] = 0;
+
+	result.m[1][0] = 0;
+	result.m[1][1] = 2 / (top - bottom);
+	result.m[1][2] = 0;
+	result.m[1][3] = 0;
+
+	result.m[2][0] = 0;
+	result.m[2][1] = 0;
+	result.m[2][2] = 1 / (farClip - nearClip);
+	result.m[2][3] = 0;
+
+	result.m[3][0] = (left + right) / (left - right);
+	result.m[3][1] = (top + bottom) / (bottom - top);
+	result.m[3][2] = nearClip / (nearClip - farClip);
+	result.m[3][3] = 1;
+
 	return result;
+
 }

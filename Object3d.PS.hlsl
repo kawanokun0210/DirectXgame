@@ -8,6 +8,8 @@ SamplerState gSampler : register(s0);
 
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 
+ConstantBuffer<Camera> gCamera : register(b2);
+
 PixelShaderOutput main(VertexShaderOutput input)
 {
 	PixelShaderOutput output;
@@ -17,6 +19,12 @@ PixelShaderOutput main(VertexShaderOutput input)
 	float32_t4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 
 	output.color = gMaterial.color * textureColor;
+
+	float32_t3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
+
+	float32_t3 reflectLight = reflect(gDirectionalLight.direction, normalize(input.normal));
+
+	float32_t3 halfVector = normalize(-gDirectionalLight.direction + toEye);
 
 	if (textureColor.a <= 0.5) {
 		discard;
@@ -35,8 +43,17 @@ PixelShaderOutput main(VertexShaderOutput input)
 		//float cos = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
 		float NdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
 		float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
-		output.color.rgb = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
+		float RdotE = dot(reflectLight, toEye);
+		float NDotH = dot(normalize(input.normal),halfVector);
+		float specularPow = pow(saturate(NDotH), gMaterial.shininess);
+
+		float32_t3 diffuse = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
+		float32_t3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float32_t3(1.0f, 1.0f, 1.0f);
+		output.color.rgb = diffuse + specular;
 		output.color.a = gMaterial.color.a * textureColor.a;
+
+		//output.color.rgb = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
+		//output.color.a = gMaterial.color.a * textureColor.a;
 	}
 	else {
 		output.color = gMaterial.color * textureColor;

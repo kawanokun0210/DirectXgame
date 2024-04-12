@@ -133,6 +133,23 @@ void GamePlayScene::Update()
 		}
 	}
 
+void GamePlayScene::Update()
+{
+	//XINPUT_STATE joyState;
+	input_->Update();
+
+	for (int i = 0; i < 2; i++)
+	{
+		/*if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
+			return;
+		}*/
+		//if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+		if (input_->PushKey(DIK_R)) {
+			transform_[i].rotate.y += 0.01f;
+		}
+		//}
+		worldMatrix_ = MakeAffineMatrix(transform_[i].scale, transform_[i].rotate, transform_[i].translate);
+	}
 	enemy_.remove_if([](Enemy* enemy) {
 		if (enemy->GetAlive() == false || enemy->IsDead() == true) {
 			delete enemy;
@@ -167,6 +184,10 @@ void GamePlayScene::Update()
 			});
 
 		enemy_.remove_if([](Enemy* enemy) {
+	Matrix4x4 sphereAffine = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
+	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
+	
+	directionalLight_.direction = Normalise(directionalLight_.direction);
 
 			delete enemy;
 			return true;
