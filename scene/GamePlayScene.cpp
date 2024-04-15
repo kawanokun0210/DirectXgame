@@ -98,6 +98,7 @@ void GamePlayScene::Update()
 		return false;
 		});
 
+
 	for (PlayerBullet* bullet : bullets_) {
 		bullet->Update();
 	}
@@ -109,6 +110,10 @@ void GamePlayScene::Update()
 		}
 		return false;
 		});
+
+	for (Enemy* enemy : enemy_) {
+		enemy->Update();
+	}
 
 	for (EnemyBullet* bullet : enemyBullets_) {
 		bullet->Update();
