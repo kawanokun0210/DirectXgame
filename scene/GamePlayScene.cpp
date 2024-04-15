@@ -92,7 +92,7 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	particle = new Particle();
 
-	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj", 1);
 
 	std::mt19937 randomEngine(seedGenerator());
 	

@@ -28,7 +28,7 @@ struct ParticleData {
 class Particle
 {
 public:
-	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename);
+	void Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename, int index);
 
 	void Draw(ParticleData* transforms, uint32_t index, Camera* cameraTransform);
 
@@ -96,6 +96,8 @@ private:
 	float alpha;
 
 	const float kDeltaTime = 1.0f / 60.0f;
+
+	int index_;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> instancingResource;
 };

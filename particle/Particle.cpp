@@ -2,11 +2,12 @@
 #include "Engine.h"
 #include <cmath>
 
-void Particle::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename)
+void Particle::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::string& directoryPath, const std::string& filename, int index)
 {
 	dxCommon_ = dxCommon;
 	engine_ = engine;
 	modelData = engine_->LoadObjFile(directoryPath, filename);
+	index_ = index;
 	SettingVertex();
 	SettingColor();
 	SettingDictionalLight();
@@ -151,8 +152,8 @@ void Particle::SettingInstance() {
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
-	instancingSrvHandleCPU_ = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 1);
-	instancingSrvHandleGPU_ = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 1);
+	instancingSrvHandleCPU_ = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), index_);
+	instancingSrvHandleGPU_ = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), index_);
 
 	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResource.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 }
