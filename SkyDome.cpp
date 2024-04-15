@@ -18,7 +18,7 @@ void SkyDome::Update() {
 
 }
 
-void SkyDome::Draw(Transform camera, DirectionalLight directionalLight) {
+void SkyDome::Draw(Camera* camera, DirectionalLight directionalLight) {
 
 	object_->Draw(material, skyDome, 3, camera, directionalLight, false);
 

@@ -30,7 +30,7 @@ void Player::Update() {
 
 }
 
-void Player::Draw(Transform camera, DirectionalLight directionalLight) {
+void Player::Draw(Camera* camera, DirectionalLight directionalLight) {
 
 	object_->Draw(material, player, 2, camera, directionalLight, true);
 

@@ -33,7 +33,7 @@ void PlayerBullet::SetBullet(Transform player) {
 	bullet.translate.z = player.translate.z;
 }
 
-void PlayerBullet::Draw(Transform camera, DirectionalLight directionalLight) {
+void PlayerBullet::Draw(Camera* camera, DirectionalLight directionalLight) {
 
 	object_->Draw(material, bullet, 21, camera, directionalLight, true);
 

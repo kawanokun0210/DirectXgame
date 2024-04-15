@@ -11,7 +11,7 @@ public:
 
 	void Update();
 
-	void Draw(Transform camera, DirectionalLight directionalLight);
+	void Draw(Camera* camera, DirectionalLight directionalLight);
 
 	void Finalize();
 

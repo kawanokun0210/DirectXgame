@@ -15,7 +15,9 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	directionalLight_.direction = { 0.0f,-1.0f,0.0f };
 	directionalLight_.intensity = 1.0f;
 
-	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-30.0f} };
+	//cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-30.0f} };
+	camera_ = new Camera();
+	camera_->Initialize(dxCommon_);
 
 	player_ = new Player();
 	player_->Initialize(engine_, dxCommon_);
@@ -132,87 +134,23 @@ void GamePlayScene::Update()
 			}
 		}
 	}
-
-void GamePlayScene::Update()
-{
-	//XINPUT_STATE joyState;
-	input_->Update();
-
-	for (int i = 0; i < 2; i++)
-	{
-		/*if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
-			return;
-		}*/
-		//if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-		if (input_->PushKey(DIK_R)) {
-			transform_[i].rotate.y += 0.01f;
-		}
-		//}
-		worldMatrix_ = MakeAffineMatrix(transform_[i].scale, transform_[i].rotate, transform_[i].translate);
-	}
-	enemy_.remove_if([](Enemy* enemy) {
-		if (enemy->GetAlive() == false || enemy->IsDead() == true) {
-			delete enemy;
-			return true;
-		}
-		return false;
-		});
-
-	for (Enemy* enemy : enemy_) {
-		enemy->Update();
-	}
-
-	eachTimer[1] = sceneChangeTimer / 100;
-	boxTimer = boxTimer % 1;
-
-	eachTimer[0] = sceneChangeTimer / 1000;
-	boxTimer = boxTimer % 10;
-
-	for (int i = 0; i < 2; i++) {
-		eachTimer[i] %= 10;
-	}
-
-	if (sceneChangeTimer <= 0) {
-		bullets_.remove_if([](PlayerBullet* bullet) {
-			delete bullet;
-			return true;
-			});
-
-		enemyBullets_.remove_if([](EnemyBullet* bullet) {
-			delete bullet;
-			return true;
-			});
-
-		enemy_.remove_if([](Enemy* enemy) {
-	Matrix4x4 sphereAffine = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
-	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
-	
-	directionalLight_.direction = Normalise(directionalLight_.direction);
-
-			delete enemy;
-			return true;
-			});
-
-		sceneNo = CLEAR;
-	}
-
 }
 
 void GamePlayScene::Draw()
 {
-	player_->Draw(cameraTransform_, directionalLight_);
-	skydome_->Draw(cameraTransform_, directionalLight_);
+	player_->Draw(camera_, directionalLight_);
+	skydome_->Draw(camera_, directionalLight_);
 
 	for (PlayerBullet* bullet : bullets_) {
-		bullet->Draw(cameraTransform_, directionalLight_);
+		bullet->Draw(camera_, directionalLight_);
 	}
 
 	for (EnemyBullet* bullet : enemyBullets_) {
-		bullet->Draw(cameraTransform_, directionalLight_);
+		bullet->Draw(camera_, directionalLight_);
 	}
 
 	for (Enemy* enemy : enemy_) {
-		enemy->Draw(cameraTransform_, directionalLight_);
+		enemy->Draw(camera_, directionalLight_);
 	}
 
 	if (isChange == false) {
@@ -232,7 +170,7 @@ void GamePlayScene::Draw()
 		}
 	}
 
-	particle->Draw(&particles[0], 4, cameraTransform_);
+	particle->Draw(&particles[0], 4, camera_);
 
 	if (isChange == true) {
 		for (int i = 0; i < 1; i++)
@@ -364,4 +302,5 @@ void GamePlayScene::Finalize()
 		delete sprite_[i];
 	}
 	delete particle;
+	delete camera_;
 }

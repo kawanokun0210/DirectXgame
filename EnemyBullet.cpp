@@ -41,7 +41,7 @@ void EnemyBullet::SetBullet(Transform enemy) {
 	bullet.translate.z = enemy.translate.z;
 }
 
-void EnemyBullet::Draw(Transform camera, DirectionalLight directionalLight) {
+void EnemyBullet::Draw(Camera* camera, DirectionalLight directionalLight) {
 
 	object_->Draw(material, bullet, 21, camera, directionalLight, true);
 
