@@ -14,14 +14,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	//初期化
-	MyEngine* engine = new MyEngine;
-	engine->Initialize(kWindowTitle, 1280, 720);
+	MyEngine::GetInstance()->Initialize(kWindowTitle, 1280, 720);
 
-	SceneManager* sceneManager = new SceneManager(engine, engine->GetDirectXCommon());
+	SceneManager* sceneManager = new SceneManager(MyEngine::GetInstance(), MyEngine::GetInstance()->GetDirectXCommon());
 	
 	sceneManager->Run();
 
-	delete engine;
 	delete sceneManager;
 
 }

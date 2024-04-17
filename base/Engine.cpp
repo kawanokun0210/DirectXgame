@@ -349,7 +349,7 @@ void MyEngine::SettingDepth()
 
 void MyEngine::Initialize(const wchar_t* title, int32_t width, int32_t height)
 {
-	dxCommon_ = new DirectXCommon();
+	dxCommon_ = DirectXCommon::GetInstance();
 	dxCommon_->Initialization(title, WinApp::GetInstance()->kClientWidth, WinApp::GetInstance()->kClientHeight);
 
 	descriptorSizeDSV = dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
@@ -424,7 +424,6 @@ void MyEngine::Finalize()
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();*/
 	dxCommon_->Finalize();
-	delete dxCommon_;
 }
 
 void MyEngine::Update() {}

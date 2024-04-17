@@ -61,6 +61,9 @@ private:
 
 	static	DirectXCommon* dxCommon_;
 
+	MyEngine() = default;
+	~MyEngine() = default;
+
 	IDxcUtils* dxcUtils_[2];
 	IDxcCompiler3* dxcCompiler_[2];
 

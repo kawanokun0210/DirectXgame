@@ -43,6 +43,9 @@ public:
 	D3D12_RENDER_TARGET_VIEW_DESC getRtvDesc() { return rtvDesc_; }
 
 private:
+	DirectXCommon() = default;
+	~DirectXCommon() = default;
+
 	void InitializeDXGIDevice();
 
 	void CreateSwapChain();
