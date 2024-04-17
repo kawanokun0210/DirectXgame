@@ -1,8 +1,8 @@
 #include "SceneManager.h"
 
-SceneManager::SceneManager(MyEngine* engine, DirectXCommon* dxCommon) {
-	engine_ = engine;
-	dxCommon_ = dxCommon;
+SceneManager::SceneManager() {
+	engine_ = MyEngine::GetInstance();
+	dxCommon_ = DirectXCommon::GetInstance();
 
 	//各シーンの配列
 	sceneArr_[TITLE] = std::make_unique<GameTitleScene>();
@@ -14,7 +14,7 @@ SceneManager::SceneManager(MyEngine* engine, DirectXCommon* dxCommon) {
 	currentSceneNo_ = baseScene->GetSceneNo();
 
 	//初期シーンの初期化処理
-	sceneArr_[currentSceneNo_]->Initialize(engine_, dxCommon_);
+	sceneArr_[currentSceneNo_]->Initialize();
 }
 
 SceneManager::~SceneManager() {
@@ -38,7 +38,7 @@ int SceneManager::Run() {
 
 		//シーン要件チェック
 		if (prevSceneNo_ != currentSceneNo_) {
-			sceneArr_[currentSceneNo_]->Initialize(engine_, dxCommon_);
+			sceneArr_[currentSceneNo_]->Initialize();
 			sceneArr_[prevSceneNo_]->Finalize();
 		}
 

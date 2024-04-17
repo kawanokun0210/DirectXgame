@@ -12,7 +12,7 @@ class MyEngine;
 class Sphere
 {
 public:
-	void Initialize(DirectXCommon* dxCommon, MyEngine* engine);
+	void Initialize();
 
 	void Draw(const Vector4& material, const Transform& transform, uint32_t index,Camera* cameraTransform, const DirectionalLight& light);
 

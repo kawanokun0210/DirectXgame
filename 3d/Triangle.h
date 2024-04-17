@@ -14,7 +14,7 @@ class MyEngine;
 class Triangle
 {
 public:
-	void Initialize(DirectXCommon* dxCommon, MyEngine* engine);
+	void Initialize();
 
 	void Draw(const Vector4& a, const Vector4& b, const Vector4& c, const Vector4& material, const Transform& transform,Camera* cameraTransform, uint32_t index, const DirectionalLight& light);
 

@@ -1,9 +1,8 @@
 #include "GamePlayScene.h"
 
-void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
+void GamePlayScene::Initialize()
 {
-	engine_ = engine;
-	dxCommon_ = dxCommon;
+	engine_ = MyEngine::GetInstance();
 
 	sound_ = new Sound();
 	sound_->Initialize();
@@ -63,25 +62,25 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	for (int i = 0; i < 2; i++)
 	{
 		triangle_[i] = new Triangle();
-		triangle_[i]->Initialize(dxCommon_, engine_);
+		triangle_[i]->Initialize();
 	}
 
 	for (int i = 0; i < 2; i++)
 	{
 		sprite_[i] = new Sprite();
-		sprite_[i]->Initialize(dxCommon_, engine_);
+		sprite_[i]->Initialize();
 	}
 
 	sphere_ = new Sphere();
-	sphere_->Initialize(dxCommon_, engine_);
+	sphere_->Initialize();
 
 	object_[0] = new Object();
 
-	object_[0]->Initialize(dxCommon_, engine_, "Resource/fence", "fence.obj");
+	object_[0]->Initialize("Resource/fence", "fence.obj");
 
 	object_[1] = new Object();
 
-	object_[1]->Initialize(dxCommon_, engine_, "Resource/", "plane.obj");
+	object_[1]->Initialize("Resource/", "plane.obj");
 
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -92,7 +91,7 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 
 	particle = new Particle();
 
-	particle->Initialize(dxCommon_, engine_, "Resource/", "plane.obj", 1);
+	particle->Initialize("Resource/", "plane.obj", 1);
 
 	std::mt19937 randomEngine(seedGenerator());
 	
@@ -101,7 +100,7 @@ void GamePlayScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon)
 	}
 
 	camera_ = new Camera();
-	camera_->Initialize(dxCommon_);
+	camera_->Initialize();
 	//cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
 
 }

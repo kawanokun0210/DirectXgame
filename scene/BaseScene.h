@@ -18,7 +18,7 @@ protected:
 public:
 	//継承先で実装される関数
 	//抽象クラスなので純粋仮想関数
-	virtual void Initialize(MyEngine* engine, DirectXCommon* dxCommon) = 0;
+	virtual void Initialize() = 0;
 
 	virtual void Update() = 0;
 

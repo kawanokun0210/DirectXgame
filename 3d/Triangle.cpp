@@ -2,10 +2,10 @@
 #include <assert.h>
 #include "Engine.h"
 
-void Triangle::Initialize(DirectXCommon* dxCommon, MyEngine* engine)
+void Triangle::Initialize()
 {
-	dxCommon_ = dxCommon;
-	engine_ = engine;
+	dxCommon_ = DirectXCommon::GetInstance();
+	engine_ = MyEngine::GetInstance();
 	SettingVertex();
 	SettingColor();
 	SettingDictionalLight();

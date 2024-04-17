@@ -8,7 +8,7 @@ class GameTitleScene : public BaseScene
 {
 public:
 
-	void Initialize(MyEngine* engine, DirectXCommon* dxCommon) override;
+	void Initialize() override;
 
 	void Update() override;
 

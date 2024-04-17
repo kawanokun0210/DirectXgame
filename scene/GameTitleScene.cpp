@@ -1,8 +1,6 @@
 #include "GameTitleScene.h"
 
-void GameTitleScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
-	dxCommon_ = dxCommon;
-	engine_ = engine;
+void GameTitleScene::Initialize() {
 	input_ = Input::GetInstance();
 	input_->Initialize();
 

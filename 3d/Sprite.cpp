@@ -1,9 +1,9 @@
 #include "Sprite.h"
 
-void Sprite::Initialize(DirectXCommon* dxCommon, MyEngine* engine)
+void Sprite::Initialize()
 {
-	dxCommon_ = dxCommon;
-	engine_ = engine;
+	dxCommon_ = DirectXCommon::GetInstance();
+	engine_ = MyEngine::GetInstance();
 	SettingVartex();
 	SettingColor();
 	SettingDictionalLight();

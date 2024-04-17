@@ -1,8 +1,8 @@
 #include "Camera.h"
 
-void Camera::Initialize(DirectXCommon* dxCommon) {
+void Camera::Initialize() {
 	winApp_ = WinApp::GetInstance();
-	dxCommon_ = dxCommon;
+	dxCommon_ = DirectXCommon::GetInstance();
 
 	transform_ = {
 		{1.0f,1.0f,1.0f},//scale

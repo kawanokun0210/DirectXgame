@@ -1,8 +1,7 @@
 #include "GameOverScene.h"
 
-void GameOverScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
-	dxCommon_ = dxCommon;
-	engine_ = engine;
+void GameOverScene::Initialize() {
+	
 }
 
 void GameOverScene::Update() {

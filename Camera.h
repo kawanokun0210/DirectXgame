@@ -19,7 +19,7 @@ class Camera
 {
 public:
 	
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize();
 
 	void CreateBuffer();
 

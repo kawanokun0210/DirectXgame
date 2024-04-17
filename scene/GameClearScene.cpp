@@ -1,8 +1,7 @@
 #include "GameClearScene.h"
 
-void GameClearScene::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
-	dxCommon_ = dxCommon;
-	engine_ = engine;
+void GameClearScene::Initialize() {
+
 }
 
 void GameClearScene::Update() {

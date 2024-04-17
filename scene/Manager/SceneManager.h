@@ -21,7 +21,7 @@ private:
 	DirectXCommon* dxCommon_;
 	BaseScene* baseScene;
 public:
-	SceneManager(MyEngine* engine, DirectXCommon* dxCommon);
+	SceneManager();
 	~SceneManager();
 
 	int Run();

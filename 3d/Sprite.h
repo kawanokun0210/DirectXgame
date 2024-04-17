@@ -10,7 +10,7 @@
 class Sprite
 {
 public:
-	void Initialize(DirectXCommon* dxCommon, MyEngine* engine);
+	void Initialize();
 
 	void Draw(const Vector4& a, const Vector4& b, const Transform& transform, const Vector4& material, uint32_t index, const DirectionalLight& light);
 

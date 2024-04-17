@@ -2,10 +2,10 @@
 #include "Engine.h"
 #include <cmath>
 
-void Sphere::Initialize(DirectXCommon* dxCommon, MyEngine* engine)
+void Sphere::Initialize()
 {
-	dxCommon_ = dxCommon;
-	engine_ = engine;
+	dxCommon_ = DirectXCommon::GetInstance();
+	engine_ = MyEngine::GetInstance();
 	kSubDivision = 16;
 	vertexCount = kSubDivision * kSubDivision * 6;
 	SettingVertex();
