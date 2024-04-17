@@ -20,9 +20,12 @@ private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 	BaseScene* baseScene;
-public:
+
 	SceneManager();
 	~SceneManager();
+
+public:
+	static SceneManager* GetInstance();
 
 	int Run();
 };

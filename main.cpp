@@ -16,10 +16,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//初期化
 	MyEngine::GetInstance()->Initialize(kWindowTitle, 1280, 720);
 
-	SceneManager* sceneManager = new SceneManager();
-	
-	sceneManager->Run();
-
-	delete sceneManager;
+	SceneManager::GetInstance()->Run();
 
 }
