@@ -10,6 +10,10 @@
 #include "Triangle.h"
 #include "d3dx12.h"
 #include <vector>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #pragma comment(lib,"dxcompiler.lib")
 
 class MyEngine
