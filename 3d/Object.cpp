@@ -33,6 +33,8 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	*materialData_ = { material,isLighting };
 	materialData_->uvTransform = uvTransformMatrix;
 	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
+	wvpData_->WVP = Multiply(modelData.rootNode.localMatrix,wvpMatrix_);
+	wvpData_->World = Multiply(modelData.rootNode.localMatrix, worldMatrix);
 	*directionalLight_ = light;
 	materialData_->shininess = 50.0f;
 	*cameraData_ = camera_->GetTransform().translate;
