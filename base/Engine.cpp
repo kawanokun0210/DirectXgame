@@ -598,8 +598,8 @@ ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::str
 				vertex.normal = { normal.x,normal.y,normal.z };
 				vertex.texcoord = { texcoord.x,texcoord.y };
 
-				vertex.position.x *= -1.0f;
-				vertex.normal.x *= -1.0f;
+				vertex.position.x *= 1.0f;
+				vertex.normal.x *= 1.0f;
 				modelData.vertices.push_back(vertex);
 			}
 
@@ -615,6 +615,8 @@ ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::str
 			modelData.material.textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
 		}
 	}
+
+	modelData.rootNode = ReadNode(scene->mRootNode);
 
 	std::ifstream file(directoryPath + "/" + filename);
 	assert(file.is_open());
@@ -679,6 +681,20 @@ ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::str
 
 	}
 	return modelData;
+}
+
+Node MyEngine::ReadNode(aiNode* node) {
+	Node result;
+	aiMatrix4x4 aiLocalMatrix = node->mTransformation;
+	aiLocalMatrix.Transpose();
+	result.localMatrix.m[0][0] = aiLocalMatrix[0][0];
+
+	result.name = node->mName.C_Str();
+	result.children.resize(node->mNumChildren);
+	for (uint32_t childIndex = 0; childIndex < node->mNumChildren; ++childIndex) {
+		result.children[childIndex] = ReadNode(node->mChildren[childIndex]);
+	}
+	return result;
 }
 
 MaterialData MyEngine::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename) {

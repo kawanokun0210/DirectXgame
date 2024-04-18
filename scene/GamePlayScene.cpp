@@ -76,7 +76,7 @@ void GamePlayScene::Initialize()
 
 	object_[0] = new Object();
 
-	object_[0]->Initialize("Resource/fence", "fence.obj");
+	object_[0]->Initialize("./Resource", "plane.gltf");
 
 	object_[1] = new Object();
 
@@ -314,7 +314,7 @@ void GamePlayScene::Draw()
 	}
 	if (objectDraw_) {
 		for (int i = 0; i < 2; i++) {
-			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, camera_, directionalLight_, true);
+			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 2, camera_, directionalLight_, true);
 		}
 	}
 

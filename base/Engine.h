@@ -138,4 +138,5 @@ private:
 	DirectX::ScratchImage LoadTexture(const std::string& filePath);
 	Microsoft::WRL::ComPtr<ID3D12Resource> CreateTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const DirectX::TexMetadata& metadata);
 	Microsoft::WRL::ComPtr<ID3D12Resource> UploadtextureData(Microsoft::WRL::ComPtr<ID3D12Resource> texture, const DirectX::ScratchImage& mipImages, uint32_t index);
+	Node ReadNode(aiNode* node);
 };
