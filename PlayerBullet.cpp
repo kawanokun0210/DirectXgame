@@ -13,13 +13,13 @@ void PlayerBullet::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	material = { 1.0f,1.0f,1.0f,1.0f };
 
-	bullet = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	bullet.translation_ = {0.0f,0.0f,0.0f};
 
 }
 
 void PlayerBullet::Update() {
 
-	bullet.translate.z += 1.0f;
+	bullet.translation_.z += 1.0f;
 
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
@@ -27,10 +27,10 @@ void PlayerBullet::Update() {
 
 }
 
-void PlayerBullet::SetBullet(Transform player) {
-	bullet.translate.x = player.translate.x;
-	bullet.translate.y = player.translate.y;
-	bullet.translate.z = player.translate.z;
+void PlayerBullet::SetBullet(WorldTransform player) {
+	bullet.translation_.x = player.translation_.x;
+	bullet.translation_.y = player.translation_.y;
+	bullet.translation_.z = player.translation_.z;
 }
 
 void PlayerBullet::Draw(Camera* camera, DirectionalLight directionalLight) {

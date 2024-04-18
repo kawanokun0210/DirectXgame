@@ -2,6 +2,7 @@
 #include "MatrixCalculation.h"
 #include "Object.h"
 #include "Engine.h"
+#include "../WorldTransform.h"
 
 class SkyDome
 {
@@ -20,7 +21,7 @@ private:
 	DirectXCommon* dxCommon_;
 	Object* object_;
 
-	Transform skyDome;
+	WorldTransform skyDome;
 
 	Vector4 material;
 

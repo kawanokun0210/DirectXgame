@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include <random>
 #include "EnemyState.h"
+#include "../WorldTransform.h"
 
 class EnemyState;
 
@@ -24,7 +25,7 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	Transform GetPosition() { return enemy; }
+	WorldTransform GetPosition() { return enemy; }
 
 	bool GetAlive() { return isAlive_; }
 
@@ -39,7 +40,7 @@ private:
 	DirectXCommon* dxCommon_;
 	Object* object_;
 
-	Transform enemy;
+	WorldTransform enemy;
 
 	Vector4 material;
 

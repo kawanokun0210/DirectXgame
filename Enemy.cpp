@@ -19,7 +19,7 @@ void Enemy::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	std::uniform_real_distribution<float> enemyTranslateY(-6.2f, 6.2f);
 	std::uniform_real_distribution<float> enemyTranslateZ(40.0f, 60.0f);
 
-	enemy = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{enemyTranslateX(randomEngine),enemyTranslateY(randomEngine),enemyTranslateZ(randomEngine)} };
+	enemy.translation_ = {enemyTranslateX(randomEngine),enemyTranslateY(randomEngine),enemyTranslateZ(randomEngine)};
 
 	isAlive_ = false;
 
@@ -31,7 +31,7 @@ void Enemy::Update() {
 
 	state->Update();
 
-	if (enemy.translate.z <= 0.0f) {
+	if (enemy.translation_.z <= 0.0f) {
 		material.w -= 0.005f;
 	}
 
@@ -48,7 +48,7 @@ void Enemy::Draw(Camera* camera, DirectionalLight directionalLight) {
 }
 
 void Enemy::SetPosition(Vector3 speed) {
-	enemy.translate = Add(enemy.translate, speed);
+	enemy.translation_ = Add(enemy.translation_, speed);
 }
 
 void Enemy::ChangeState(EnemyState* newEnemyState) {

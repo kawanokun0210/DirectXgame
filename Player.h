@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "Input.h"
 #include "PlayerBullet.h"
+#include "../WorldTransform.h"
 
 class Player
 {
@@ -18,7 +19,7 @@ public:
 
 	void Finalize();
 
-	Transform GetPosition() { return player; }
+	WorldTransform GetPosition() { return player; }
 
 private:
 
@@ -32,7 +33,7 @@ private:
 	DirectXCommon* dxCommon_;
 	Input* input_;
 
-	Transform player;
+	WorldTransform player;
 
 	Vector4 material;
 

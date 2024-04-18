@@ -15,8 +15,7 @@ void Player::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	object_->Initialize(dxCommon_, engine_, "Resource/", "player.obj");
 
-	player = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-
+	player.translation_ = { 0.0f,0.0f,0.0f };
 }
 
 void Player::Update() {
@@ -26,7 +25,7 @@ void Player::Update() {
 
 	//Gimmick();
 
-	player.rotate.y += 0.02f;
+	player.rotation_.y += 0.02f;
 
 }
 
@@ -39,34 +38,34 @@ void Player::Draw(Camera* camera, DirectionalLight directionalLight) {
 void Player::Move() {
 	//左右の移動
 	if (input_->PushKey(DIK_A)) {
-		player.translate.x -= 0.1f;
+		player.translation_.x -= 0.1f;
 	}
 	else if (input_->PushKey(DIK_D)) {
-		player.translate.x += 0.1f;
+		player.translation_.x += 0.1f;
 	}
 
 	//上下の移動
 	if (input_->PushKey(DIK_S)) {
-		player.translate.y -= 0.1f;
+		player.translation_.y -= 0.1f;
 	}
 	else if (input_->PushKey(DIK_W)) {
-		player.translate.y += 0.1f;
+		player.translation_.y += 0.1f;
 	}
 
 	//左右移動の限界
-	if (player.translate.x <= -11.8f) {
-		player.translate.x += 0.1f;
+	if (player.translation_.x <= -11.8f) {
+		player.translation_.x += 0.1f;
 	}
-	else if (player.translate.x >= 11.8f) {
-		player.translate.x -= 0.1f;
+	else if (player.translation_.x >= 11.8f) {
+		player.translation_.x -= 0.1f;
 	}
 
 	//上下移動の限界
-	if (player.translate.y <= -6.2f) {
-		player.translate.y += 0.1f;
+	if (player.translation_.y <= -6.2f) {
+		player.translation_.y += 0.1f;
 	}
-	else if (player.translate.y >= 6.2f) {
-		player.translate.y -= 0.1f;
+	else if (player.translation_.y >= 6.2f) {
+		player.translation_.y -= 0.1f;
 	}
 }
 
@@ -84,7 +83,7 @@ void Player::Gimmick() {
 
 	const float haba = 2.0f;
 
-	player.translate.y = std::sin(parameter) * haba;
+	player.translation_.y = std::sin(parameter) * haba;
 
 }
 

@@ -2,6 +2,7 @@
 #include "MatrixCalculation.h"
 #include "Object.h"
 #include "Engine.h"
+#include "../WorldTransform.h"
 
 class EnemyBullet
 {
@@ -20,16 +21,16 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void SetBullet(Transform enemy);
+	void SetBullet(WorldTransform enemy);
 
-	Transform GetBullet() { return bullet; }
+	WorldTransform GetBullet() { return bullet; }
 
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 	Object* object_;
 
-	Transform bullet;
+	WorldTransform bullet;
 
 	Vector4 material;
 
