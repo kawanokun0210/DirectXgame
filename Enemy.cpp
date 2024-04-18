@@ -20,6 +20,7 @@ void Enemy::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 	std::uniform_real_distribution<float> enemyTranslateZ(40.0f, 60.0f);
 
 	enemy.translation_ = {enemyTranslateX(randomEngine),enemyTranslateY(randomEngine),enemyTranslateZ(randomEngine)};
+	enemy.scale_ = { 1.0f,1.0f,1.0f };
 
 	isAlive_ = false;
 

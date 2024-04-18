@@ -13,6 +13,7 @@ void PlayerBullet::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	material = { 1.0f,1.0f,1.0f,1.0f };
 
+	bullet.scale_ = { 1.0f,1.0f,1.0f };
 	bullet.translation_ = {0.0f,0.0f,0.0f};
 
 }
