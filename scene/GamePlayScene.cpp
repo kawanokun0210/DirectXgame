@@ -133,9 +133,9 @@ void GamePlayScene::Update()
 
 				std::mt19937 random(generator());
 
-				/*for (uint32_t index = 0; index < 10; ++index) {
+				for (uint32_t index = 0; index < 10; ++index) {
 					particles[index] = particle->MakeNewParticleSetPos(random, enemy->GetPosition());
-				}*/
+				}
 			}
 		}
 	}

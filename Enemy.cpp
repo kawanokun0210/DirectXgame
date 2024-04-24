@@ -59,8 +59,8 @@ void Enemy::ChangeState(EnemyState* newEnemyState) {
 }
 
 bool Enemy::SetAlive(bool a) {
-	isAlive_ = a;
-	return isAlive_;
+	isDead_ = a;
+	return isDead_;
 }
 
 void Enemy::Finalize() {
