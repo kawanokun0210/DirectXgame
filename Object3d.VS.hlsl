@@ -1,7 +1,7 @@
 #include "Object3d.hlsli"
 
 ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
-ConstantBuffer<CameraData> gCameraData : register(b2);
+ConstantBuffer<CameraData> gCameraData : register(b1);
 
 VertexShaderOutput main(VertexShaderInput input)
 {

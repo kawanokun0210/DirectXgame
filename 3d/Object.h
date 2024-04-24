@@ -40,6 +40,8 @@ private:
 	DirectXCommon* dxCommon_;
 	MyEngine* engine_;
 
+	const Transform* parent = nullptr;
+
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource;
 	VertexData* vertexData_;
@@ -58,7 +60,7 @@ private:
 	ModelData modelData;
 
 	Camera* camera_;
-
+	
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;
 };

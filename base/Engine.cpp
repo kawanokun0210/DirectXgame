@@ -132,7 +132,7 @@ void MyEngine::CreateRootSignature()
 
 		rootParameters[i][6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
 		rootParameters[i][6].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
-		rootParameters[i][6].Descriptor.ShaderRegister = 2;//レジスタ番号0とバインド
+		rootParameters[i][6].Descriptor.ShaderRegister = 1;//レジスタ番号0とバインド
 	}
 
 
