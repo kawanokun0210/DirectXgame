@@ -35,7 +35,7 @@ void EnemyBullet::Update() {
 
 }
 
-void EnemyBullet::SetBullet(WorldTransform enemy) {
+void EnemyBullet::SetBullet(Transform enemy) {
 	bullet.translation_.x = enemy.translation_.x;
 	bullet.translation_.y = enemy.translation_.y;
 	bullet.translation_.z = enemy.translation_.z;

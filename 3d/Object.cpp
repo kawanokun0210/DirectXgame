@@ -14,7 +14,7 @@ void Object::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::st
 	CameraResource();
 }
 
-void Object::Draw(const Vector4& material, const WorldTransform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
+void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
 {
 	camera_ = cameraTransform;
 

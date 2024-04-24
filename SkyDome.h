@@ -21,7 +21,7 @@ private:
 	DirectXCommon* dxCommon_;
 	Object* object_;
 
-	WorldTransform skyDome;
+	Transform skyDome;
 
 	Vector4 material;
 

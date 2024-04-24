@@ -19,7 +19,7 @@ public:
 
 	void Finalize();
 
-	WorldTransform GetPosition() { return player; }
+	Transform GetPosition() { return player; }
 
 private:
 
@@ -33,7 +33,7 @@ private:
 	DirectXCommon* dxCommon_;
 	Input* input_;
 
-	WorldTransform player;
+	Transform player;
 
 	Vector4 material;
 

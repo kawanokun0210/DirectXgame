@@ -25,7 +25,7 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	WorldTransform GetPosition() { return enemy; }
+	Transform GetPosition() { return enemy; }
 
 	bool GetAlive() { return isAlive_; }
 
@@ -40,7 +40,7 @@ private:
 	DirectXCommon* dxCommon_;
 	Object* object_;
 
-	WorldTransform enemy;
+	Transform enemy;
 
 	Vector4 material;
 

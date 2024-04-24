@@ -109,7 +109,7 @@ private:
 	Matrix4x4 sphereMatrix_;
 
 	Object* object_[2];
-	WorldTransform objectTransform_[2];
+	Transform objectTransform_[2];
 	Vector4 objectMaterial_[2];
 	Matrix4x4 objectMatrix_;
 

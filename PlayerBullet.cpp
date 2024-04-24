@@ -28,7 +28,7 @@ void PlayerBullet::Update() {
 
 }
 
-void PlayerBullet::SetBullet(WorldTransform player) {
+void PlayerBullet::SetBullet(Transform player) {
 	bullet.translation_.x = player.translation_.x;
 	bullet.translation_.y = player.translation_.y;
 	bullet.translation_.z = player.translation_.z;

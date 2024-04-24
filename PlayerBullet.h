@@ -21,16 +21,16 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void SetBullet(WorldTransform player);
+	void SetBullet(Transform player);
 
-	WorldTransform GetBullet() { return bullet; }
+	Transform GetBullet() { return bullet; }
 
 private:
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 	Object* object_;
 
-	WorldTransform bullet;
+	Transform bullet;
 
 	Vector4 material;
 
