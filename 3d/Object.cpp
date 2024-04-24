@@ -14,7 +14,7 @@ void Object::Initialize(DirectXCommon* dxCommon, MyEngine* engine, const std::st
 	CameraResource();
 }
 
-void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
+void Object::Draw(const Vector4& material, Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
 {
 	camera_ = cameraTransform;
 
@@ -23,6 +23,9 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
 	Matrix4x4 scaleMatrix = Inverse(worldMatrix);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
+	Matrix4x4 AffineMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
+
+	transform.matWorld = AffineMatrix;
 
 	Matrix4x4 wvpMatrix_ = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
 
@@ -32,7 +35,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	*materialData_ = { material,isLighting };
 	materialData_->uvTransform = uvTransformMatrix;
-	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
+	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix,AffineMatrix };
 	*directionalLight_ = light;
 	materialData_->shininess = 50.0f;
 	*cameraData_ = camera_->GetTransform().translate;
