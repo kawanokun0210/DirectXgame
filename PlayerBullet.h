@@ -21,9 +21,9 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void SetBullet(Transform player);
+	void SetBullet(Vector3 player);
 
-	Transform GetBullet() { return bullet; }
+	Vector3 GetBullet() { return bullet.translate; }
 
 private:
 	MyEngine* engine_;

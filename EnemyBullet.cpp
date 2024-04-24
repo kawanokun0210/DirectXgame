@@ -19,7 +19,9 @@ void EnemyBullet::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 void EnemyBullet::Update() {
 
-	bullet.translate.z -= 1.0f;
+	bullet.translate.x -= speed_.x;
+	bullet.translate.y -= speed_.y;
+	bullet.translate.z -= speed_.z;
 
 	if (bullet.translate.z <= 0.0f) {
 		material.w -= 0.05f;
@@ -35,10 +37,14 @@ void EnemyBullet::Update() {
 
 }
 
-void EnemyBullet::SetBullet(Transform enemy) {
-	bullet.translate.x = enemy.translate.x;
-	bullet.translate.y = enemy.translate.y;
-	bullet.translate.z = enemy.translate.z;
+void EnemyBullet::SetSpeed(Vector3 speed) {
+	speed_ = speed;
+}
+
+void EnemyBullet::SetBullet(Vector3 enemy) {
+	bullet.translate.x = enemy.x;
+	bullet.translate.y = enemy.y;
+	bullet.translate.z = enemy.z;
 }
 
 void EnemyBullet::Draw(Camera* camera, DirectionalLight directionalLight) {

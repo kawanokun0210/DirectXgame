@@ -25,7 +25,7 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	Transform GetPosition() { return enemy; }
+	Vector3 GetPosition() { return enemy.translate; }
 
 	bool GetAlive() { return isAlive_; }
 
@@ -34,6 +34,8 @@ public:
 	void SetPosition(Vector3 speed);
 
 	void ChangeState(EnemyState* newEnemyState);
+
+	Matrix4x4 GetMatWorld() { return enemy.matWorld; }
 
 private:
 	MyEngine* engine_;

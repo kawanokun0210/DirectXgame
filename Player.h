@@ -19,7 +19,7 @@ public:
 
 	void Finalize();
 
-	Transform GetPosition() { return player; }
+	Vector3 GetPosition() { return player.translate; }
 
 private:
 

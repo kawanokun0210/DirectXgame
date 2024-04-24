@@ -4,7 +4,7 @@ void EnemyStateApproah::Update() {
 	Vector3 appSpeed(0, 0, -0.2f);
 	enemy_->SetPosition(appSpeed);
 
-	if (enemy_->GetPosition().translate.z <= 0.0f) {
+	if (enemy_->GetPosition().z <= 0.0f) {
 		enemy_->ChangeState(new EnemyStateLeave);
 	}
 

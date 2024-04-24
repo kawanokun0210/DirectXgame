@@ -21,9 +21,11 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void SetBullet(Transform enemy);
+	void SetBullet(Vector3 enemy);
 
 	Transform GetBullet() { return bullet; }
+
+	void SetSpeed(Vector3 speed);
 
 private:
 	MyEngine* engine_;
@@ -33,6 +35,8 @@ private:
 	Transform bullet;
 
 	Vector4 material;
+
+	Vector3 speed_;
 
 	static const int32_t kLifeTime = 120;
 

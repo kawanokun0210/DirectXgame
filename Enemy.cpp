@@ -21,6 +21,7 @@ void Enemy::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	enemy = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{enemyTranslateX(randomEngine),enemyTranslateY(randomEngine),enemyTranslateZ(randomEngine)} };
 
+	//enemy.matWorld = MakeIdentity4x4();
 	isAlive_ = false;
 
 	state = new EnemyStateApproah();
@@ -30,6 +31,8 @@ void Enemy::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 void Enemy::Update() {
 
 	state->Update();
+
+	//MakeAffineMatrix(enemy.scale, enemy.rotate, enemy.translate);
 
 	if (enemy.translate.z <= 0.0f) {
 		material.w -= 0.005f;

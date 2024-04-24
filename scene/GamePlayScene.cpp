@@ -121,8 +121,8 @@ void GamePlayScene::Update()
 
 	for (Enemy* enemy : enemy_) {
 		for (PlayerBullet* bullet : bullets_) {
-			aabb1 = AABBadd(bullet->GetBullet().translate, { 1.0f,1.0f,1.0f });
-			aabb2 = AABBadd(enemy->GetPosition().translate, { 1.0f,1.0f,1.0f });
+			aabb1 = AABBadd(bullet->GetBullet(), { 1.0f,1.0f,1.0f });
+			aabb2 = AABBadd(enemy->GetPosition(), { 1.0f,1.0f,1.0f });
 			if (IsCollision(aabb1, aabb2)) {
 				enemy->SetAlive(false);
 
@@ -247,6 +247,25 @@ void GamePlayScene::EnemyAttack() {
 			newBullet->Initialize(engine_, dxCommon_);
 
 			newBullet->SetBullet(enemy->GetPosition());
+
+			const float kBulletSpeed = 0.5f;
+			Vector3 playerPos = player_->GetPosition();
+			Vector3 enemyPos = enemy->GetPosition();
+			Vector3 speed;
+
+			speed.x = playerPos.x + enemyPos.x;
+			speed.y = playerPos.y + enemyPos.y;
+			speed.z = playerPos.z + enemyPos.z;
+
+			speed = Normalise(speed);
+
+			speed.x *= kBulletSpeed;
+			speed.y *= kBulletSpeed;
+			speed.z *= kBulletSpeed;
+
+			speed = TransformNormal(speed, enemy->GetMatWorld());
+
+			newBullet->SetSpeed(speed);
 
 			enemyBullets_.push_back(newBullet);
 		}

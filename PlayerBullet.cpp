@@ -27,10 +27,10 @@ void PlayerBullet::Update() {
 
 }
 
-void PlayerBullet::SetBullet(Transform player) {
-	bullet.translate.x = player.translate.x;
-	bullet.translate.y = player.translate.y;
-	bullet.translate.z = player.translate.z;
+void PlayerBullet::SetBullet(Vector3 player) {
+	bullet.translate.x = player.x;
+	bullet.translate.y = player.y;
+	bullet.translate.z = player.z;
 }
 
 void PlayerBullet::Draw(Camera* camera, DirectionalLight directionalLight) {
