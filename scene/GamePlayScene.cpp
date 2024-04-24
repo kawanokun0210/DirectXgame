@@ -121,8 +121,8 @@ void GamePlayScene::Update()
 
 	for (Enemy* enemy : enemy_) {
 		for (PlayerBullet* bullet : bullets_) {
-			aabb1 = AABBadd(bullet->GetBullet().translation_, { 1.0f,1.0f,1.0f });
-			aabb2 = AABBadd(enemy->GetPosition().translation_, { 1.0f,1.0f,1.0f });
+			aabb1 = AABBadd(bullet->GetBullet().translate, { 1.0f,1.0f,1.0f });
+			aabb2 = AABBadd(enemy->GetPosition().translate, { 1.0f,1.0f,1.0f });
 			if (IsCollision(aabb1, aabb2)) {
 				enemy->SetAlive(false);
 

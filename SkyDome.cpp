@@ -9,13 +9,12 @@ void SkyDome::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	object_->Initialize(dxCommon_, engine_, "Resource/skydome/", "skydome.obj");
 
-	skyDome.scale_ = { 300.0f,300.0f,300.0f };
-	skyDome.translation_ = {0.0f,100.0f,50.0f};
+	skyDome = { {300.0f,300.0f,300.0f},{0.0f,0.0f,0.0f},{0.0f,100.0f,50.0f} };
 }
 
 void SkyDome::Update() {
 	
-	skyDome.rotation_.y += 0.001f;
+	skyDome.rotate.y += 0.001f;
 
 }
 

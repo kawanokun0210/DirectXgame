@@ -18,7 +18,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 {
 	camera_ = cameraTransform;
 
-	Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale_, transform.rotation_, transform.translation_);
+	Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
 	Matrix4x4 cameraMatrix = MakeAffineMatrix(camera_->GetTransform().scale, camera_->GetTransform().rotate, camera_->GetTransform().translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
 	Matrix4x4 scaleMatrix = Inverse(worldMatrix);

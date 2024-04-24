@@ -13,15 +13,15 @@ void EnemyBullet::Initialize(MyEngine* engine, DirectXCommon* dxCommon) {
 
 	material = { 1.0f,1.0f,1.0f,1.0f };
 
-	bullet.translation_ = {0.0f,0.0f,0.0f};
+	bullet = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 }
 
 void EnemyBullet::Update() {
 
-	bullet.translation_.z -= 1.0f;
+	bullet.translate.z -= 1.0f;
 
-	if (bullet.translation_.z <= 0.0f) {
+	if (bullet.translate.z <= 0.0f) {
 		material.w -= 0.05f;
 	}
 
@@ -36,9 +36,9 @@ void EnemyBullet::Update() {
 }
 
 void EnemyBullet::SetBullet(Transform enemy) {
-	bullet.translation_.x = enemy.translation_.x;
-	bullet.translation_.y = enemy.translation_.y;
-	bullet.translation_.z = enemy.translation_.z;
+	bullet.translate.x = enemy.translate.x;
+	bullet.translate.y = enemy.translate.y;
+	bullet.translate.z = enemy.translate.z;
 }
 
 void EnemyBullet::Draw(Camera* camera, DirectionalLight directionalLight) {
