@@ -253,15 +253,15 @@ void GamePlayScene::EnemyAttack() {
 			Vector3 enemyPos = enemy->GetPosition();
 			Vector3 speed;
 
-			speed.x = playerPos.x + enemyPos.x;
-			speed.y = playerPos.y + enemyPos.y;
-			speed.z = playerPos.z + enemyPos.z;
+			speed.x = playerPos.x - enemyPos.x;
+			speed.y = playerPos.y - enemyPos.y;
+			speed.z = playerPos.z - enemyPos.z;
 
 			speed = Normalise(speed);
 
-			speed.x *= kBulletSpeed;
-			speed.y *= kBulletSpeed;
-			speed.z *= kBulletSpeed;
+			speed.x *= -kBulletSpeed;
+			speed.y *= -kBulletSpeed;
+			speed.z *= -kBulletSpeed;
 
 			speed = TransformNormal(speed, enemy->GetMatWorld());
 
