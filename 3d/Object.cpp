@@ -33,8 +33,8 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	*materialData_ = { material,isLighting };
 	materialData_->uvTransform = uvTransformMatrix;
 	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
-	wvpData_->WVP = Multiply(modelData.rootNode.localMatrix,wvpMatrix_);
-	wvpData_->World = Multiply(modelData.rootNode.localMatrix, worldMatrix);
+	wvpData_->WVP = Multiply(localMatrix,wvpMatrix_);
+	wvpData_->World = Multiply(localMatrix, worldMatrix);
 	*directionalLight_ = light;
 	materialData_->shininess = 50.0f;
 	*cameraData_ = camera_->GetTransform().translate;
@@ -64,6 +64,55 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
 	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
+}
+
+Vector3 Object::CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time) {
+	assert(!keyframes.empty());
+	if (keyframes.size() == 1 || time <= keyframes[0].time) {
+		return keyframes[0].value;
+	}
+
+	for (size_t index = 0; index < keyframes.size() - 1; ++index) {
+		size_t nextIndex = index + 1;
+		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time) {
+			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
+			return Lerp(keyframes[index].value, keyframes[nextIndex].value, t);
+		}
+	}
+	return (*keyframes.rbegin()).value;
+}
+
+Animation Object::LoadAnimationFile(const std::string& directoryPath, const std::string& filename) {
+	Animation animation;
+	Assimp::Importer importer;
+	std::string filePath = directoryPath + "/" + filename;
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
+	assert(scene->mNumAnimations != 0);
+	aiAnimation* animationAssimp = scene->mAnimations[0];
+	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);
+
+	for (uint32_t channelIndex = 0; channelIndex < animationAssimp->mNumChannels; ++channelIndex) {
+		aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
+		NodeAnimation& nodeAnimation = animation.NodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
+			aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
+			KeyframeVector3 keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);
+			keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };
+			nodeAnimation.translate.push_back(keyframe);
+		}
+
+	}
+
+	float animationTimer = 0.0f;
+	animationTimer += 1.0f / 60.0f;
+	animationTimer = std::fmod(animationTimer, animation.duration);
+	NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
+	translate_ = CalculateValue(rootNodeAnimation.translate, animationTimer);
+	rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
+	scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
+
+	return animation;
 }
 
 void Object::Finalize()

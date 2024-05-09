@@ -5,9 +5,53 @@
 #include "Vector4.h"
 #include "../Vertex.h"
 #include "MatrixCalculation.h"
+#include "Quaternion.h"
 #include "../Camera.h"
 
 class MyEngine;
+
+struct KeyframeVector3 {
+	Vector3 value;
+	float time;
+};
+
+struct KeyframeQuaternion {
+	Quaternion value;
+	float time;
+};
+
+template <typename tValue>
+
+struct Keyframe {
+	float time;
+	tValue value;
+};
+
+//using KeyframeVector3 = Keyframe<Vector3>;
+//using KeyframeQuaternion = Keyframe<Quaternion>;
+
+struct NodeAnimation {
+	std::vector<KeyframeVector3>translate;
+	std::vector<KeyframeVector3>rotate;
+	std::vector<KeyframeVector3>scale;
+};
+
+//template<typename tValue>
+//
+//struct AnimationCurve {
+//	std::vector<Keyframe<tValue>>keyframes;
+//};
+//
+//struct NodeAnimation {
+//	AnimationCurve<Vector3> translate;
+//	AnimationCurve<Quaternion> rotate;
+//	AnimationCurve<Vector3> scale;
+//};
+
+struct Animation {
+	float duration;
+	std::unordered_map<std::string, NodeAnimation>NodeAnimations;
+};
 
 class Object
 {
@@ -17,6 +61,8 @@ public:
 	void Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 
 	void Finalize();
+
+	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
 
 	Transform uvTransformSprite{
 		{1.0f,1.0f,1.0f},
@@ -57,6 +103,13 @@ private:
 	ModelData modelData;
 
 	Camera* camera_;
+
+	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time);
+
+	Vector3 translate_;
+	Vector3 rotate_;
+	Vector3 scale_;
+	Matrix4x4 localMatrix;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;

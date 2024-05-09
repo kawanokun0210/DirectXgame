@@ -546,6 +546,14 @@ Vector3 VectorTransform(const Vector3& vector, const Matrix4x4& matrix)
 	return result;
 }
 
+Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
+	Vector3 P;
+	P.x = v1.x + t * (v2.x - v1.x);
+	P.y = v1.y + t * (v2.y - v1.y);
+	P.z = v1.z + t * (v2.z - v1.z);
+	return P;
+}
+
 Matrix4x4 MakeOrthographicmatrix(float left, float top, float right, float bottom, float nearClip, float farClip)
 {
 	Matrix4x4 result;
