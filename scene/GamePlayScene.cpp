@@ -76,7 +76,9 @@ void GamePlayScene::Initialize()
 
 	object_[0] = new Object();
 
-	object_[0]->Initialize("./Resource", "plane.gltf");
+	object_[0]->Initialize("./Resource/AnimatedCube", "AnimatedCube.gltf");
+
+	object_[0]->LoadAnimationFile("./Resource/AnimatedCube", "AnimatedCube.gltf");
 
 	object_[1] = new Object();
 

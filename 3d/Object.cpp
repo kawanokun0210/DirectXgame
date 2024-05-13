@@ -111,6 +111,7 @@ Animation Object::LoadAnimationFile(const std::string& directoryPath, const std:
 	translate_ = CalculateValue(rootNodeAnimation.translate, animationTimer);
 	rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
 	scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
+	localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);
 
 	return animation;
 }
