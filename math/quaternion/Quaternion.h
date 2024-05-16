@@ -29,3 +29,6 @@ Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
 
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
+
+//アフィン変換
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate);

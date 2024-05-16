@@ -32,7 +32,7 @@ struct Keyframe {
 
 struct NodeAnimation {
 	std::vector<KeyframeVector3>translate;
-	std::vector<KeyframeVector3>rotate;
+	std::vector<KeyframeQuaternion>rotate;
 	std::vector<KeyframeVector3>scale;
 };
 
@@ -106,8 +106,11 @@ private:
 
 	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time);
 
+	//クォータニオンの線形補間
+	Quaternion CalculateValue(const std::vector<KeyframeQuaternion>& keyframes, float time);
+
 	Vector3 translate_;
-	Vector3 rotate_;
+	Quaternion rotate_;
 	Vector3 scale_;
 	Matrix4x4 localMatrix;
 

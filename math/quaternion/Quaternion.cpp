@@ -130,3 +130,20 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 
 	return result;
 }
+
+//アフィン変換
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate)
+{
+	Matrix4x4 result;
+	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
+
+	Matrix4x4 rotateXMatrix = MakeRotateXmatrix(rotate.x);
+	Matrix4x4 rotateYMatrix = MakeRotateYmatrix(rotate.y);
+	Matrix4x4 rotateZMatrix = MakeRotateZmatrix(rotate.z);
+	Matrix4x4 rotateXYZMatrix = Multiply(rotateXMatrix, Multiply(rotateYMatrix, rotateZMatrix));
+
+	Matrix4x4 translateMatrix = MakeTranslateMatrix(translate);
+
+	result = Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
+	return result;
+}
