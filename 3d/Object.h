@@ -115,6 +115,7 @@ private:
 	Matrix4x4 localMatrix;
 
 	Animation animation;
+	float animationTimer = 0.0f;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;

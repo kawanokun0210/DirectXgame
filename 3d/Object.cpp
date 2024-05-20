@@ -30,7 +30,6 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
-	float animationTimer = 0.0f;
 	animationTimer += 1.0f / 60.0f;
 	animationTimer = std::fmod(animationTimer, animation.duration);
 	NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
@@ -98,7 +97,7 @@ Animation Object::LoadAnimationFile(const std::string& directoryPath, const std:
 		{
 			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
 			KeyframeQuaternion keyframe;
-			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);
 			keyframe.value = { keyAssimp.mValue.x,-keyAssimp.mValue.y,-keyAssimp.mValue.z,keyAssimp.mValue.w };
 			nodeAnimation.rotate.push_back(keyframe);
 		}
@@ -107,8 +106,8 @@ Animation Object::LoadAnimationFile(const std::string& directoryPath, const std:
 		{
 			aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
 			KeyframeVector3 keyframe;
-			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
-			keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };	//右手から左手
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);
+			keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };
 			nodeAnimation.scale.push_back(keyframe);
 		}
 

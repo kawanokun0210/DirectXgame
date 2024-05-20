@@ -83,52 +83,60 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 {
 	Matrix4x4 result;
 	result.m[0][0] = (quaternion.w * quaternion.w) + (quaternion.x * quaternion.x) - (quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[0][1] = 2 * ((quaternion.x * quaternion.y) + (quaternion.w * quaternion.z));
-	result.m[0][2] = 2 * ((quaternion.x * quaternion.z) - (quaternion.w * quaternion.y));
-	result.m[0][3] = 0;
+	result.m[0][1] = 2.0f * ((quaternion.x * quaternion.y) + (quaternion.w * quaternion.z));
+	result.m[0][2] = 2.0f * ((quaternion.x * quaternion.z) - (quaternion.w * quaternion.y));
+	result.m[0][3] = 0.0f;
 
-	result.m[1][0] = 2 * ((quaternion.x * quaternion.y) - (quaternion.w * quaternion.z));
+	result.m[1][0] = 2.0f * ((quaternion.x * quaternion.y) - (quaternion.w * quaternion.z));
 	result.m[1][1] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) + (quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[1][2] = 2 * ((quaternion.y * quaternion.z) + (quaternion.w * quaternion.x));
-	result.m[1][3] = 0;
+	result.m[1][2] = 2.0f * ((quaternion.y * quaternion.z) + (quaternion.w * quaternion.x));
+	result.m[1][3] = 0.0f;
 
-	result.m[2][0] = 2 * ((quaternion.x * quaternion.z) + (quaternion.w * quaternion.y));
-	result.m[2][1] = 2 * ((quaternion.y * quaternion.z) - (quaternion.w * quaternion.x));
+	result.m[2][0] = 2.0f * ((quaternion.x * quaternion.z) + (quaternion.w * quaternion.y));
+	result.m[2][1] = 2.0f * ((quaternion.y * quaternion.z) - (quaternion.w * quaternion.x));
 	result.m[2][2] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) - (quaternion.y * quaternion.y) + (quaternion.z * quaternion.z);
-	result.m[2][3] = 0;
+	result.m[2][3] = 0.0f;
 
-	result.m[3][0] = 0;
-	result.m[3][1] = 0;
-	result.m[3][2] = 0;
-	result.m[3][3] = 1;
+	result.m[3][0] = 0.0f;
+	result.m[3][1] = 0.0f;
+	result.m[3][2] = 0.0f;
+	result.m[3][3] = 1.0f;
 
 	return result;
 }
 
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 {
-	Quaternion result;
-	Quaternion Localq0 = q0;
-	Quaternion Localq1 = q1;
-	//q0とq1の内積
-	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z;
-	if (dot < 0.0f) {
-		//もう片方の回転を利用
-		Localq0 = { -q0.x, -q0.y, -q0.z, -q0.w };
-		//内積も反転
+	Quaternion q0_ = q0;
+	Quaternion q1_ = q1;
+
+	// 内積を計算
+	float dot = q0_.w * q1_.w + q0_.x * q1_.x + q0_.y * q1_.y + q0_.z * q1_.z;
+
+	if (dot < 0)
+	{
+		q0_ = Quaternion(-q0_.x, -q0_.y, -q0_.z, -q0_.w);
 		dot = -dot;
 	}
-	//なす角を求める
-	float theta = std::acos(dot);
 
-	float scale0 = std::sin((1 - t) * theta) / std::sin(theta);
-	float scale1 = std::sin(t * theta) / std::sin(theta);
-	result.x = scale0 * Localq0.x + scale1 * Localq1.x;
-	result.y = scale0 * Localq0.y + scale1 * Localq1.y;
-	result.z = scale0 * Localq0.z + scale1 * Localq1.z;
-	result.w = scale0 * Localq0.w + scale1 * Localq1.w;
+	//なす角を求める
+	float theta_0 = std::acos(dot);
+
+	float theta = theta_0 * t; // 補間する角度
+	float sin_theta = std::sin(theta);
+	float sin_theta_0 = std::sin(theta_0);
+
+	float scale0 = std::cos(theta) - dot * sin_theta / sin_theta_0;
+	float scale1 = sin_theta / sin_theta_0;
+
+	Quaternion result;
+
+	result = {
+		scale0 * q0_.x + scale1 * q1_.x, scale0 * q0_.y + scale1 * q1_.y,
+		scale0 * q0_.z + scale1 * q1_.z, scale0 * q0_.w + scale1 * q1_.w };
 
 	return result;
+
 }
 
 //アフィン変換
@@ -137,13 +145,10 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const
 	Matrix4x4 result;
 	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
 
-	Matrix4x4 rotateXMatrix = MakeRotateXmatrix(rotate.x);
-	Matrix4x4 rotateYMatrix = MakeRotateYmatrix(rotate.y);
-	Matrix4x4 rotateZMatrix = MakeRotateZmatrix(rotate.z);
-	Matrix4x4 rotateXYZMatrix = Multiply(rotateXMatrix, Multiply(rotateYMatrix, rotateZMatrix));
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(rotate);
 
 	Matrix4x4 translateMatrix = MakeTranslateMatrix(translate);
 
-	result = Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
+	result = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 	return result;
 }
