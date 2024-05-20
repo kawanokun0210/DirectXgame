@@ -114,6 +114,8 @@ private:
 	Vector3 scale_;
 	Matrix4x4 localMatrix;
 
+	Animation animation;
+
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;
 };

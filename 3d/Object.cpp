@@ -30,6 +30,15 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
+	float animationTimer = 0.0f;
+	animationTimer += 1.0f / 60.0f;
+	animationTimer = std::fmod(animationTimer, animation.duration);
+	NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
+	translate_ = CalculateValue(rootNodeAnimation.translate, animationTimer);
+	rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
+	scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
+	localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);
+
 	*materialData_ = { material,isLighting };
 	materialData_->uvTransform = uvTransformMatrix;
 	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
@@ -67,7 +76,6 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 }
 
 Animation Object::LoadAnimationFile(const std::string& directoryPath, const std::string& filename) {
-	Animation animation;
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + "/" + filename;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
@@ -81,28 +89,31 @@ Animation Object::LoadAnimationFile(const std::string& directoryPath, const std:
 		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
 			aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
 			KeyframeVector3 keyframe;
-			KeyframeQuaternion keyframeQ;
 			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);
 			keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };
 			nodeAnimation.translate.push_back(keyframe);
-			nodeAnimation.scale.push_back(keyframe);
-
-			keyframeQ.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);
-			keyframeQ.value = { rotate_.x,-rotate_.y,-rotate_.z,rotate_.w };
-
-			nodeAnimation.rotate.push_back(keyframeQ);
 		}
 
-	}
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex)
+		{
+			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
+			KeyframeQuaternion keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
+			keyframe.value = { keyAssimp.mValue.x,-keyAssimp.mValue.y,-keyAssimp.mValue.z,keyAssimp.mValue.w };
+			nodeAnimation.rotate.push_back(keyframe);
+		}
 
-	float animationTimer = 0.0f;
-	animationTimer += 1.0f / 60.0f;
-	animationTimer = std::fmod(animationTimer, animation.duration);
-	NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
-	translate_ = CalculateValue(rootNodeAnimation.translate, animationTimer);
-	rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
-	scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
-	localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; ++keyIndex)
+		{
+			aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
+			KeyframeVector3 keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
+			keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };	//右手から左手
+			nodeAnimation.scale.push_back(keyframe);
+		}
+
+
+	}
 
 	return animation;
 }
