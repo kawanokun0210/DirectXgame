@@ -56,7 +56,7 @@ struct Animation {
 class Object
 {
 public:
-	void Initialize(const std::string& directoryPath, const std::string& filename);
+	void Initialize(const std::string& directoryPath, const std::string& filename, bool isAnimationFile);
 
 	void Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 
@@ -116,6 +116,7 @@ private:
 
 	Animation animation;
 	float animationTimer = 0.0f;
+	bool isAnimationFile_;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;

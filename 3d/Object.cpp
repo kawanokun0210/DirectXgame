@@ -2,11 +2,15 @@
 #include "Engine.h"
 #include <cmath>
 
-void Object::Initialize(const std::string& directoryPath, const std::string& filename)
+void Object::Initialize(const std::string& directoryPath, const std::string& filename, bool isAnimationFile)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	engine_ = MyEngine::GetInstance();
 	modelData = engine_->LoadObjFile(directoryPath, filename);
+	isAnimationFile_ = isAnimationFile;
+	if (isAnimationFile == true) {
+		LoadAnimationFile(directoryPath, filename);
+	}
 	SettingVertex();
 	SettingColor();
 	SettingDictionalLight();
@@ -30,22 +34,34 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
-	animationTimer += 1.0f / 60.0f;
-	animationTimer = std::fmod(animationTimer, animation.duration);
-	NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
-	translate_ = CalculateValue(rootNodeAnimation.translate, animationTimer);
-	rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
-	scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
-	localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);
+	if (isAnimationFile_ == true) {
+		animationTimer += 1.0f / 60.0f;
+		animationTimer = std::fmod(animationTimer, animation.duration);
+		NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
+		translate_ = CalculateValue(rootNodeAnimation.translate, animationTimer);
+		rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
+		scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
+		localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);
 
-	*materialData_ = { material,isLighting };
-	materialData_->uvTransform = uvTransformMatrix;
-	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
-	wvpData_->WVP = Multiply(localMatrix,wvpMatrix_);
-	wvpData_->World = Multiply(localMatrix, worldMatrix);
-	*directionalLight_ = light;
-	materialData_->shininess = 50.0f;
-	*cameraData_ = camera_->GetTransform().translate;
+		*materialData_ = { material,isLighting };
+		materialData_->uvTransform = uvTransformMatrix;
+		*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
+		wvpData_->WVP = Multiply(localMatrix, wvpMatrix_);
+		wvpData_->World = Multiply(localMatrix, worldMatrix);
+		*directionalLight_ = light;
+		materialData_->shininess = 50.0f;
+		*cameraData_ = camera_->GetTransform().translate;
+	}
+	else {
+		*materialData_ = { material,isLighting };
+		materialData_->uvTransform = uvTransformMatrix;
+		*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
+		wvpData_->WVP = Multiply(modelData.rootNode.localMatrix, wvpMatrix_);
+		wvpData_->World = Multiply(modelData.rootNode.localMatrix, worldMatrix);
+		*directionalLight_ = light;
+		materialData_->shininess = 50.0f;
+		*cameraData_ = camera_->GetTransform().translate;
+	}
 
 	//RootSignatureを設定。PS0とは別途設定が必要
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature().Get());

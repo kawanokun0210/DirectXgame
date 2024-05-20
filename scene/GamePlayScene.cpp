@@ -76,13 +76,11 @@ void GamePlayScene::Initialize()
 
 	object_[0] = new Object();
 
-	object_[0]->Initialize("./Resource/AnimatedCube", "AnimatedCube.gltf");
-
-	object_[0]->LoadAnimationFile("./Resource/AnimatedCube", "AnimatedCube.gltf");
+	object_[0]->Initialize("./Resource/AnimatedCube", "AnimatedCube.gltf", true);
 
 	object_[1] = new Object();
 
-	object_[1]->Initialize("Resource/", "plane.obj");
+	object_[1]->Initialize("Resource/", "plane.obj", false);
 
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -315,7 +313,7 @@ void GamePlayScene::Draw()
 		}
 	}
 	if (objectDraw_) {
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 2; i++) {
 			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 2, camera_, directionalLight_, true);
 		}
 	}
