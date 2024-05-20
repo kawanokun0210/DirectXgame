@@ -2,11 +2,14 @@
 #include "Engine.h"
 #include <cmath>
 
-void Object::Initialize(const std::string& directoryPath, const std::string& filename)
+void Object::Initialize(const std::string& directoryPath, const std::string& filename, bool isgltfFile)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	engine_ = MyEngine::GetInstance();
 	modelData = engine_->LoadObjFile(directoryPath, filename);
+	if (isgltfFile == true) {
+		Animation::GetInstance()->LoadAnimationFile(directoryPath, filename);
+	}
 	SettingVertex();
 	SettingColor();
 	SettingDictionalLight();
@@ -31,11 +34,11 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
 	animationTimer += 1.0f / 60.0f;
-	animationTimer = std::fmod(animationTimer, animation.duration);
-	NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
-	translate_ = CalculateValue(rootNodeAnimation.translate, animationTimer);
-	rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
-	scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
+	animationTimer = std::fmod(animationTimer, Animation::GetInstance()->GetAnimation().duration);
+	NodeAnimation& rootNodeAnimation = Animation::GetInstance()->GetAnimation().NodeAnimations[modelData.rootNode.name];
+	translate_ = Animation::GetInstance()->CalculateValue(rootNodeAnimation.translate, animationTimer);
+	rotate_ = Animation::GetInstance()->CalculateValue(rootNodeAnimation.rotate, animationTimer);
+	scale_ = Animation::GetInstance()->CalculateValue(rootNodeAnimation.scale, animationTimer);
 	localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);
 
 	*materialData_ = { material,isLighting };
@@ -72,49 +75,6 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
 	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
-}
-
-AnimationData Object::LoadAnimationFile(const std::string& directoryPath, const std::string& filename) {
-	Assimp::Importer importer;
-	std::string filePath = directoryPath + "/" + filename;
-	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
-	assert(scene->mNumAnimations != 0);
-	aiAnimation* animationAssimp = scene->mAnimations[0];
-	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);
-
-	for (uint32_t channelIndex = 0; channelIndex < animationAssimp->mNumChannels; ++channelIndex) {
-		aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
-		NodeAnimation& nodeAnimation = animation.NodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
-		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
-			aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
-			KeyframeVector3 keyframe;
-			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);
-			keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };
-			nodeAnimation.translate.push_back(keyframe);
-		}
-
-		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex)
-		{
-			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
-			KeyframeQuaternion keyframe;
-			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);
-			keyframe.value = { keyAssimp.mValue.x,-keyAssimp.mValue.y,-keyAssimp.mValue.z,keyAssimp.mValue.w };
-			nodeAnimation.rotate.push_back(keyframe);
-		}
-
-		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; ++keyIndex)
-		{
-			aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
-			KeyframeVector3 keyframe;
-			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);
-			keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };
-			nodeAnimation.scale.push_back(keyframe);
-		}
-
-
-	}
-
-	return animation;
 }
 
 void Object::Finalize()
@@ -168,42 +128,4 @@ void Object::CameraResource() {
 	cameraResource_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(CameraForGPU));
 
 	cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraData_));
-}
-
-//クォータニオンの線形補間
-Quaternion Object::CalculateValue(const std::vector<KeyframeQuaternion>& keyframes, float time)
-{
-	assert(!keyframes.empty());	//キーがないものは返す値がわからないのでダメ
-	if (keyframes.size() == 1 || time <= keyframes[0].time)
-	{
-		return keyframes[0].value;
-	}
-	for (size_t index = 0; index < keyframes.size() - 1; ++index)
-	{
-		size_t nextIndex = index + 1;
-		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time)
-		{
-			//範囲内を補完する
-			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
-			return Slerp(keyframes[index].value, keyframes[nextIndex].value, t);
-		}
-	}
-
-	return (*keyframes.begin()).value;
-}
-
-Vector3 Object::CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time) {
-	assert(!keyframes.empty());
-	if (keyframes.size() == 1 || time <= keyframes[0].time) {
-		return keyframes[0].value;
-	}
-
-	for (size_t index = 0; index < keyframes.size() - 1; ++index) {
-		size_t nextIndex = index + 1;
-		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time) {
-			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
-			return Lerp(keyframes[index].value, keyframes[nextIndex].value, t);
-		}
-	}
-	return (*keyframes.rbegin()).value;
 }
