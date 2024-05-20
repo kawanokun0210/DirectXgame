@@ -112,6 +112,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="3d\Sphere.cpp" />
     <ClCompile Include="3d\Sprite.cpp" />
     <ClCompile Include="3d\Triangle.cpp" />
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="base\DirectX.cpp" />
     <ClCompile Include="base\Engine.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
@@ -143,6 +144,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="3d\Sphere.h" />
     <ClInclude Include="3d\Sprite.h" />
     <ClInclude Include="3d\Triangle.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="base\DirectX.h" />
     <ClInclude Include="base\Engine.h" />
     <ClInclude Include="base\WinApp.h" />

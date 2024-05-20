@@ -48,7 +48,7 @@ struct NodeAnimation {
 //	AnimationCurve<Vector3> scale;
 //};
 
-struct Animation {
+struct AnimationData {
 	float duration;
 	std::unordered_map<std::string, NodeAnimation>NodeAnimations;
 };
@@ -62,7 +62,7 @@ public:
 
 	void Finalize();
 
-	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
+	AnimationData LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
 
 	Transform uvTransformSprite{
 		{1.0f,1.0f,1.0f},
@@ -114,7 +114,7 @@ private:
 	Vector3 scale_;
 	Matrix4x4 localMatrix;
 
-	Animation animation;
+	AnimationData animation;
 	float animationTimer = 0.0f;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;

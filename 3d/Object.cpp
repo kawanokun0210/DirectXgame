@@ -74,7 +74,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
 }
 
-Animation Object::LoadAnimationFile(const std::string& directoryPath, const std::string& filename) {
+AnimationData Object::LoadAnimationFile(const std::string& directoryPath, const std::string& filename) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + "/" + filename;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
