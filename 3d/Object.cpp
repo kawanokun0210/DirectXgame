@@ -9,8 +9,8 @@ void Object::Initialize(const std::string& directoryPath, const std::string& fil
 	modelData = engine_->LoadObjFile(directoryPath, filename);
 	isAnimationFile_ = isAnimationFile;
 	if (isAnimationFile == true) {
-		NodeInitialize();
 		animationData = LoadAnimationFile(directoryPath, filename);
+		NodeInitialize();
 		skeletonData = CreateSkeleton(SResult);
 	}
 	SettingVertex();
@@ -39,11 +39,11 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	if (isAnimationFile_ == true) {
 		animationTimer += 1.0f / 60.0f;
 		animationTimer = std::fmod(animationTimer, animation.duration);
-		NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
+		/*NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
 		translate_ = CalculateValue(rootNodeAnimation.translate, animationTimer);
 		rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
 		scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
-		localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);
+		localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);*/
 
 		ApplyAnimation(skeletonData, animationData, animationTimer);
 		SkeletonUpdate(skeletonData);
@@ -51,7 +51,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 		*materialData_ = { material,isLighting };
 		materialData_->uvTransform = uvTransformMatrix;
 		*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
-		wvpData_->WVP = Multiply(localMatrix, wvpMatrix_);
+		wvpData_->WVP = wvpMatrix_;
 		wvpData_->World = Multiply(localMatrix, worldMatrix);
 		*directionalLight_ = light;
 		materialData_->shininess = 50.0f;
