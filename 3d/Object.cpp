@@ -9,7 +9,9 @@ void Object::Initialize(const std::string& directoryPath, const std::string& fil
 	modelData = engine_->LoadObjFile(directoryPath, filename);
 	isAnimationFile_ = isAnimationFile;
 	if (isAnimationFile == true) {
-		LoadAnimationFile(directoryPath, filename);
+		NodeInitialize();
+		animationData = LoadAnimationFile(directoryPath, filename);
+		skeletonData = CreateSkeleton(SResult);
 	}
 	SettingVertex();
 	SettingColor();
@@ -42,6 +44,9 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 		rotate_ = CalculateValue(rootNodeAnimation.rotate, animationTimer);
 		scale_ = CalculateValue(rootNodeAnimation.scale, animationTimer);
 		localMatrix = MakeAffineMatrix(scale_, rotate_, translate_);
+
+		ApplyAnimation(skeletonData, animationData, animationTimer);
+		SkeletonUpdate(skeletonData);
 
 		*materialData_ = { material,isLighting };
 		materialData_->uvTransform = uvTransformMatrix;
@@ -222,4 +227,65 @@ Vector3 Object::CalculateValue(const std::vector<KeyframeVector3>& keyframes, fl
 		}
 	}
 	return (*keyframes.rbegin()).value;
+}
+
+int32_t Object::CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints) {
+	Joint joint;
+	joint.name = node.name;
+	joint.localMatrix = node.localMatrix;
+	joint.skeletonSpaceMatrix = MakeIdentity4x4();
+	joint.transform = node.transform;
+	joint.index = int32_t(joints.size());
+	joint.parent = parent;
+	joints.push_back(joint);
+	for (const Node& child : node.children) {
+		int32_t childIndex = CreateJoint(child, joint.index, joints);
+		joints[joint.index].children.push_back(childIndex);
+	}
+	return joint.index;
+}
+
+Skeleton Object::CreateSkeleton(const Node& rootNode) {
+	Skeleton skeleton;
+	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
+
+	for (const Joint& joint : skeleton.joints) {
+		skeleton.jointMap.emplace(joint.name, joint.index);
+	}
+
+	return skeleton;
+}
+
+void Object::SkeletonUpdate(Skeleton& skeleton) {
+	for (Joint& joint : skeleton.joints) {
+		joint.localMatrix = MakeAffineMatrix(joint.transform.scale, joint.transform.rotate, joint.transform.translate);
+		if (joint.parent) {
+			joint.skeletonSpaceMatrix = Multiply(joint.localMatrix, skeleton.joints[*joint.parent].skeletonSpaceMatrix);
+		}
+		else {
+			joint.skeletonSpaceMatrix = joint.localMatrix;
+		}
+	}
+}
+
+void Object::ApplyAnimation(Skeleton& skeleton, const Animation& animation, float animationTime) {
+	for (Joint& joint : skeleton.joints) {
+		if (auto it = animation.NodeAnimations.find(joint.name); it != animation.NodeAnimations.end()) {
+			const NodeAnimation& rootNodeAnimation = (*it).second;
+			joint.transform.translate = CalculateValue(rootNodeAnimation.translate, animationTime);
+			joint.transform.rotate = CalculateValue(rootNodeAnimation.rotate, animationTime);
+			joint.transform.scale = CalculateValue(rootNodeAnimation.scale, animationTime);
+		}
+	}
+}
+
+void Object::NodeInitialize() {
+	aiVector3D scale, translete;
+	aiQuaternion rotate;
+	aiNode node;
+	node.mTransformation.Decompose(scale, rotate, translete);
+	SResult.transform.scale = { scale.x,scale.y,scale.z };
+	SResult.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };
+	SResult.transform.translate = { -translete.x,translete.y,translete.z };
+	SResult.localMatrix = MakeAffineMatrix(SResult.transform.scale, SResult.transform.rotate, SResult.transform.translate);
 }

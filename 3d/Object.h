@@ -53,6 +53,23 @@ struct Animation {
 	std::unordered_map<std::string, NodeAnimation>NodeAnimations;
 };
 
+//ここからスケルトン用
+struct Joint {
+	QuaternionTransform transform;
+	Matrix4x4 localMatrix;
+	Matrix4x4 skeletonSpaceMatrix;
+	std::string name;
+	std::vector<int32_t> children;
+	int32_t index;
+	std::optional<int32_t> parent;
+};
+
+struct Skeleton {
+	int32_t root;
+	std::unordered_map<std::string, int32_t> jointMap;
+	std::vector<Joint> joints;
+};
+
 class Object
 {
 public:
@@ -108,6 +125,17 @@ private:
 
 	//クォータニオンの線形補間
 	Quaternion CalculateValue(const std::vector<KeyframeQuaternion>& keyframes, float time);
+
+	//ここからスケルトン
+	Skeleton CreateSkeleton(const Node& rootNode);
+	int32_t CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
+	void SkeletonUpdate(Skeleton& skeleton);
+	void ApplyAnimation(Skeleton& skeleton, const Animation& animation, float animationTime);
+	void NodeInitialize();
+
+	Node SResult;
+	Animation animationData;
+	Skeleton skeletonData;
 
 	Vector3 translate_;
 	Quaternion rotate_;
