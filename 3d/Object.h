@@ -98,6 +98,8 @@ private:
 
 	void CameraResource();
 
+	void SettingIndex();
+
 private:
 	DirectXCommon* dxCommon_;
 	MyEngine* engine_;
@@ -148,5 +150,9 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResource_;
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_;
+
 };
 

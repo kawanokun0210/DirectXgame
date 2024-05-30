@@ -18,6 +18,7 @@ void Object::Initialize(const std::string& directoryPath, const std::string& fil
 	SettingDictionalLight();
 	TransformMatrix();
 	CameraResource();
+	SettingIndex();
 }
 
 void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
@@ -92,7 +93,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
-	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
+	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.indices.size()), 1, 0, 0);
 }
 
 Animation Object::LoadAnimationFile(const std::string& directoryPath, const std::string& filename) {
@@ -288,4 +289,15 @@ void Object::NodeInitialize() {
 	SResult.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };
 	SResult.transform.translate = { -translete.x,translete.y,translete.z };
 	SResult.localMatrix = MakeAffineMatrix(SResult.transform.scale, SResult.transform.rotate, SResult.transform.translate);
+}
+
+void Object::SettingIndex() {
+	indexResource_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(uint32_t) * modelData.indices.size());
+
+	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
+	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * modelData.indices.size());
+	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
+
+	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
+	std::memcpy(vertexData_, modelData.indices.data(), sizeof(uint32_t) * modelData.indices.size());
 }
