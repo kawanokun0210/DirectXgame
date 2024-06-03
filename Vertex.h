@@ -80,9 +80,20 @@ struct Node
 	std::vector<Node> children;
 };
 
+struct VertexWeightData {
+	float weight;
+	uint32_t vertexIndex;
+};
+
+struct JointWeightData {
+	Matrix4x4 inverseBindPoseMatrix;
+	std::vector<VertexWeightData> vertexWeights;
+};
+
 struct ModelData {
 	std::vector<VertexData> vertices;
 	std::vector<uint32_t> indices;
+	std::unordered_map<std::string, JointWeightData> skinClusterData;
 	MaterialData material;
 	Node rootNode;
 };
