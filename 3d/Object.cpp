@@ -150,6 +150,18 @@ void Object::Finalize()
 	wvpResource_->Release();*/
 }
 
+SkinCluster Object::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize) {
+	SkinCluster skinCluster;
+	//palette用のResourceを確保
+	skinCluster.paletteResource = dxCommon_->CreateBufferResource(device, sizeof(WellForGPU) * skeleton.joints.size());
+	skinCluster.paletteResource->Map(0, nullptr, reinterpret_cast<void**>(&paletteData_));
+	skinCluster.mappedPalette = { paletteData_,skeleton.joints.size() };
+	skinCluster.paletteSrvHandle.first = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 15);
+
+
+	return skinCluster;
+}
+
 void Object::SettingVertex()
 {
 	//vertexResource = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(VertexData) * vertexCount);

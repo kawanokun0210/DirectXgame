@@ -600,6 +600,23 @@ ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::str
 				modelData.indices.push_back(vertexIndex);
 			}
 		}
+		for (uint32_t boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex) {
+			aiBone* bone = mesh->mBones[boneIndex];
+			std::string jointName = bone->mName.C_Str();
+			JointWeightData& jointWeightData = modelData.skinClusterData[jointName];
+
+			aiMatrix4x4 bindPoseMatrixAssimp = bone->mOffsetMatrix.Inverse();
+			aiVector3D scale, translate;
+			aiQuaternion rotate;
+			bindPoseMatrixAssimp.Decompose(scale, rotate, translate);
+			Matrix4x4 bindPoseMatrix = MakeAffineMatrix({ scale.x,scale.y,scale.z }, { rotate.x,-rotate.y,-rotate.z,rotate.w }, { -translate.x,translate.y,translate.z });
+			jointWeightData.inverseBindPoseMatrix = Inverse(bindPoseMatrix);
+
+			for (uint32_t weightIndex = 0; weightIndex < bone->mNumWeights; ++weightIndex) {
+				jointWeightData.vertexWeights.push_back({ bone->mWeights[weightIndex].mWeight,bone->mWeights[weightIndex].mVertexId });
+			}
+
+		}
 	}
 
 	//for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
@@ -711,10 +728,10 @@ Node MyEngine::ReadNode(aiNode* node) {
 	aiVector3D scale, translate;
 	aiQuaternion rotate;
 
-	node->mTransformation.Decompose(scale, rotate, translate);	//assimpの行列からSRTを抽出する関数を利用
-	result.transform.scale = { scale.x,scale.y,scale.z };	//scaleはそのまま
-	result.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };	//x軸を反転、さらに回転方向が逆なので軸を反転させる
-	result.transform.translate = { --translate.x,translate.y,translate.z };	//x軸を反転
+	node->mTransformation.Decompose(scale, rotate, translate);	
+	result.transform.scale = { scale.x,scale.y,scale.z };
+	result.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };
+	result.transform.translate = { --translate.x,translate.y,translate.z };
 	result.localMatrix = MakeAffineMatrix(result.transform.scale, result.transform.rotate, result.transform.translate);
 
 	/*result.localMatrix.m[0][0] = aiLocalMatrix[0][0];
