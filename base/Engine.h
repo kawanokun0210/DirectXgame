@@ -13,6 +13,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "MatrixCalculation.h"
+#include "Quaternion.h"
 
 #pragma comment(lib,"dxcompiler.lib")
 

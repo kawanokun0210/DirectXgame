@@ -77,6 +77,8 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
+	//index
+	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 
 	//形状を設定。PS0に設定しているものとはまた別。同じものを設定する
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -93,7 +95,8 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
-	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.indices.size()), 1, 0, 0);
+	//dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
+	dxCommon_->GetCommandList()->DrawIndexedInstanced(UINT(modelData.indices.size()), 1, 0, 0, 0);
 }
 
 Animation Object::LoadAnimationFile(const std::string& directoryPath, const std::string& filename) {
@@ -295,9 +298,9 @@ void Object::SettingIndex() {
 	indexResource_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(uint32_t) * modelData.indices.size());
 
 	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
-	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * modelData.indices.size());
+	indexBufferView_.SizeInBytes = sizeof(uint32_t) * UINT(modelData.indices.size());
 	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
 
-	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
-	std::memcpy(vertexData_, modelData.indices.data(), sizeof(uint32_t) * modelData.indices.size());
+	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
+	std::memcpy(indexData_, modelData.indices.data(), sizeof(uint32_t) * modelData.indices.size());
 }

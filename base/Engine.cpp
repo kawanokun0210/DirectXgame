@@ -630,16 +630,16 @@ ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::str
 
 	//}
 
-	//for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
-	//	aiMaterial* material = scene->mMaterials[materialIndex];
-	//	if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
-	//		aiString textureFilePath;
-	//		material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
-	//		modelData.material.textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
-	//	}
-	//}
+	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
+		aiMaterial* material = scene->mMaterials[materialIndex];
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
+			aiString textureFilePath;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
+			modelData.material.textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
+		}
+	}
 
-	//modelData.rootNode = ReadNode(scene->mRootNode);
+	modelData.rootNode = ReadNode(scene->mRootNode);
 
 	std::ifstream file(directoryPath + "/" + filename);
 	assert(file.is_open());
@@ -708,10 +708,16 @@ ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::str
 
 Node MyEngine::ReadNode(aiNode* node) {
 	Node result;
-	aiMatrix4x4 aiLocalMatrix = node->mTransformation;
-	aiLocalMatrix.Transpose();
+	aiVector3D scale, translate;
+	aiQuaternion rotate;
 
-	result.localMatrix.m[0][0] = aiLocalMatrix[0][0];
+	node->mTransformation.Decompose(scale, rotate, translate);	//assimpの行列からSRTを抽出する関数を利用
+	result.transform.scale = { scale.x,scale.y,scale.z };	//scaleはそのまま
+	result.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };	//x軸を反転、さらに回転方向が逆なので軸を反転させる
+	result.transform.translate = { --translate.x,translate.y,translate.z };	//x軸を反転
+	result.localMatrix = MakeAffineMatrix(result.transform.scale, result.transform.rotate, result.transform.translate);
+
+	/*result.localMatrix.m[0][0] = aiLocalMatrix[0][0];
 	result.localMatrix.m[0][1] = aiLocalMatrix[0][1];
 	result.localMatrix.m[0][2] = aiLocalMatrix[0][2];
 	result.localMatrix.m[0][3] = aiLocalMatrix[0][3];
@@ -729,7 +735,7 @@ Node MyEngine::ReadNode(aiNode* node) {
 	result.localMatrix.m[3][0] = aiLocalMatrix[3][0];
 	result.localMatrix.m[3][1] = aiLocalMatrix[3][1];
 	result.localMatrix.m[3][2] = aiLocalMatrix[3][2];
-	result.localMatrix.m[3][3] = aiLocalMatrix[3][3];
+	result.localMatrix.m[3][3] = aiLocalMatrix[3][3];*/
 
 	result.name = node->mName.C_Str();
 	result.children.resize(node->mNumChildren);
