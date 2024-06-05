@@ -156,7 +156,21 @@ SkinCluster Object::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>
 	skinCluster.paletteResource = dxCommon_->CreateBufferResource(device, sizeof(WellForGPU) * skeleton.joints.size());
 	skinCluster.paletteResource->Map(0, nullptr, reinterpret_cast<void**>(&paletteData_));
 	skinCluster.mappedPalette = { paletteData_,skeleton.joints.size() };
-	skinCluster.paletteSrvHandle.first = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 15);
+	skinCluster.paletteSrvHandle.first = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 15);
+	skinCluster.paletteSrvHandle.second = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 15);
+
+	//palette用のSRVを作成
+	D3D12_SHADER_RESOURCE_VIEW_DESC paletteSrvDesc{};
+	paletteSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	paletteSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	paletteSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	paletteSrvDesc.Buffer.FirstElement = 0;
+	paletteSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	paletteSrvDesc.Buffer.NumElements = UINT(skeleton.joints.size());
+	paletteSrvDesc.Buffer.StructureByteStride = sizeof(WellForGPU);
+	dxCommon_->GetDevice()->CreateShaderResourceView(skinCluster.paletteResource.Get(), &paletteSrvDesc, skinCluster.paletteSrvHandle.first);
+
+	//influence用のResourceを確保
 
 
 	return skinCluster;
