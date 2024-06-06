@@ -128,6 +128,8 @@ private:
 
 	void SettingIndex();
 
+	void SkinUpdate();
+
 private:
 	DirectXCommon* dxCommon_;
 	MyEngine* engine_;
@@ -184,6 +186,8 @@ private:
 	uint32_t* indexData_ = nullptr;
 
 	WellForGPU* paletteData_ = nullptr;
+
+	SkinCluster skinCluster;
 
 };
 
