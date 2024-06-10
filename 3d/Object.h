@@ -8,6 +8,7 @@
 #include "Quaternion.h"
 #include "../Camera.h"
 #include <span>
+#include <array>
 
 class MyEngine;
 
