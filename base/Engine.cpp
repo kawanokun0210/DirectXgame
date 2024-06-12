@@ -766,8 +766,9 @@ Microsoft::WRL::ComPtr<ID3D12Resource> MyEngine::CreateRenderTextureResource(Mic
 		IID_PPV_ARGS(&Resource));
 
 	const Vector4 kRenderTargetClearValue = { 1.0f,0.0f,0.0f,1.0f };
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = dxCommon_->getRtvDesc();
 	auto renderTextureResource = CreateRenderTextureResource(device, WinApp::kClientWidth, WinApp::kClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
-	device->CreateRenderTargetView(renderTextureResource.Get(), &dxCommon_->getRtvDesc(), textureSrvHandleCPU_[10]);
+	device->CreateRenderTargetView(renderTextureResource.Get(), &rtvDesc, textureSrvHandleCPU_[10]);
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC renderTextureSrvDesc{};
 	renderTextureSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
