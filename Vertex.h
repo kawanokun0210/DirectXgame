@@ -91,9 +91,9 @@ struct JointWeightData {
 };
 
 struct ModelData {
+	std::unordered_map<std::string, JointWeightData> skinClusterData;
 	std::vector<VertexData> vertices;
 	std::vector<uint32_t> indices;
-	std::unordered_map<std::string, JointWeightData> skinClusterData;
 	MaterialData material;
 	Node rootNode;
 };

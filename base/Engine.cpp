@@ -81,7 +81,7 @@ void MyEngine::InitializeDxcCompiler()
 	//dxcUtils_ = nullptr;
 	//dxcCompiler_ = nullptr;
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_[i]));
 		assert(SUCCEEDED(hr));
 		hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_[i]));
@@ -103,8 +103,8 @@ void MyEngine::CreateRootSignature()
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	//RootParameter作成、複数設定可能な為、配列に
-	D3D12_ROOT_PARAMETER rootParameters[2][7] = {};
-	for (int i = 0; i < 2; i++) {
+	D3D12_ROOT_PARAMETER rootParameters[3][7] = {};
+	for (int i = 0; i < 3; i++) {
 		rootParameters[i][0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
 		rootParameters[i][0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
 		rootParameters[i][0].Descriptor.ShaderRegister = 0;//レジスタ番号0とバインド
@@ -161,8 +161,14 @@ void MyEngine::CreateRootSignature()
 	rootParameters[1][4].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
 	rootParameters[1][4].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
 
-	descriptionRootSignature.pParameters = rootParameters[1];//ルートパラメータ配列へのポインタ
-	descriptionRootSignature.NumParameters = _countof(rootParameters[1]);//配列の長さ
+	//skinning
+	rootParameters[2][4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[2][4].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[2][4].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
+	rootParameters[2][4].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+
+	descriptionRootSignature.pParameters = rootParameters[2];//ルートパラメータ配列へのポインタ
+	descriptionRootSignature.NumParameters = _countof(rootParameters[2]);//配列の長さ
 
 	//シリアライズしてバイナリにする
 	signatureBlob_ = nullptr;
@@ -178,7 +184,7 @@ void MyEngine::CreateRootSignature()
 		assert(false);
 	}
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		//バイナリを元に生成
 		rootSignature_[i] = nullptr;
 		hr = dxCommon_->GetDevice()->CreateRootSignature(0, signatureBlob_->GetBufferPointer(),
@@ -209,15 +215,48 @@ void MyEngine::CreateInputlayOut()
 	inputElementDescs_[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 	inputElementDescs_[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
+	//skinning
+	inputElementDescs[0].SemanticName = "POSITION";
+	inputElementDescs[0].SemanticIndex = 0;
+	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[1].SemanticName = "TEXCOORD";
+	inputElementDescs[1].SemanticIndex = 0;
+	inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[2].SemanticName = "NORMAL";
+	inputElementDescs[2].SemanticIndex = 0;
+	inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[3].SemanticName = "WEIGHT";
+	inputElementDescs[3].SemanticIndex = 0;
+	inputElementDescs[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[3].InputSlot = 1;
+	inputElementDescs[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[4].SemanticIndex = 0;
+	inputElementDescs[4].SemanticName = "INDEX";
+	inputElementDescs[4].Format = DXGI_FORMAT_R32G32B32_SINT;
+	inputElementDescs[4].InputSlot = 1;
+	inputElementDescs[4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
 	for (int i = 0; i < 2; i++) {
 		inputLayoutDesc_[i].pInputElementDescs = inputElementDescs_;
 		inputLayoutDesc_[i].NumElements = _countof(inputElementDescs_);
 	}
+
+	for (int i = 0; i < 5; i++) {
+		inputLayoutDesc_[2].pInputElementDescs = &inputElementDescs[i];
+	}
+
 }
 
 void MyEngine::BlendState()
 {
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		//すべての色要素を書き込む
 		blendDesc_[i].RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 		blendDesc_[i].RenderTarget[0].BlendEnable = TRUE;
@@ -257,12 +296,17 @@ void MyEngine::RasterizerState()
 	particlePixelShaderBlob_ = CompileShader(L"Particle.PS.hlsl",
 		L"ps_6_0", dxcUtils_[1], dxcCompiler_[1], includeHandler_[1]);
 	assert(particlePixelShaderBlob_ != nullptr);
+
+	//shaderをコンパイルする
+	skinningVertexShaderBlob_ = CompileShader(L"SkinningObject3d.VS.hlsl",
+		L"vs_6_0", dxcUtils_[2], dxcCompiler_[2], includeHandler_[2]);
+	assert(skinningVertexShaderBlob_ != nullptr);
 }
 
 void MyEngine::InitializePSO()
 {
-	for (int i = 0; i < 2; i++) {
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc[2]{};
+	for (int i = 0; i < 3; i++) {
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc[3]{};
 		graphicsPipelineStateDesc[i].pRootSignature = rootSignature_[i].Get();//RootSignature
 		graphicsPipelineStateDesc[i].InputLayout = inputLayoutDesc_[i];//Inputlayout
 
@@ -278,6 +322,11 @@ void MyEngine::InitializePSO()
 				particleVertexShaderBlob_->GetBufferSize() };//vertexShader
 			graphicsPipelineStateDesc[1].PS = { particlePixelShaderBlob_->GetBufferPointer(),
 				particlePixelShaderBlob_->GetBufferSize() };//pixcelShader
+		}
+
+		if (i == 2) {
+			graphicsPipelineStateDesc[2].VS = { particleVertexShaderBlob_->GetBufferPointer(),
+				particleVertexShaderBlob_->GetBufferSize() };//vertexShader
 		}
 
 		graphicsPipelineStateDesc[i].BlendState = blendDesc_[i];//BlendState
@@ -301,6 +350,10 @@ void MyEngine::InitializePSO()
 
 		if (i == 1) {
 			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[1];
+		}
+
+		if (i == 2) {
+			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[0];
 		}
 
 		graphicsPipelineStateDesc[i].DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;

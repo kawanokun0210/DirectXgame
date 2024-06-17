@@ -72,12 +72,19 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//RootSignatureを設定。PS0とは別途設定が必要
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature().Get());
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature3().Get());
 
 	//PS0を設定
 	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState().Get());
+	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState3().Get());
 
 	//VBVを設定
+	D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
+			vertexBufferView,
+			skinCluster.influenceBufferView
+	};
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
+	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 2, vbvs);
 	//index
 	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 
@@ -93,6 +100,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(7, skinCluster.paletteSrvHandle.second);
 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
