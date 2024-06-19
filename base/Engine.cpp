@@ -378,6 +378,7 @@ void MyEngine::Initialize(const wchar_t* title, int32_t width, int32_t height)
 
 void MyEngine::BeginFrame()
 {
+	//dxCommon_->RenderPreDraw();
 	dxCommon_->PreDraw();
 
 	//viewportを設定
@@ -401,6 +402,7 @@ void MyEngine::EndFrame()
 	//内部コマンドを生成する
 	ImGui::Render();
 
+	//dxCommon_->RenderPostDraw();
 	dxCommon_->PostDraw();
 }
 
@@ -741,43 +743,36 @@ MaterialData MyEngine::LoadMaterialTemplateFile(const std::string& directoryPath
 	return materialData;
 }
 
-Microsoft::WRL::ComPtr<ID3D12Resource> MyEngine::CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device>device, uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor) {
+Microsoft::WRL::ComPtr<ID3D12Resource> MyEngine::CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor)
+{
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource;
+
 	D3D12_RESOURCE_DESC resourceDesc{};
-	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET; //renderTargetとして利用する
+	resourceDesc.Height = height;
+	resourceDesc.Width = width;
+	resourceDesc.DepthOrArraySize = 1;
+	resourceDesc.MipLevels = 1;
+	resourceDesc.Alignment = D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.SampleDesc.Quality = 0;
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	resourceDesc.Format = format;
+
 
 	D3D12_HEAP_PROPERTIES heapProperties{};
-	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
+	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT; //当然VRAM上に作る
 
-	D3D12_CLEAR_VALUE clearValue;
+	D3D12_CLEAR_VALUE clearValue{};
 	clearValue.Format = format;
 	clearValue.Color[0] = clearColor.x;
 	clearValue.Color[1] = clearColor.y;
 	clearValue.Color[2] = clearColor.z;
 	clearValue.Color[3] = clearColor.w;
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> Resource = nullptr;
-
-	device->CreateCommittedResource(
-		&heapProperties,
-		D3D12_HEAP_FLAG_NONE,
-		&resourceDesc,
-		D3D12_RESOURCE_STATE_RENDER_TARGET,
-		&clearValue,
-		IID_PPV_ARGS(&Resource));
-
-	const Vector4 kRenderTargetClearValue = { 1.0f,0.0f,0.0f,1.0f };
-	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = dxCommon_->getRtvDesc();
-	auto renderTextureResource = CreateRenderTextureResource(device, WinApp::kClientWidth, WinApp::kClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
-	device->CreateRenderTargetView(renderTextureResource.Get(), &rtvDesc, textureSrvHandleCPU_[10]);
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC renderTextureSrvDesc{};
-	renderTextureSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	renderTextureSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	renderTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	renderTextureSrvDesc.Texture2D.MipLevels = 1;
-
-	device->CreateShaderResourceView(renderTextureResource.Get(), &renderTextureSrvDesc, textureSrvHandleCPU_[11]);
-
+	device->CreateCommittedResource(&heapProperties,
+		D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, &clearValue, IID_PPV_ARGS(&resource));
+	return resource;
 }
 
 DirectXCommon* MyEngine::dxCommon_;

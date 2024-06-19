@@ -25,6 +25,9 @@ public:
 	void PreDraw();
 	void PostDraw();
 
+	void RenderPreDraw();
+	void RenderPostDraw();
+
 	void ClearRenderTarget();
 	void Finalize();
 
