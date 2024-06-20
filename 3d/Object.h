@@ -14,7 +14,7 @@ class Object
 public:
 	void Initialize(const std::string& directoryPath, const std::string& filename);
 
-	void Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
+	void Draw(const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 
 	void Finalize();
 
@@ -23,6 +23,13 @@ public:
 		{0.0f,0.0f,0.0f},
 		{0.0f,0.0f,0.0f}
 	};
+
+public:
+
+	Vector4 SetMaterial(Vector4 material) {
+		material_ = material;
+		return material_;
+	}
 
 private:
 	void SettingVertex();
@@ -60,5 +67,7 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
 	Vector3* cameraData_;
+
+	Vector4 material_ = { 1.0f,1.0f,1.0f,1.0f };
 };
 

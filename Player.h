@@ -31,8 +31,7 @@ private://ここは変数のみ
 	//基本的に必要なもの
 	Object* model_;
 	Transform transform_;
-	Vector4 material_;
-
+	
 	//input用の変数
 	Input* input_;
 

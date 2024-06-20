@@ -14,7 +14,7 @@ void Object::Initialize(const std::string& directoryPath, const std::string& fil
 	CameraResource();
 }
 
-void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
+void Object::Draw(const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
 {
 	camera_ = cameraTransform;
 
@@ -30,7 +30,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
-	*materialData_ = { material,isLighting };
+	*materialData_ = { material_,isLighting };
 	materialData_->uvTransform = uvTransformMatrix;
 	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
 	*directionalLight_ = light;
