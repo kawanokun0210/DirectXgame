@@ -10,6 +10,9 @@ void GamePlayScene::Initialize()
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
+	player_ = std::make_unique<Player>();
+	player_->Initialize();
+
 	soundDataHandle_ = sound_->LoadWave("Resource/Audio/Alarm01.wav");
 
 	directionalLight_.color = { 1.0f,1.0f,1.0f,1.0f };
@@ -25,16 +28,6 @@ void GamePlayScene::Initialize()
 
 	engine_->SettingTexture("Resource/particle.png", 5);
 
-
-	object_[0] = new Object();
-
-	object_[0]->Initialize("Resource/fence", "fence.obj");
-
-	for (int i = 0; i < 2; i++) {
-		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
-	}
-
 	camera_ = new Camera();
 	camera_->Initialize();
 
@@ -44,6 +37,8 @@ void GamePlayScene::Update()
 {
 	//XINPUT_STATE joyState;
 	input_->Update();
+
+	player_->Update();
 
 	sphereMatrix_ = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
 
@@ -56,21 +51,11 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw()
 {
-
-	for (int i = 0; i < 1; i++) {
-		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, camera_, directionalLight_, true);
-	}
-
+	player_->Draw(camera_, directionalLight_);
 }
 
 void GamePlayScene::Finalize()
 {
-
-	for (int i = 0; i < 1; i++) {
-		object_[i]->Finalize();
-	}
-	delete object_[0];
-
 	sound_->Finalize();
 	sound_->UnLoad(&soundDataHandle_);
 

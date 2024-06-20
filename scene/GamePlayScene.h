@@ -14,6 +14,7 @@
 #include "BaseScene.h"
 #include <random>
 #include "../Camera.h"
+#include "../Player.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -25,6 +26,10 @@ public:
 	void Draw() override;
 
 	void Finalize() override;
+
+private:
+
+	std::unique_ptr<Player> player_ = nullptr;
 
 private:
 	MyEngine* engine_;
