@@ -1,5 +1,5 @@
 #include "BaseScene.h"
 
-int BaseScene::sceneNo = TITLE;
+int BaseScene::sceneNo = PLAY;
 
 BaseScene::~BaseScene() {};
