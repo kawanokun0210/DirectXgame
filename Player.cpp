@@ -9,6 +9,7 @@ void Player::Initialize() {
 	model_->Initialize("Resource/fence", "fence.obj");
 
 	transform_ = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	model_->SetTransform(transform_);
 
 	//ジャンプ用
 	acceleration_ = -0.02f;
@@ -29,7 +30,7 @@ void Player::Update() {
 
 void Player::Draw(Camera* camera, DirectionalLight directionalLight) {
 
-	model_->Draw(transform_, 3, camera, directionalLight, true);
+	model_->Draw(3, camera, directionalLight, true);
 
 }
 

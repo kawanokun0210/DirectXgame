@@ -14,7 +14,7 @@ class Object
 public:
 	void Initialize(const std::string& directoryPath, const std::string& filename);
 
-	void Draw(const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
+	void Draw(uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 
 	void Finalize();
 
@@ -29,6 +29,11 @@ public:
 	Vector4 SetMaterial(Vector4 material) {
 		material_ = material;
 		return material_;
+	}
+
+	Transform SetTransform(Transform transform) {
+		transform_ = transform;
+		return transform_;
 	}
 
 private:
@@ -69,5 +74,7 @@ private:
 	Vector3* cameraData_;
 
 	Vector4 material_ = { 1.0f,1.0f,1.0f,1.0f };
+	Transform transform_ = { { 1.0f,1.0f,1.0f },{ 0.0f,0.0f,0.0f },{ 0.0f,0.0f,0.0f } };
+
 };
 
