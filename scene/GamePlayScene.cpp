@@ -30,10 +30,6 @@ void GamePlayScene::Initialize()
 
 	object_[0]->Initialize("Resource/fence", "fence.obj");
 
-	object_[1] = new Object();
-
-	object_[1]->Initialize("Resource/", "plane.obj");
-
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
@@ -61,7 +57,7 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw()
 {
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 1; i++) {
 		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 3, camera_, directionalLight_, true);
 	}
 
@@ -70,11 +66,10 @@ void GamePlayScene::Draw()
 void GamePlayScene::Finalize()
 {
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 1; i++) {
 		object_[i]->Finalize();
 	}
 	delete object_[0];
-	delete object_[1];
 
 	sound_->Finalize();
 	sound_->UnLoad(&soundDataHandle_);
