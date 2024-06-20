@@ -11,6 +11,10 @@ void Player::Initialize() {
 	transform_ = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	material_ = { 1.0f,1.0f,1.0f,1.0f };
 
+	//ジャンプ用
+	acceleration_ = -0.02f;
+	isJump_ = false;
+
 }
 
 void Player::Update() {
@@ -18,6 +22,9 @@ void Player::Update() {
 
 	//移動処理
 	Move();
+
+	//ジャンプ処理
+	Jump();
 
 }
 
@@ -32,6 +39,7 @@ void Player::Finalize() {
 }
 
 //ここから細かい関数
+//移動
 void Player::Move() {
 
 	if (input_->PushKey(DIK_D)) {
@@ -40,6 +48,21 @@ void Player::Move() {
 
 	if (input_->PushKey(DIK_A)) {
 		transform_.translate.x -= speed_;
+	}
+
+}
+
+//ジャンプ
+void Player::Jump() {
+
+	if (input_->PushKey(DIK_SPACE) && isJump_ == false) {
+		isJump_ = true;
+		fallSpeed_ = 0.38f;
+	}
+
+	if (isJump_ == true) {
+		fallSpeed_ += acceleration_;
+		transform_.translate.y += fallSpeed_;
 	}
 
 }

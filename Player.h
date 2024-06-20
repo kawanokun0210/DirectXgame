@@ -24,6 +24,9 @@ private://ここは関数のみ
 	//移動用の関数
 	void Move();
 
+	//ジャンプ用の関数
+	void Jump();
+
 private://ここは変数のみ
 	//基本的に必要なもの
 	Object* model_;
@@ -35,6 +38,11 @@ private://ここは変数のみ
 
 	//移動用の変数
 	float speed_ = 0.01f;
+
+	//ジャンプ用の変数
+	bool isJump_;
+	float fallSpeed_;
+	float acceleration_;
 
 };
 
