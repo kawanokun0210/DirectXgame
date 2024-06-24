@@ -43,11 +43,11 @@ void Player::Finalize() {
 void Player::Move() {
 
 	if (input_->PushKey(DIK_D)) {
-		transform_.translate.x += speed_;
+		model_->transform_.translate.x += speed_;
 	}
 
 	if (input_->PushKey(DIK_A)) {
-		transform_.translate.x -= speed_;
+		model_->transform_.translate.x -= speed_;
 	}
 
 }
@@ -62,7 +62,7 @@ void Player::Jump() {
 
 	if (isJump_ == true) {
 		fallSpeed_ += acceleration_;
-		transform_.translate.y += fallSpeed_;
+		model_->transform_.translate.y += fallSpeed_;
 	}
 
 }

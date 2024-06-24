@@ -24,6 +24,8 @@ public:
 		{0.0f,0.0f,0.0f}
 	};
 
+	Transform transform_ = { { 1.0f,1.0f,1.0f },{ 0.0f,0.0f,0.0f },{ 0.0f,0.0f,0.0f } };
+
 public:
 
 	Vector4 SetMaterial(Vector4 material) {
@@ -74,7 +76,6 @@ private:
 	Vector3* cameraData_;
 
 	Vector4 material_ = { 1.0f,1.0f,1.0f,1.0f };
-	Transform transform_ = { { 1.0f,1.0f,1.0f },{ 0.0f,0.0f,0.0f },{ 0.0f,0.0f,0.0f } };
 
 };
 
