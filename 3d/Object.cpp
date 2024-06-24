@@ -12,6 +12,7 @@ void Object::Initialize(const std::string& directoryPath, const std::string& fil
 		animationData = LoadAnimationFile(directoryPath, filename);
 		NodeInitialize();
 		skeletonData = CreateSkeleton(SResult);
+		CreateSkinCluster(dxCommon_->GetDevice(), skeletonData, modelData, dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV());
 	}
 	SettingVertex();
 	SettingColor();
@@ -100,7 +101,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(7, skinCluster.paletteSrvHandle.second);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, skinCluster.paletteSrvHandle.second);
 
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(vertexCount, 1, 0, 0);
