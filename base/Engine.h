@@ -105,8 +105,7 @@ private:
 	D3D12_VIEWPORT viewport_{};
 	D3D12_RECT scissorRect_{};
 
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[4];
-	std::array<D3D12_INPUT_ELEMENT_DESC, 5> inputElementDescs{};
+	std::array<std::vector<D3D12_INPUT_ELEMENT_DESC>, 3> inputElementDescs_{};
 
 	//頂点リソースにデータを書き込む
 	Vector4* vertexData_;

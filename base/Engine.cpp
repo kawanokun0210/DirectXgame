@@ -195,61 +195,52 @@ void MyEngine::CreateRootSignature()
 
 void MyEngine::CreateInputlayOut()
 {
-	inputElementDescs_[0].SemanticName = "POSITION";
-	inputElementDescs_[0].SemanticIndex = 0;
-	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	inputElementDescs_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	
+	inputElementDescs_[0].resize(4);
+	inputElementDescs_[1].resize(4);
+	inputElementDescs_[2].resize(6);
 
-	inputElementDescs_[1].SemanticName = "TEXCOORD";
-	inputElementDescs_[1].SemanticIndex = 0;
-	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;
-	inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	for (int i = 0; i < inputElementDescs_.size(); i++) {
+		inputElementDescs_[i][0].SemanticName = "POSITION";
+		inputElementDescs_[i][0].SemanticIndex = 0;
+		inputElementDescs_[i][0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		inputElementDescs_[i][0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-	inputElementDescs_[2].SemanticName = "NORMAL";
-	inputElementDescs_[2].SemanticIndex = 0;
-	inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+		inputElementDescs_[i][1].SemanticIndex = 0;
+		inputElementDescs_[i][1].Format = DXGI_FORMAT_R32G32_FLOAT;
+		inputElementDescs_[i][1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+		inputElementDescs_[i][1].SemanticName = "TEXCOORD";
 
-	inputElementDescs_[3].SemanticName = "COLOR";
-	inputElementDescs_[3].SemanticIndex = 0;
-	inputElementDescs_[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	inputElementDescs_[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+		inputElementDescs_[i][2].SemanticName = "NORMAL";
+		inputElementDescs_[i][2].SemanticIndex = 0;
+		inputElementDescs_[i][2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		inputElementDescs_[i][2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-	//skinning
-	inputElementDescs[0].SemanticName = "POSITION";
-	inputElementDescs[0].SemanticIndex = 0;
-	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+		inputElementDescs_[i][3].SemanticName = "COLOR";
+		inputElementDescs_[i][3].SemanticIndex = 0;
+		inputElementDescs_[i][3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		inputElementDescs_[i][3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-	inputElementDescs[1].SemanticName = "TEXCOORD";
-	inputElementDescs[1].SemanticIndex = 0;
-	inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
-	inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+		if (i == 2) {
+			inputElementDescs_[i][4].SemanticName = "WEIGHT";
+			inputElementDescs_[i][4].SemanticIndex = 0;
+			inputElementDescs_[i][4].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			inputElementDescs_[i][4].InputSlot = 1;
+			inputElementDescs_[i][4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-	inputElementDescs[2].SemanticName = "NORMAL";
-	inputElementDescs[2].SemanticIndex = 0;
-	inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	inputElementDescs[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+			inputElementDescs_[i][5].SemanticName = "INDEX";
+			inputElementDescs_[i][5].SemanticIndex = 0;
+			inputElementDescs_[i][5].Format = DXGI_FORMAT_R32G32B32_SINT;
+			inputElementDescs_[i][5].InputSlot = 1;
+			inputElementDescs_[i][5].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+		}
 
-	inputElementDescs[3].SemanticName = "WEIGHT";
-	inputElementDescs[3].SemanticIndex = 0;
-	inputElementDescs[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	inputElementDescs[3].InputSlot = 1;
-	inputElementDescs[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-
-	inputElementDescs[4].SemanticIndex = 0;
-	inputElementDescs[4].SemanticName = "INDEX";
-	inputElementDescs[4].Format = DXGI_FORMAT_R32G32B32_SINT;
-	inputElementDescs[4].InputSlot = 1;
-	inputElementDescs[4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-
-	for (int i = 0; i < 2; i++) {
-		inputLayoutDesc_[i].pInputElementDescs = inputElementDescs_;
-		inputLayoutDesc_[i].NumElements = _countof(inputElementDescs_);
 	}
+	
 
-	for (int i = 0; i < 5; i++) {
-		inputLayoutDesc_[2].pInputElementDescs = &inputElementDescs[i];
+	for (int i = 0; i < 3; i++) {
+		inputLayoutDesc_[i].pInputElementDescs = inputElementDescs_[i].data();
+		inputLayoutDesc_[i].NumElements = UINT(inputElementDescs_[i].size());
 	}
 
 }
@@ -325,8 +316,10 @@ void MyEngine::InitializePSO()
 		}
 
 		if (i == 2) {
-			graphicsPipelineStateDesc[2].VS = { particleVertexShaderBlob_->GetBufferPointer(),
-				particleVertexShaderBlob_->GetBufferSize() };//vertexShader
+			graphicsPipelineStateDesc[2].VS = { skinningVertexShaderBlob_->GetBufferPointer(),
+				skinningVertexShaderBlob_->GetBufferSize() };//vertexShader
+			graphicsPipelineStateDesc[2].PS = { pixelShaderBlob_->GetBufferPointer(),
+				pixelShaderBlob_->GetBufferSize() };//pixcelShader
 		}
 
 		graphicsPipelineStateDesc[i].BlendState = blendDesc_[i];//BlendState

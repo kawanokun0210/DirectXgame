@@ -361,6 +361,7 @@ void Object::NodeInitialize() {
 	aiQuaternion rotate;
 	aiNode node;
 	node.mTransformation.Decompose(scale, rotate, translete);
+	SResult.children = modelData.rootNode.children;
 	SResult.transform.scale = { scale.x,scale.y,scale.z };
 	SResult.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };
 	SResult.transform.translate = { -translete.x,translete.y,translete.z };

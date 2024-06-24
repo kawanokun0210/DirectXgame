@@ -76,11 +76,11 @@ void GamePlayScene::Initialize()
 
 	object_[0] = new Object();
 
-	object_[0]->Initialize("./Resource/human", "walk.gltf", true);
+	object_[0]->Initialize("./Resource/simpleSkin", "simpleSkin.gltf", true);
 
-	object_[1] = new Object();
+	//object_[1] = new Object();
 
-	object_[1]->Initialize("Resource/", "plane.obj", false);
+	//object_[1]->Initialize("Resource/", "plane.obj", false);
 
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -94,7 +94,7 @@ void GamePlayScene::Initialize()
 	particle->Initialize("Resource/", "plane.obj", 1);
 
 	std::mt19937 randomEngine(seedGenerator());
-	
+
 	for (uint32_t index = 0; index < 10; ++index) {
 		particles[index] = particle->MakeNewParticle(randomEngine);
 	}
@@ -134,7 +134,7 @@ void GamePlayScene::Update()
 
 	Matrix4x4 sphereAffine = MakeAffineMatrix(sphereTransform_.scale, sphereTransform_.rotate, sphereTransform_.translate);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
-	
+
 	directionalLight_.direction = Normalise(directionalLight_.direction);
 
 
@@ -313,11 +313,10 @@ void GamePlayScene::Draw()
 			sprite_[i]->Draw(spriteData_.LeftTop[i], spriteData_.RightDown[i], spriteTransform_, spriteData_.material, 2, directionalLight_);
 		}
 	}
-	if (objectDraw_) {
-		for (int i = 0; i < 1; i++) {
-			object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 2, camera_, directionalLight_, true);
-		}
-	}
+
+	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], 2, camera_, directionalLight_, true);
+
+
 
 	particle->Draw(&particles[0], 4, camera_);
 

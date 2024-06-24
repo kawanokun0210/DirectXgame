@@ -10,6 +10,7 @@
 #include "Quaternion.h"
 
 #include <vector>
+#include <unordered_map>
 
 struct VertexData
 {
