@@ -55,6 +55,11 @@ int SceneManager::Run() {
 		sceneArr_[currentSceneNo_]->Draw();
 
 		engine_->EndFrame();
+
+		dxCommon_->RenderPreDraw();
+
+		dxCommon_->RenderPostDraw();
+
 	}
 
 	sceneArr_[currentSceneNo_]->Finalize();

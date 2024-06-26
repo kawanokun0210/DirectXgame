@@ -379,7 +379,8 @@ void DirectXCommon::RenderPreDraw() {
 	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, nullptr);
 
 	//指定した色で画面全体をクリアする
-	float clearColor[] = { 0.1f,0.25f,0.5f,1.0f };//青っぽい色、RGBA順
+	float clearColor[] = { 1.0f,0.0f,0.0f,1.0f };//青っぽい色、RGBA順
+	auto renderTextureResource = 
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
 
 	//描画用のDescriptorHeapの設定
@@ -436,6 +437,38 @@ void DirectXCommon::RenderPostDraw() {
 	assert(SUCCEEDED(hr_));
 	hr_ = commandList_->Reset(commandAllocator_.Get(), nullptr);
 	assert(SUCCEEDED(hr_));
+}
+
+Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor)
+{
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource;
+
+	D3D12_RESOURCE_DESC resourceDesc{};
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET; //renderTargetとして利用する
+	resourceDesc.Height = height;
+	resourceDesc.Width = width;
+	resourceDesc.DepthOrArraySize = 1;
+	resourceDesc.MipLevels = 1;
+	resourceDesc.Alignment = D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.SampleDesc.Quality = 0;
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	resourceDesc.Format = format;
+
+
+	D3D12_HEAP_PROPERTIES heapProperties{};
+	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT; //当然VRAM上に作る
+
+	D3D12_CLEAR_VALUE clearValue{};
+	clearValue.Format = format;
+	clearValue.Color[0] = clearColor.x;
+	clearValue.Color[1] = clearColor.y;
+	clearValue.Color[2] = clearColor.z;
+	clearValue.Color[3] = clearColor.w;
+
+	device->CreateCommittedResource(&heapProperties,
+		D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, &clearValue, IID_PPV_ARGS(&resource));
+	return resource;
 }
 
 void DirectXCommon::ClearRenderTarget()
