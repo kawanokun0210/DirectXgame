@@ -335,6 +335,7 @@ Skeleton Object::CreateSkeleton(const Node& rootNode) {
 }
 
 void Object::SkeletonUpdate(Skeleton& skeleton) {
+	int i = 0;
 	for (Joint& joint : skeleton.joints) {
 		joint.localMatrix = MakeAffineMatrix(joint.transform.scale, joint.transform.rotate, joint.transform.translate);
 		if (joint.parent) {
@@ -343,6 +344,7 @@ void Object::SkeletonUpdate(Skeleton& skeleton) {
 		else {
 			joint.skeletonSpaceMatrix = joint.localMatrix;
 		}
+		++i;
 	}
 }
 

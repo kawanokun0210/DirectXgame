@@ -76,7 +76,7 @@ void GamePlayScene::Initialize()
 
 	object_[0] = new Object();
 
-	object_[0]->Initialize("./Resource/simpleSkin", "simpleSkin.gltf", true);
+	object_[0]->Initialize("./Resource/human", "walk.gltf", true);
 
 	//object_[1] = new Object();
 

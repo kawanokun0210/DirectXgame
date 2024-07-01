@@ -224,13 +224,13 @@ void MyEngine::CreateInputlayOut()
 		if (i == 2) {
 			inputElementDescs_[i][4].SemanticName = "WEIGHT";
 			inputElementDescs_[i][4].SemanticIndex = 0;
-			inputElementDescs_[i][4].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			inputElementDescs_[i][4].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 			inputElementDescs_[i][4].InputSlot = 1;
 			inputElementDescs_[i][4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 			inputElementDescs_[i][5].SemanticName = "INDEX";
 			inputElementDescs_[i][5].SemanticIndex = 0;
-			inputElementDescs_[i][5].Format = DXGI_FORMAT_R32G32B32_SINT;
+			inputElementDescs_[i][5].Format = DXGI_FORMAT_R32G32B32A32_SINT;
 			inputElementDescs_[i][5].InputSlot = 1;
 			inputElementDescs_[i][5].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 		}

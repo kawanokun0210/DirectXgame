@@ -109,8 +109,9 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 {
 	Quaternion q0_ = q0;
 	Quaternion q1_ = q1;
+	Quaternion result;
 
-	// 内積を計算
+	//内積を計算
 	float dot = q0_.w * q1_.w + q0_.x * q1_.x + q0_.y * q1_.y + q0_.z * q1_.z;
 
 	if (dot < 0)
@@ -119,17 +120,27 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 		dot = -dot;
 	}
 
+	//内積がほぼ1の時
+	const float almostOne = 0.9995f;
+	if (dot > almostOne) {
+		//線形補間
+		return result = {
+			q0_.x * (1.0f - t) + q1_.x * t,
+			q0_.y * (1.0f - t) + q1_.y * t,
+			q0_.z * (1.0f - t) + q1_.z * t,
+			q0_.w * (1.0f - t) + q1_.w * t
+		};
+	}
+
 	//なす角を求める
 	float theta_0 = std::acos(dot);
 
-	float theta = theta_0 * t; // 補間する角度
+	float theta = theta_0 * t; //補間する角度
 	float sin_theta = std::sin(theta);
 	float sin_theta_0 = std::sin(theta_0);
 
 	float scale0 = std::cos(theta) - dot * sin_theta / sin_theta_0;
 	float scale1 = sin_theta / sin_theta_0;
-
-	Quaternion result;
 
 	result = {
 		scale0 * q0_.x + scale1 * q1_.x, scale0 * q0_.y + scale1 * q1_.y,

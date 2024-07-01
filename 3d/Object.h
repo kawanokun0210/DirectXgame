@@ -73,7 +73,7 @@ struct Skeleton {
 };
 
 //Skinning
-const uint32_t kNumMaxInfluence = 5;
+const uint32_t kNumMaxInfluence = 4;
 
 struct VertexInfluence
 {
