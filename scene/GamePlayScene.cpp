@@ -34,6 +34,7 @@ void GamePlayScene::Initialize()
 	block_ = Block::GetInstance();
 	block_->Initialize();
 	block_->LoadStage();
+	block_->FindALLObject();
 
 }
 
