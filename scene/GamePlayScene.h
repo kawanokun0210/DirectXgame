@@ -15,6 +15,7 @@
 #include <random>
 #include "../Camera.h"
 #include "../Player.h"
+#include "../Block.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -30,6 +31,8 @@ public:
 private:
 
 	std::unique_ptr<Player> player_ = nullptr;
+
+	Block* block_ = nullptr;
 
 private:
 	MyEngine* engine_;

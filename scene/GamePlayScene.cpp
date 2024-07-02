@@ -31,6 +31,10 @@ void GamePlayScene::Initialize()
 	camera_ = new Camera();
 	camera_->Initialize();
 
+	block_ = Block::GetInstance();
+	block_->Initialize();
+	block_->LoadStage();
+
 }
 
 void GamePlayScene::Update()
@@ -52,12 +56,15 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw()
 {
 	player_->Draw(camera_, directionalLight_);
+	block_->Draw(camera_, directionalLight_);
 }
 
 void GamePlayScene::Finalize()
 {
 	sound_->Finalize();
 	sound_->UnLoad(&soundDataHandle_);
+	
+	block_->Finalize();
 
 	delete sound_;
 

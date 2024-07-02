@@ -53,7 +53,7 @@ void Block::Draw(Camera* camera, DirectionalLight directionalLight) {
 void Block::LoadStage()
 {
 	//ファイルの基本名と拡張子を指定
-	std::string baseName = "./Resource/map";
+	std::string baseName = "./Resource/map/map";
 	std::string extension = ".csv";
 
 	std::stringstream ss;
