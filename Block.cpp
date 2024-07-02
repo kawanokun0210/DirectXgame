@@ -144,7 +144,7 @@ void Block::FindObject(BlockData* od)
 	if (dxCommon_ == nullptr) {
 		dxCommon_ = DirectXCommon::GetInstance();
 	}
-	od->model->Initialize("Resource/map/", ss.str());
+	od->model->Initialize("Resource/", ss.str());
 	od->isActive = true;
 }
 
@@ -159,7 +159,7 @@ void Block::FindALLObject()
 		dxCommon_;
 		engine_;
 
-		od->model->Initialize("Resource/map/", ss.str());
+		od->model->Initialize("Resource/", ss.str());
 		od->isActive = true;
 	}
 }
