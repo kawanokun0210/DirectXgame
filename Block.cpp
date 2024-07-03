@@ -124,6 +124,7 @@ void Block::LoadStage()
 
 			//最後に数値を代入する
 			BlockData* newBlock = new BlockData(on, tr, fZ, eZ);
+			newBlock->transform = tr;
 			mapData_.push_back(newBlock);
 
 		}
