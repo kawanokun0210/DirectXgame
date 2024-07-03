@@ -247,6 +247,17 @@ void DirectXCommon::CreateFinalRenderTargets()
 
 	//2つ目を作る
 	device_->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
+
+	/*const Vector4 kRenderTargetClearValue{ 1.0f,0.0f,0.0f,1.0f };
+	auto renderTextureResource = CreateRenderTextureResource(device_, WinApp::kClientWidth, WinApp::kClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
+	device_->CreateRenderTargetView(renderTextureResource.Get(), &rtvDesc_, rtvHandles_[2]);*/
+
+	/*D3D12_SHADER_RESOURCE_VIEW_DESC renderTextureSrvDesc{};
+	renderTextureSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	renderTextureSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	renderTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	renderTextureSrvDesc.Texture2D.MipLevels = 1;*/
+
 }
 
 void DirectXCommon::CreateFence()
@@ -380,7 +391,6 @@ void DirectXCommon::RenderPreDraw() {
 
 	//指定した色で画面全体をクリアする
 	float clearColor[] = { 1.0f,0.0f,0.0f,1.0f };//青っぽい色、RGBA順
-	auto renderTextureResource = 
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
 
 	//描画用のDescriptorHeapの設定

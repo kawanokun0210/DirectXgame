@@ -6,6 +6,7 @@
 #include "../String.h"
 #include <wrl.h>
 #include "DirectXTex.h"
+#include "Vector4.h"
 
 struct D3DResourceLeakChecker
 {
