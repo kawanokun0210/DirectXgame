@@ -160,7 +160,7 @@ void Block::FindALLObject()
 		dxCommon_;
 		engine_;
 
-		od->model->Initialize("Resource/", ss.str());
+		od->model->Initialize("./Resource/", "axis.obj");
 		od->isActive = true;
 	}
 }
