@@ -34,7 +34,7 @@ void Block::Update() {
 		std::copy(str.begin(), str.end(), label);
 		label[str.size()] = '\0'; //必要に応じてnull終端する
 
-		ImGui::DragFloat3(label, &od->transform.translate.x);
+		ImGui::DragFloat3(label,&od->transform.translate.x);
 
 		i++;
 	}
@@ -45,6 +45,7 @@ void Block::Draw(Camera* camera, DirectionalLight directionalLight) {
 	for (BlockData* od : mapData_) {
 		if (od->isActive == true) {
 			od->model->SetTransform(od->transform);
+			od->transform.scale = { 1.0f,0.1f,1.0f };
 			od->model->Draw(2, camera, directionalLight, true);
 		}
 	}
@@ -124,7 +125,7 @@ void Block::LoadStage()
 
 			//最後に数値を代入する
 			BlockData* newBlock = new BlockData(on, tr, fZ, eZ);
-			//newBlock->transform = tr;
+			newBlock->transform = tr;
 			mapData_.push_back(newBlock);
 
 		}
