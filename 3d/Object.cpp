@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include <cmath>
 
-void Object::Initialize(const std::string& directoryPath, const std::string& filename, bool isAnimationFile)
+void Object::Initialize(const std::string& directoryPath, const std::string& filename, bool isAnimationFile, int index)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	engine_ = MyEngine::GetInstance();
@@ -12,7 +12,7 @@ void Object::Initialize(const std::string& directoryPath, const std::string& fil
 		animationData = LoadAnimationFile(directoryPath, filename);
 		//NodeInitialize();
 		skeletonData = CreateSkeleton(modelData.rootNode);
-		CreateSkinCluster(dxCommon_->GetDevice(), skeletonData, modelData, dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV());
+		CreateSkinCluster(dxCommon_->GetDevice(), skeletonData, modelData, dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), index);
 	}
 	SettingVertex();
 	SettingColor();
@@ -161,13 +161,13 @@ void Object::Finalize()
 	wvpResource_->Release();*/
 }
 
-SkinCluster Object::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize) {
+SkinCluster Object::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize, int index) {
 	//palette用のResourceを確保
 	skinCluster.paletteResource = dxCommon_->CreateBufferResource(device, sizeof(WellForGPU) * skeleton.joints.size());
 	skinCluster.paletteResource->Map(0, nullptr, reinterpret_cast<void**>(&paletteData_));
 	skinCluster.mappedPalette = { paletteData_,skeleton.joints.size() };
-	skinCluster.paletteSrvHandle.first = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 15);
-	skinCluster.paletteSrvHandle.second = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), 15);
+	skinCluster.paletteSrvHandle.first = engine_->GetCPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), index);
+	skinCluster.paletteSrvHandle.second = engine_->GetGPUDescriptorHandle(dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), index);
 
 	//palette用のSRVを作成
 	D3D12_SHADER_RESOURCE_VIEW_DESC paletteSrvDesc{};

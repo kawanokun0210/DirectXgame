@@ -100,7 +100,7 @@ struct SkinCluster {
 class Object
 {
 public:
-	void Initialize(const std::string& directoryPath, const std::string& filename, bool isAnimationFile);
+	void Initialize(const std::string& directoryPath, const std::string& filename, bool isAnimationFile, int index);
 
 	void Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 
@@ -114,7 +114,7 @@ public:
 		{0.0f,0.0f,0.0f}
 	};
 
-	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize);
+	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize, int index);
 
 private:
 	void SettingVertex();

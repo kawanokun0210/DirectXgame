@@ -75,11 +75,10 @@ void GamePlayScene::Initialize()
 	sphere_->Initialize();
 
 	object_[0] = new Object();
-
-	object_[0]->Initialize("./Resource/human", "walk.gltf", true);
+	object_[0]->Initialize("./Resource/human", "walk.gltf", true, 15);
 
 	object_[1] = new Object();
-	object_[1]->Initialize("./Resource/human", "walk.gltf", true);
+	object_[1]->Initialize("./Resource/human", "sneakWalk.gltf", true, 16);
 	
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
