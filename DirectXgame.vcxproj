@@ -124,6 +124,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapFloor.cpp" />
     <ClCompile Include="math\MatrixCalculation.cpp" />
     <ClCompile Include="math\quaternion\Quaternion.cpp" />
     <ClCompile Include="particle\Particle.cpp" />
@@ -158,6 +159,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="MapFloor.h" />
     <ClInclude Include="math\Matrix3x3.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\MatrixCalculation.h" />
