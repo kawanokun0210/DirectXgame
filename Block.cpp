@@ -124,7 +124,7 @@ void Block::LoadStage()
 
 			//最後に数値を代入する
 			BlockData* newBlock = new BlockData(on, tr, fZ, eZ);
-			newBlock->transform = tr;
+			//newBlock->transform = tr;
 			mapData_.push_back(newBlock);
 
 		}
@@ -160,7 +160,7 @@ void Block::FindALLObject()
 		dxCommon_;
 		engine_;
 
-		od->model->Initialize("./Resource/", "axis.obj");
+		od->model->Initialize("./Resource/", "block.obj");
 		od->isActive = true;
 	}
 }
