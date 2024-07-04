@@ -16,6 +16,7 @@
 #include "../Camera.h"
 #include "../Player.h"
 #include "../Block.h"
+#include "../TextureManager.h"
 
 class GamePlayScene : public BaseScene
 {

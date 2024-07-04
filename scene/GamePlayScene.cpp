@@ -13,20 +13,13 @@ void GamePlayScene::Initialize()
 	player_ = std::make_unique<Player>();
 	player_->Initialize();
 
+	TextureManager::GetInstance()->Initialize();
+
 	soundDataHandle_ = sound_->LoadWave("Resource/Audio/Alarm01.wav");
 
 	directionalLight_.color = { 1.0f,1.0f,1.0f,1.0f };
 	directionalLight_.direction = { 0.0f,-1.0f,0.0f };
 	directionalLight_.intensity = 1.0f;
-
-	engine_->SettingTexture("Resource/uvChecker.png", 2);
-
-	monsterBallResourceNum_ = 1;
-	engine_->SettingTexture("Resource/fence/fence.png", 3);
-
-	engine_->SettingTexture("Resource/circle.png", 4);
-
-	engine_->SettingTexture("Resource/particle.png", 5);
 
 	camera_ = new Camera();
 	camera_->Initialize();
