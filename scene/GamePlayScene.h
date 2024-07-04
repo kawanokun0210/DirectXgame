@@ -44,9 +44,9 @@ private:
 	Vector4 sphereMaterial_;
 	Matrix4x4 sphereMatrix_;
 
-	Object* object_[2];
-	Transform objectTransform_[2];
-	Vector4 objectMaterial_[2];
+	Object* object_[3];
+	Transform objectTransform_[3];
+	Vector4 objectMaterial_[3];
 	Matrix4x4 objectMatrix_;
 
 	Transform cameraTransform_;

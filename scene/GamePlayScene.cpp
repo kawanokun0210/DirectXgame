@@ -79,13 +79,17 @@ void GamePlayScene::Initialize()
 
 	object_[1] = new Object();
 	object_[1]->Initialize("./Resource/human", "sneakWalk.gltf", true, 16);
+
+	object_[2] = new Object();
+	object_[2]->Initialize("./Resource", "axis.obj", false, 0);
 	
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
 	objectTransform_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f} };
+	objectTransform_[2] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,1.0f,0.0f} };
 
 	particle = new Particle();
 
@@ -312,7 +316,7 @@ void GamePlayScene::Draw()
 		}
 	}
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 4, camera_, directionalLight_, true);
 	}
 
