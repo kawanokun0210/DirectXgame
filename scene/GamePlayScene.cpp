@@ -55,7 +55,7 @@ void GamePlayScene::Initialize()
 	monsterBallResourceNum_ = 1;
 	engine_->SettingTexture("Resource/fence/fence.png", 3);
 
-	engine_->SettingTexture("Resource/circle.png", 4);
+	engine_->SettingTexture("Resource/human/white.png", 4);
 
 	engine_->SettingTexture("Resource/particle.png", 5);
 
@@ -314,7 +314,7 @@ void GamePlayScene::Draw()
 		}
 	}
 
-	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], 2, camera_, directionalLight_, true);
+	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], 4, camera_, directionalLight_, true);
 
 
 
