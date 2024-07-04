@@ -8,7 +8,7 @@ void Player::Initialize() {
 	model_ = new Object();
 	model_->Initialize("Resource/fence", "fence.obj");
 
-	transform_ = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	transform_ = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{-2.0f,0.0f,0.0f} };
 	model_->SetTransform(transform_);
 
 	//ジャンプ用
