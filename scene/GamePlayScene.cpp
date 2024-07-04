@@ -57,7 +57,7 @@ void GamePlayScene::Initialize()
 
 	engine_->SettingTexture("Resource/human/white.png", 4);
 
-	engine_->SettingTexture("Resource/particle.png", 5);
+	engine_->SettingTexture("Resource/circle.png", 5);
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -78,10 +78,9 @@ void GamePlayScene::Initialize()
 
 	object_[0]->Initialize("./Resource/human", "walk.gltf", true);
 
-	//object_[1] = new Object();
-
-	//object_[1]->Initialize("Resource/", "plane.obj", false);
-
+	object_[1] = new Object();
+	object_[1]->Initialize("./Resource/human", "walk.gltf", true);
+	
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
@@ -314,11 +313,12 @@ void GamePlayScene::Draw()
 		}
 	}
 
-	object_[0]->Draw(objectMaterial_[0], objectTransform_[0], 4, camera_, directionalLight_, true);
+	for (int i = 0; i < 2; i++) {
+		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 4, camera_, directionalLight_, true);
+	}
 
 
-
-	particle->Draw(&particles[0], 4, camera_);
+	particle->Draw(&particles[0], 5, camera_);
 
 }
 
