@@ -316,9 +316,10 @@ void GamePlayScene::Draw()
 		}
 	}
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 2; i++) {
 		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 4, camera_, directionalLight_, true);
 	}
+	object_[2]->Draw(objectMaterial_[2], objectTransform_[2], 2, camera_, directionalLight_, true);
 
 
 	particle->Draw(&particles[0], 5, camera_);

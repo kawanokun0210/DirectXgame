@@ -64,7 +64,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	else {
 		*materialData_ = { material,isLighting };
 		materialData_->uvTransform = uvTransformMatrix;
-		*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
+		*wvpData_ = { wvpMatrix_,worldMatrix,worldInverseTranspose };
 		wvpData_->WVP = Multiply(modelData.rootNode.localMatrix, wvpMatrix_);
 		wvpData_->World = Multiply(modelData.rootNode.localMatrix, worldMatrix);
 		*directionalLight_ = light;
@@ -74,21 +74,26 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//RootSignatureを設定。PS0とは別途設定が必要
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature().Get());
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature3().Get());
+	if (isAnimationFile_ == true) {
+		dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature3().Get());
+	}
 
 	//PS0を設定
 	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState().Get());
-	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState3().Get());
+	if (isAnimationFile_ == true) {
+		dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState3().Get());
 
-	//VBVを設定
-	D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
-			vertexBufferView,
-			skinCluster.influenceBufferView
-	};
+		//VBVを設定
+		D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
+				vertexBufferView,
+				skinCluster.influenceBufferView
+		};
+		dxCommon_->GetCommandList()->IASetVertexBuffers(0, 2, vbvs);
+		//index
+		dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
+
+	}
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
-	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 2, vbvs);
-	//index
-	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 
 	//形状を設定。PS0に設定しているものとはまた別。同じものを設定する
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
