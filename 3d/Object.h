@@ -164,9 +164,9 @@ private:
 	int32_t CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
 	void SkeletonUpdate(Skeleton& skeleton);
 	void ApplyAnimation(Skeleton& skeleton, const Animation& animation, float animationTime);
-	void NodeInitialize();
+	//void NodeInitialize();
 
-	Node SResult;
+	//Node SResult;
 	Animation animationData;
 	Skeleton skeletonData;
 

@@ -10,8 +10,8 @@ void Object::Initialize(const std::string& directoryPath, const std::string& fil
 	isAnimationFile_ = isAnimationFile;
 	if (isAnimationFile == true) {
 		animationData = LoadAnimationFile(directoryPath, filename);
-		NodeInitialize();
-		skeletonData = CreateSkeleton(SResult);
+		//NodeInitialize();
+		skeletonData = CreateSkeleton(modelData.rootNode);
 		CreateSkinCluster(dxCommon_->GetDevice(), skeletonData, modelData, dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV());
 	}
 	SettingVertex();
@@ -30,6 +30,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	Matrix4x4 cameraMatrix = MakeAffineMatrix(camera_->GetTransform().scale, camera_->GetTransform().rotate, camera_->GetTransform().translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
 	Matrix4x4 scaleMatrix = Inverse(worldMatrix);
+	Matrix4x4 worldInverseTranspose = Transpose(scaleMatrix);
 	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(dxCommon_->GetWin()->kClientWidth) / float(dxCommon_->GetWin()->kClientHeight), 0.1f, 100.0f);
 
 	Matrix4x4 wvpMatrix_ = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
@@ -53,9 +54,9 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 		*materialData_ = { material,isLighting };
 		materialData_->uvTransform = uvTransformMatrix;
-		*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
+		*wvpData_ = { wvpMatrix_,worldMatrix,worldInverseTranspose };
 		wvpData_->WVP = wvpMatrix_;
-		wvpData_->World = Multiply(localMatrix, worldMatrix);
+		wvpData_->World = worldMatrix;
 		*directionalLight_ = light;
 		materialData_->shininess = 50.0f;
 		*cameraData_ = camera_->GetTransform().translate;
@@ -359,17 +360,17 @@ void Object::ApplyAnimation(Skeleton& skeleton, const Animation& animation, floa
 	}
 }
 
-void Object::NodeInitialize() {
-	aiVector3D scale, translete;
-	aiQuaternion rotate;
-	aiNode node;
-	node.mTransformation.Decompose(scale, rotate, translete);
-	SResult.children = modelData.rootNode.children;
-	SResult.transform.scale = { scale.x,scale.y,scale.z };
-	SResult.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };
-	SResult.transform.translate = { -translete.x,translete.y,translete.z };
-	SResult.localMatrix = MakeAffineMatrix(SResult.transform.scale, SResult.transform.rotate, SResult.transform.translate);
-}
+//void Object::NodeInitialize() {
+//	aiVector3D scale, translete;
+//	aiQuaternion rotate;
+//	aiNode node;
+//	node.mTransformation.Decompose(scale, rotate, translete);
+//	SResult.children = modelData.rootNode.children;
+//	SResult.transform.scale = { scale.x,scale.y,scale.z };
+//	SResult.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };
+//	SResult.transform.translate = { -translete.x,translete.y,translete.z };
+//	SResult.localMatrix = MakeAffineMatrix(SResult.transform.scale, SResult.transform.rotate, SResult.transform.translate);
+//}
 
 void Object::SettingIndex() {
 	indexResource_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(uint32_t) * modelData.indices.size());

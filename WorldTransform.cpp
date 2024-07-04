@@ -32,7 +32,7 @@ void WorldTransform::Map()
 
 void WorldTransform::TransferMatrix()
 {
-	constMap->matWorld = matWorld_;
+	//constMap->matWorld = matWorld_;
 }
 
 void WorldTransform::UpdateWorldMatrix()
