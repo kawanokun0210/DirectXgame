@@ -17,6 +17,7 @@ public:
 	float findZ;
 	float eraseZ;
 	bool isActive = false;
+	Vector3 radius_ = { 1.0f,1.0f,1.0f };
 
 	BlockData(std::string on, Transform tr, float fZ, float eZ) :
 		objectName(on), transform(tr), findZ(fZ), eraseZ(eZ)

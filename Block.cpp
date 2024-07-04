@@ -91,6 +91,7 @@ void Block::LoadStage()
 			Transform tr = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 			float fZ = 0.0f;
 			float eZ = 0.0f;
+			Vector3 rad{};
 
 			//オブジェクト名を取得し、ファイルパスを指定する
 			if (word.find("On") == 0) {
@@ -123,9 +124,23 @@ void Block::LoadStage()
 
 			}
 
+			// 半径を設定
+			if (word.find("rad") == 0) {
+				// オブジェクト名の取得
+				getline(ss, word, ',');
+				rad.x = (float)std::atof(word.c_str());
+				getline(ss, word, ',');
+				rad.y = (float)std::atof(word.c_str());
+				getline(ss, word, ',');
+				rad.z = (float)std::atof(word.c_str());
+
+			}
+
+
 			//最後に数値を代入する
 			BlockData* newBlock = new BlockData(on, tr, fZ, eZ);
 			newBlock->transform = tr;
+			newBlock->radius_ = rad;
 			mapData_.push_back(newBlock);
 
 		}
