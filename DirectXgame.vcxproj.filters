@@ -282,6 +282,8 @@
     <FxCompile Include="Particle.PS.hlsl" />
     <FxCompile Include="Particle.VS.hlsl" />
     <FxCompile Include="SkinningObject3d.VS.hlsl" />
+    <FxCompile Include="Skybox.VS.hlsl" />
+    <FxCompile Include="Skybox.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -291,5 +293,6 @@
   <ItemGroup>
     <None Include="Object3d.hlsli" />
     <None Include="Particle.hlsli" />
+    <None Include="Skybox.hlsli" />
   </ItemGroup>
 </Project>
