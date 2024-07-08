@@ -199,6 +199,7 @@ void MyEngine::CreateInputlayOut()
 	inputElementDescs_[0].resize(4);
 	inputElementDescs_[1].resize(4);
 	inputElementDescs_[2].resize(6);
+	inputElementDescs_[3].resize(2);
 
 	for (int i = 0; i < inputElementDescs_.size(); i++) {
 		inputElementDescs_[i][0].SemanticName = "POSITION";
@@ -238,7 +239,7 @@ void MyEngine::CreateInputlayOut()
 	}
 	
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		inputLayoutDesc_[i].pInputElementDescs = inputElementDescs_[i].data();
 		inputLayoutDesc_[i].NumElements = UINT(inputElementDescs_[i].size());
 	}
@@ -292,12 +293,21 @@ void MyEngine::RasterizerState()
 	skinningVertexShaderBlob_ = CompileShader(L"SkinningObject3d.VS.hlsl",
 		L"vs_6_0", dxcUtils_[2], dxcCompiler_[2], includeHandler_[2]);
 	assert(skinningVertexShaderBlob_ != nullptr);
+
+	//Shaderをコンパイルする
+	skyboxVertexShaderBlob_ = CompileShader(L"./skybox.VS.hlsl",
+		L"vs_6_0", dxcUtils_[3], dxcCompiler_[3], includeHandler_[1]);
+	assert(skyboxVertexShaderBlob_ != nullptr);
+
+	skyboxPixelShaderBlob_ = CompileShader(L".PS.hlsl",
+		L"ps_6_0", dxcUtils_[3], dxcCompiler_[3], includeHandler_[1]);
+	assert(skyboxPixelShaderBlob_ != nullptr);
 }
 
 void MyEngine::InitializePSO()
 {
-	for (int i = 0; i < 3; i++) {
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc[3]{};
+	for (int i = 0; i < 4; i++) {
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc[4]{};
 		graphicsPipelineStateDesc[i].pRootSignature = rootSignature_[i].Get();//RootSignature
 		graphicsPipelineStateDesc[i].InputLayout = inputLayoutDesc_[i];//Inputlayout
 
@@ -320,6 +330,13 @@ void MyEngine::InitializePSO()
 				skinningVertexShaderBlob_->GetBufferSize() };//vertexShader
 			graphicsPipelineStateDesc[2].PS = { pixelShaderBlob_->GetBufferPointer(),
 				pixelShaderBlob_->GetBufferSize() };//pixcelShader
+		}
+
+		if (i == 3) {
+			graphicsPipelineStateDesc[3].VS = { skyboxVertexShaderBlob_->GetBufferPointer(),
+				skyboxVertexShaderBlob_->GetBufferSize() };//vertexShader
+			graphicsPipelineStateDesc[3].PS = { skyboxPixelShaderBlob_->GetBufferPointer(),
+				skyboxPixelShaderBlob_->GetBufferSize() };//pixcelShader
 		}
 
 		graphicsPipelineStateDesc[i].BlendState = blendDesc_[i];//BlendState
@@ -347,6 +364,10 @@ void MyEngine::InitializePSO()
 
 		if (i == 2) {
 			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[0];
+		}
+
+		if (i == 3) {
+			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[1];
 		}
 
 		graphicsPipelineStateDesc[i].DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -391,6 +412,7 @@ void MyEngine::SettingDepth()
 	depthStencilDesc_[1].DepthEnable = true;//有効化
 	depthStencilDesc_[1].DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み
 	depthStencilDesc_[1].DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
+
 }
 
 void MyEngine::Initialize(const wchar_t* title, int32_t width, int32_t height)

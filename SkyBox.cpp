@@ -74,10 +74,10 @@ void SkyBox::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	materialData_->shininess = 50.0f;
 
 	//RootSignatureを設定。PS0とは別途設定が必要
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature().Get());
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature4().Get());
 
 	//PS0を設定
-	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState().Get());
+	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState4().Get());
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);

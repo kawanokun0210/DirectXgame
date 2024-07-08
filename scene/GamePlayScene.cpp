@@ -74,6 +74,15 @@ void GamePlayScene::Initialize()
 	sphere_ = new Sphere();
 	sphere_->Initialize();
 
+	sphereTransform_ = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	sphereMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+
+	skybox_ = new SkyBox();
+	skybox_->Initialize();
+
+	skyboxTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	skyboxMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+
 	object_[0] = new Object();
 	object_[0]->Initialize("./Resource/human", "walk.gltf", true, 15);
 
@@ -321,6 +330,8 @@ void GamePlayScene::Draw()
 	}
 	object_[2]->Draw(objectMaterial_[2], objectTransform_[2], 2, camera_, directionalLight_, true);
 
+
+	skybox_->Draw(skyboxMaterial_, skyboxTransform_, 6, camera_, directionalLight_);
 
 	particle->Draw(&particles[0], 5, camera_);
 

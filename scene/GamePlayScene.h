@@ -14,6 +14,7 @@
 #include "BaseScene.h"
 #include <random>
 #include "../Camera.h"
+#include "../SkyBox.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -43,6 +44,11 @@ private:
 	Transform sphereTransform_;
 	Vector4 sphereMaterial_;
 	Matrix4x4 sphereMatrix_;
+
+	SkyBox* skybox_;
+	Transform skyboxTransform_;
+	Vector4 skyboxMaterial_;
+	Matrix4x4 skyboxMatrix_;
 
 	Object* object_[3];
 	Transform objectTransform_[3];
