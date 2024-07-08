@@ -2,3 +2,13 @@ struct VertexShaderOutput{
 	float32_t4 position : SV_POSITION;
 	float32_t3 texcoord : TEXCOORD0;
 };
+
+struct VertexShaderInput
+{
+	float32_t4 position : POSITION0;
+};
+
+struct PixelShaderOutput
+{
+	float32_t4 color : SV_TARGET0;
+};
