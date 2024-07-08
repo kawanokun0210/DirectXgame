@@ -59,6 +59,8 @@ void GamePlayScene::Initialize()
 
 	engine_->SettingTexture("Resource/circle.png", 5);
 
+	engine_->SettingTexture("Resource/rostock_laage_airport_4k.dds", 6);
+
 	for (int i = 0; i < 2; i++)
 	{
 		triangle_[i] = new Triangle();

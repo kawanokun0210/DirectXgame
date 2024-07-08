@@ -81,7 +81,7 @@ void MyEngine::InitializeDxcCompiler()
 	//dxcUtils_ = nullptr;
 	//dxcCompiler_ = nullptr;
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_[i]));
 		assert(SUCCEEDED(hr));
 		hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_[i]));
@@ -212,15 +212,17 @@ void MyEngine::CreateInputlayOut()
 		inputElementDescs_[i][1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 		inputElementDescs_[i][1].SemanticName = "TEXCOORD";
 
-		inputElementDescs_[i][2].SemanticName = "NORMAL";
-		inputElementDescs_[i][2].SemanticIndex = 0;
-		inputElementDescs_[i][2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-		inputElementDescs_[i][2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+		if (i != 3) {
+			inputElementDescs_[i][2].SemanticName = "NORMAL";
+			inputElementDescs_[i][2].SemanticIndex = 0;
+			inputElementDescs_[i][2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			inputElementDescs_[i][2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-		inputElementDescs_[i][3].SemanticName = "COLOR";
-		inputElementDescs_[i][3].SemanticIndex = 0;
-		inputElementDescs_[i][3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-		inputElementDescs_[i][3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+			inputElementDescs_[i][3].SemanticName = "COLOR";
+			inputElementDescs_[i][3].SemanticIndex = 0;
+			inputElementDescs_[i][3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			inputElementDescs_[i][3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+		}
 
 		if (i == 2) {
 			inputElementDescs_[i][4].SemanticName = "WEIGHT";
@@ -296,11 +298,11 @@ void MyEngine::RasterizerState()
 
 	//Shaderをコンパイルする
 	skyboxVertexShaderBlob_ = CompileShader(L"./skybox.VS.hlsl",
-		L"vs_6_0", dxcUtils_[3], dxcCompiler_[3], includeHandler_[1]);
+		L"vs_6_0", dxcUtils_[3], dxcCompiler_[3], includeHandler_[3]);
 	assert(skyboxVertexShaderBlob_ != nullptr);
 
 	skyboxPixelShaderBlob_ = CompileShader(L".PS.hlsl",
-		L"ps_6_0", dxcUtils_[3], dxcCompiler_[3], includeHandler_[1]);
+		L"ps_6_0", dxcUtils_[3], dxcCompiler_[3], includeHandler_[3]);
 	assert(skyboxPixelShaderBlob_ != nullptr);
 }
 

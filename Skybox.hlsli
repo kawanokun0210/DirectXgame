@@ -12,3 +12,13 @@ struct PixelShaderOutput
 {
 	float32_t4 color : SV_TARGET0;
 };
+
+struct TransformationMatrix
+{
+	float32_t4x4 WVP;
+};
+
+struct Material
+{
+	float32_t4 color;
+};
