@@ -64,6 +64,9 @@ void SkyBox::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	vertexData_[22].position = { -1.0f,-1.0f,1.0f,1.0f };
 	vertexData_[23].position = { 1.0f,-1.0f,1.0f,1.0f };
 
+	vertexData_->normal = { 0.0f,0.0f,0.0f };
+	vertexData_->texcoord = { 0.0f,0.0f };
+
 	*materialData_ = { material,true, };
 	materialData_->uvTransform = uvTransformMatrix;
 	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
