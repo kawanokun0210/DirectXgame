@@ -122,4 +122,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthStencilResource_;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle_;
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource_;
+
 };

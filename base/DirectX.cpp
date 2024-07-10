@@ -248,17 +248,20 @@ void DirectXCommon::CreateFinalRenderTargets()
 	//2つ目を作る
 	device_->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
 
-	/*const Vector4 kRenderTargetClearValue{ 1.0f,0.0f,0.0f,1.0f };
-	auto renderTextureResource = CreateRenderTextureResource(device_, WinApp::kClientWidth, WinApp::kClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
-	device_->CreateRenderTargetView(renderTextureResource.Get(), &rtvDesc_, rtvHandles_[2]);*/
-
-	/*D3D12_SHADER_RESOURCE_VIEW_DESC renderTextureSrvDesc{};
+	D3D12_SHADER_RESOURCE_VIEW_DESC renderTextureSrvDesc{};
 	renderTextureSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTextureSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	renderTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	renderTextureSrvDesc.Texture2D.MipLevels = 1;*/
+	renderTextureSrvDesc.Texture2D.MipLevels = 1;
+
+	const Vector4 kRenderTargetClearValue{ 1.0f,0.0f,0.0f,1.0f };
+	renderTextureResource_ = CreateRenderTextureResource(device_, WinApp::kClientWidth, WinApp::kClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
+	device_->CreateRenderTargetView(renderTextureResource_.Get(), &rtvDesc_, rtvHandles_[2]);
+
+	device_->CreateShaderResourceView(renderTextureResource_.Get(), &renderTextureSrvDesc, MyEngine::GetInstance()->textureSrvHandleCPU_[20]);
 
 }
+
 
 void DirectXCommon::CreateFence()
 {
@@ -387,18 +390,17 @@ void DirectXCommon::RenderPreDraw() {
 	commandList_->ResourceBarrier(1, &barrier_);
 
 	//描画先のRTVを設定する
-	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, nullptr);
+	commandList_->OMSetRenderTargets(1, &rtvHandles_[2], false, &dsvhandle_);
 
 	//指定した色で画面全体をクリアする
 	float clearColor[] = { 1.0f,0.0f,0.0f,1.0f };//青っぽい色、RGBA順
-	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
+	commandList_->ClearRenderTargetView(rtvHandles_[2], clearColor, 0, nullptr);
 
 	//描画用のDescriptorHeapの設定
 	ID3D12DescriptorHeap* descriptorHeaps[] = { srvDescriptorHeap_.Get() };
 	commandList_->SetDescriptorHeaps(1, descriptorHeaps);
 
 	dsvhandle_ = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvhandle_);
 	commandList_->ClearDepthStencilView(dsvhandle_, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
