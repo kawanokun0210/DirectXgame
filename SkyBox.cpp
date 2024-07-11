@@ -68,9 +68,9 @@ void SkyBox::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	Matrix4x4 wvpMatrix_ = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
 
-	uvTransformMatrix = MakeScaleMatrix(uvTransformSprite.scale);
+	/*uvTransformMatrix = MakeScaleMatrix(uvTransformSprite.scale);
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
-	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
+	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));*/
 
 	*cameraData_ = camera_->GetTransform().translate;
 
@@ -98,8 +98,8 @@ void SkyBox::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	vertexData_->normal = { 0.0f,0.0f,0.0f };
 	vertexData_->texcoord = { 0.0f,0.0f };
 
-	*materialData_ = { material,true, };
-	materialData_->uvTransform = uvTransformMatrix;
+	*materialData_ = { material };
+	//materialData_->uvTransform = uvTransformMatrix;
 	*wvpData_ = { wvpMatrix_,worldMatrix,scaleMatrix };
 	*directionalLight_ = light;
 	materialData_->shininess = 50.0f;
