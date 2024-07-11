@@ -103,8 +103,8 @@ void MyEngine::CreateRootSignature()
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	//RootParameter作成、複数設定可能な為、配列に
-	D3D12_ROOT_PARAMETER rootParameters[3][7] = {};
-	for (int i = 0; i < 3; i++) {
+	D3D12_ROOT_PARAMETER rootParameters[4][7] = {};
+	for (int i = 0; i < 4; i++) {
 		rootParameters[i][0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
 		rootParameters[i][0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
 		rootParameters[i][0].Descriptor.ShaderRegister = 0;//レジスタ番号0とバインド
@@ -184,7 +184,7 @@ void MyEngine::CreateRootSignature()
 		assert(false);
 	}
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		//バイナリを元に生成
 		rootSignature_[i] = nullptr;
 		hr = dxCommon_->GetDevice()->CreateRootSignature(0, signatureBlob_->GetBufferPointer(),
@@ -301,7 +301,7 @@ void MyEngine::RasterizerState()
 		L"vs_6_0", dxcUtils_[3], dxcCompiler_[3], includeHandler_[3]);
 	assert(skyboxVertexShaderBlob_ != nullptr);
 
-	skyboxPixelShaderBlob_ = CompileShader(L".PS.hlsl",
+	skyboxPixelShaderBlob_ = CompileShader(L"skybox.PS.hlsl",
 		L"ps_6_0", dxcUtils_[3], dxcCompiler_[3], includeHandler_[3]);
 	assert(skyboxPixelShaderBlob_ != nullptr);
 }
@@ -369,7 +369,7 @@ void MyEngine::InitializePSO()
 		}
 
 		if (i == 3) {
-			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[1];
+			graphicsPipelineStateDesc[3].DepthStencilState = depthStencilDesc_[1];
 		}
 
 		graphicsPipelineStateDesc[i].DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -503,13 +503,7 @@ DirectX::ScratchImage MyEngine::LoadTexture(const std::string& filePath)
 	//テクスチャファイルを読んでプログラムで扱えるようにする
 	DirectX::ScratchImage image{};
 	std::wstring filePathW = ConvertString(filePath);
-	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
-	assert(SUCCEEDED(hr));
-
-	//ミップマップの作成
-	DirectX::ScratchImage mipImages{};
-	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
-	assert(SUCCEEDED(hr));
+	HRESULT hr;
 
 	if (filePathW.ends_with(L".dds")) {
 		hr = DirectX::LoadFromDDSFile(filePathW.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, image);
@@ -518,12 +512,19 @@ DirectX::ScratchImage MyEngine::LoadTexture(const std::string& filePath)
 		hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
 	}
 
+	assert(SUCCEEDED(hr));
+
+	//ミップマップの作成
+	DirectX::ScratchImage mipImages{};
+
 	if (DirectX::IsCompressed(image.GetMetadata().format)) {
 		mipImages = std::move(image);
 	}
 	else {
 		hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 4, mipImages);
 	}
+
+	assert(SUCCEEDED(hr));
 
 	//ミップマップ付きのデータを返す
 	return mipImages;
