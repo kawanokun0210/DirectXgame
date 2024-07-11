@@ -82,7 +82,7 @@ void GamePlayScene::Initialize()
 	skybox_ = new SkyBox();
 	skybox_->Initialize();
 
-	skyboxTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	skyboxTransform_ = { {100.0f,100.0f,100.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	skyboxMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	object_[0] = new Object();
