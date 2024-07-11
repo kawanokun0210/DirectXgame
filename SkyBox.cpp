@@ -11,6 +11,8 @@ void SkyBox::Initialize()
 	SettingDictionalLight();
 	TransformMatrix();
 	CameraResource();
+	SettingIndex();
+
 }
 
 void SkyBox::Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light)
@@ -30,6 +32,25 @@ void SkyBox::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
 	*cameraData_ = camera_->GetTransform().translate;
+
+	//右面
+	indexDataSprite[0] = 0; indexDataSprite[1] = 1; indexDataSprite[2] = 2;
+	indexDataSprite[3] = 2; indexDataSprite[4] = 1; indexDataSprite[5] = 3;
+	//左面
+	indexDataSprite[6] = 4; indexDataSprite[7] = 5; indexDataSprite[8] = 6;
+	indexDataSprite[9] = 6; indexDataSprite[10] = 5; indexDataSprite[11] = 7;
+	//前面
+	indexDataSprite[12] = 8; indexDataSprite[13] = 9; indexDataSprite[14] = 10;
+	indexDataSprite[15] = 10; indexDataSprite[16] = 9; indexDataSprite[17] = 11;
+	//後面
+	indexDataSprite[18] = 12; indexDataSprite[19] = 14; indexDataSprite[20] = 13;
+	indexDataSprite[21] = 14; indexDataSprite[22] = 15; indexDataSprite[23] = 13;
+	//上面
+	indexDataSprite[24] = 16; indexDataSprite[25] = 17; indexDataSprite[26] = 18;
+	indexDataSprite[27] = 18; indexDataSprite[28] = 17; indexDataSprite[29] = 19;
+	//下面
+	indexDataSprite[30] = 20; indexDataSprite[31] = 22; indexDataSprite[32] = 21;
+	indexDataSprite[33] = 22; indexDataSprite[34] = 23; indexDataSprite[35] = 21;
 
 	//右面
 	vertexData_[0].position = { 1.0f,1.0f,1.0f,1.0f };
@@ -79,6 +100,8 @@ void SkyBox::Draw(const Vector4& material, const Transform& transform, uint32_t 
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
+	//ind
+	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferViewSprite);
 
 	//形状を設定。PS0に設定しているものとはまた別。同じものを設定する
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -94,7 +117,7 @@ void SkyBox::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
 
 	//描画
-	dxCommon_->GetCommandList()->DrawInstanced(24, 1, 0, 0);
+	dxCommon_->GetCommandList()->DrawIndexedInstanced(36, 1, 0, 0, 0);
 	//dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
 }
 
@@ -149,4 +172,19 @@ void SkyBox::CameraResource() {
 	cameraResource_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(CameraForGPU));
 
 	cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraData_));
+}
+
+void SkyBox::SettingIndex() {
+
+	indexResourceSprite_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(uint32_t) * 36);
+
+	//リソースの先頭のアドレス
+	indexBufferViewSprite.BufferLocation = indexResourceSprite_->GetGPUVirtualAddress();
+
+	indexBufferViewSprite.SizeInBytes = sizeof(uint32_t) * 36;
+
+	indexBufferViewSprite.Format = DXGI_FORMAT_R32_UINT;
+
+	indexResourceSprite_->Map(0, nullptr, reinterpret_cast<void**>(&indexDataSprite));
+
 }

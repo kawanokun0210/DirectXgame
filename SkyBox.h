@@ -35,9 +35,16 @@ private:
 
 	void CameraResource();
 
+	void SettingIndex();
+
 private:
 	DirectXCommon* dxCommon_;
 	MyEngine* engine_;
+	uint32_t* indexDataSprite = nullptr;
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSprite_;
+
+	D3D12_INDEX_BUFFER_VIEW indexBufferViewSprite{};
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource;
