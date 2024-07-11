@@ -21,6 +21,8 @@ public:
 	
 	void Initialize();
 
+	void Update();
+
 	void CreateBuffer();
 
 	void TransferMatrix();

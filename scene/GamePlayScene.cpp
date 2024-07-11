@@ -150,6 +150,7 @@ void GamePlayScene::Update()
 
 	directionalLight_.direction = Normalise(directionalLight_.direction);
 
+	camera_->Update();
 
 	ImGui::Begin("OPTION");
 	if (ImGui::TreeNode("Triangle"))
@@ -215,8 +216,8 @@ void GamePlayScene::Update()
 			}
 		}
 
-		ImGui::DragFloat3("Translate", &sphereTransform_.translate.x, 0.05f);
-		ImGui::DragFloat3("Rotate", &sphereTransform_.rotate.x, 0.05f);
+		ImGui::DragFloat3("Translate", &skyboxTransform_.translate.x, 0.05f);
+		ImGui::DragFloat3("Rotate", &skyboxTransform_.rotate.x, 0.05f);
 		ImGui::DragFloat3("Scale", &sphereTransform_.scale.x, 0.05f);
 		ImGui::ColorEdit4("Color", &sphereMaterial_.x, 0);
 		ImGui::Checkbox("ChangeTexture", &texture_);

@@ -15,6 +15,15 @@ void Camera::Initialize() {
 	UpdateMatrix();
 }
 
+void Camera::Update() {
+
+	ImGui::Begin("Camera");
+	ImGui::DragFloat3("Translate", &transform_.translate.x, 0.05f);
+	ImGui::DragFloat3("Rotate", &transform_.rotate.x, 0.05f);
+	ImGui::End();
+
+}
+
 void Camera::CreateBuffer() {
 	constBuffer_ = dxCommon_->CreateBufferResource(dxCommon_->GetDevice(), sizeof(CameraData));
 
