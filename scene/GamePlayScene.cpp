@@ -136,6 +136,15 @@ void GamePlayScene::Update()
 		worldMatrix_ = MakeAffineMatrix(transform_[i].scale, transform_[i].rotate, transform_[i].translate);
 	}
 
+	if (input_->PushKey(DIK_D)) {
+		objectTransform_[0].rotate.y = -1.5f;
+		objectTransform_[0].translate.x -= 0.02f;
+	}
+	if (input_->PushKey(DIK_A)) {
+		objectTransform_[0].rotate.y = +1.5f;
+		objectTransform_[0].translate.x += 0.02f;
+	}
+
 	if (input_->PushKey(DIK_SPACE)) {
 		sound_->PlayWave(soundDataHandle_, true, 1.0f);
 	}
