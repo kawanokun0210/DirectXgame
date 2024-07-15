@@ -88,7 +88,7 @@ private:
 
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_[4]{};
 
-	D3D12_BLEND_DESC blendDesc_[4]{};
+	std::array<D3D12_BLEND_DESC, 4> blendDesc_{};
 
 	IDxcBlob* vertexShaderBlob_;
 	

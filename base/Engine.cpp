@@ -257,7 +257,7 @@ void MyEngine::CreateInputlayOut()
 
 void MyEngine::BlendState()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < blendDesc_.size(); i++) {
 		//すべての色要素を書き込む
 		blendDesc_[i].RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 		blendDesc_[i].RenderTarget[0].BlendEnable = TRUE;

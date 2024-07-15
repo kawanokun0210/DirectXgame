@@ -305,6 +305,8 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw()
 {
 
+	skybox_->Draw(skyboxMaterial_, skyboxTransform_, 6, camera_, directionalLight_);
+
 	if (triangleDrawA_)
 	{
 		triangle_[0]->Draw(triangleData_[0].position[0], triangleData_[0].position[1], triangleData_[0].position[2], triangleData_[0].material, transform_[0], camera_, 2, directionalLight_);
@@ -332,9 +334,6 @@ void GamePlayScene::Draw()
 		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 4, camera_, directionalLight_, true);
 	}
 	object_[2]->Draw(objectMaterial_[2], objectTransform_[2], 2, camera_, directionalLight_, true);
-
-
-	skybox_->Draw(skyboxMaterial_, skyboxTransform_, 6, camera_, directionalLight_);
 
 	particle->Draw(&particles[0], 5, camera_);
 
