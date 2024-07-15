@@ -199,7 +199,7 @@ void MyEngine::CreateInputlayOut()
 	inputElementDescs_[0].resize(4);
 	inputElementDescs_[1].resize(4);
 	inputElementDescs_[2].resize(6);
-	inputElementDescs_[3].resize(3);
+	inputElementDescs_[3].resize(4);
 
 	for (int i = 0; i < inputElementDescs_.size(); i++) {
 		inputElementDescs_[i][0].SemanticName = "POSITION";
@@ -217,6 +217,11 @@ void MyEngine::CreateInputlayOut()
 			inputElementDescs_[i][2].SemanticIndex = 0;
 			inputElementDescs_[i][2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 			inputElementDescs_[i][2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+			inputElementDescs_[i][3].SemanticName = "NORMAL";
+			inputElementDescs_[i][3].SemanticIndex = 0;
+			inputElementDescs_[i][3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			inputElementDescs_[i][3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 		}
 		if (i != 3) {
 			inputElementDescs_[i][2].SemanticName = "NORMAL";
