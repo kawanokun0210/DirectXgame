@@ -5,6 +5,7 @@
 #include <timeapi.h>
 #include <vector>
 #include <dxgidebug.h>
+#include "Engine.h"
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
@@ -197,7 +198,7 @@ void DirectXCommon::CreateSwapChain()
 	assert(SUCCEEDED(hr_));
 
 	//RTV用ディスクリプタヒープの生成
-	rtvDescriptorHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
+	rtvDescriptorHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 8, false);
 
 	//SwapChainからResourceを引っ張ってくる
 	swapChainResources_[0] = { nullptr };
@@ -256,9 +257,11 @@ void DirectXCommon::CreateFinalRenderTargets()
 
 	const Vector4 kRenderTargetClearValue{ 1.0f,0.0f,0.0f,1.0f };
 	renderTextureResource_ = CreateRenderTextureResource(device_, WinApp::kClientWidth, WinApp::kClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
+	rtvHandles_[2].ptr = rtvHandles_[1].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	device_->CreateRenderTargetView(renderTextureResource_.Get(), &rtvDesc_, rtvHandles_[2]);
-
-	device_->CreateShaderResourceView(renderTextureResource_.Get(), &renderTextureSrvDesc, MyEngine::GetInstance()->textureSrvHandleCPU_[20]);
+	MyEngine::GetInstance()->GetCPUDescriptorHandle(srvDescriptorHeap_, MyEngine::GetInstance()->GetdescriptorSizeSRV(), 6);
+	MyEngine::GetInstance()->GetGPUDescriptorHandle(srvDescriptorHeap_, MyEngine::GetInstance()->GetdescriptorSizeSRV(), 6);
+	device_->CreateShaderResourceView(renderTextureResource_.Get(), &renderTextureSrvDesc, MyEngine::GetInstance()->textureSrvHandleCPU_[6]);
 
 }
 

@@ -46,6 +46,7 @@ public:
 	DirectXCommon* GetDirectXCommon() { return dxCommon_; }
 
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[kMaxResources];
+
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[kMaxResources];
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorheap, uint32_t descriptorSize, uint32_t index);

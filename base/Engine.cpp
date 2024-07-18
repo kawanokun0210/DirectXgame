@@ -558,6 +558,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE MyEngine::GetCPUDescriptorHandle(Microsoft::WRL::Com
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorheap->GetCPUDescriptorHandleForHeapStart();
 	handleCPU.ptr += (descriptorSize * index);
+	textureSrvHandleCPU_[index] = handleCPU;
 	return handleCPU;
 }
 
@@ -565,6 +566,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE MyEngine::GetGPUDescriptorHandle(Microsoft::WRL::Com
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorheap->GetGPUDescriptorHandleForHeapStart();
 	handleGPU.ptr += (descriptorSize * index);
+	textureSrvHandleGPU_[index] = handleGPU;
 	return handleGPU;
 }
 

@@ -8,6 +8,8 @@
 #include "DirectXTex.h"
 #include "Vector4.h"
 
+class MyEngine;
+
 struct D3DResourceLeakChecker
 {
 	//DirectXCommon* dx = new DirectXCommon();
@@ -102,7 +104,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_;//srv用
 
 	//RTVを２つ作るのでディスクリプタを２つ用意
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[3];
 	Microsoft::WRL::ComPtr<ID3D12Resource> swapChainResources_[2];
 
 	//Fence
