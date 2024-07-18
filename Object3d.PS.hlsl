@@ -10,6 +10,8 @@ ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 
 ConstantBuffer<Camera> gCamera : register(b2);
 
+TextureCube<float32_t4> gEnvironmentTexture : register(t1);
+
 PixelShaderOutput main(VertexShaderOutput input)
 {
 	PixelShaderOutput output;
