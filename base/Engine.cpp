@@ -167,6 +167,16 @@ void MyEngine::CreateRootSignature()
 	rootParameters[2][4].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
 	rootParameters[2][4].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
 
+	D3D12_DESCRIPTOR_RANGE enviroment[1] = {};
+	enviroment[0].BaseShaderRegister = 1;//0から始まる
+	enviroment[0].NumDescriptors = 1;//数は1つ
+	enviroment[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
+	enviroment[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+	rootParameters[3][2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//Descriptortableを使う
+	rootParameters[3][2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixcelShaderを使う
+	rootParameters[3][2].DescriptorTable.pDescriptorRanges = enviroment;//tableの中身の配列を指定
+	rootParameters[3][2].DescriptorTable.NumDescriptorRanges = _countof(enviroment);//Tableで利用する数
+
 	descriptionRootSignature.pParameters = rootParameters[2];//ルートパラメータ配列へのポインタ
 	descriptionRootSignature.NumParameters = _countof(rootParameters[2]);//配列の長さ
 
