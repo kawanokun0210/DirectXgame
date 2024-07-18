@@ -8,7 +8,7 @@ ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b1);
 
 PixelShaderOutput main(VertexShaderOutput input){
 	PixelShaderOutput output;
-	float32_t3 cameraToPosition = normalize(input.position);
+	float32_t3 cameraToPosition = mul(input.position, gTransformationMatrix.WVP).xyz;
 	float32_t3 reflectedVector = reflect(cameraToPosition,normalize(input.normal));
 	float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler,reflectedVector);
 
