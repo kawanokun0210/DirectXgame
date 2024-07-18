@@ -120,7 +120,7 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	//XINPUT_STATE joyState;
+	XINPUT_STATE joyState;
 	input_->Update();
 
 	for (int i = 0; i < 2; i++)
@@ -134,6 +134,18 @@ void GamePlayScene::Update()
 		}
 		//}
 		worldMatrix_ = MakeAffineMatrix(transform_[i].scale, transform_[i].rotate, transform_[i].translate);
+	}
+
+	if (input_->GetJoystickState(0, joyState)) {
+		objectTransform_[0].translate.x -= (float)joyState.Gamepad.sThumbLX / SHRT_MAX * 0.02f;
+
+		if ((float)joyState.Gamepad.sThumbLX > -1) {
+			objectTransform_[0].rotate.y = -1.5f;
+		}
+		else {
+			objectTransform_[0].rotate.y = +1.5f;
+		}
+
 	}
 
 	if (input_->PushKey(DIK_D)) {
