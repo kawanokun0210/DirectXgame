@@ -60,6 +60,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 		*directionalLight_ = light;
 		materialData_->shininess = 50.0f;
 		*cameraData_ = camera_->GetTransform().translate;
+		vertexData_->worldPosition = camera_->GetTransform().translate;
 	}
 	else {
 		*materialData_ = { material,isLighting };
