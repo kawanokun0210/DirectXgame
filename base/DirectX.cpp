@@ -381,7 +381,7 @@ void DirectXCommon::RenderPreDraw() {
 	barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 
 	//barrier対象のリソース、バックばっがに対して行う
-	barrier_.Transition.pResource = swapChainResources_[backBufferIndex].Get();
+	barrier_.Transition.pResource = renderTextureResource_.Get();
 
 	//遷移前のresourcestate
 	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
@@ -423,12 +423,12 @@ void DirectXCommon::RenderPostDraw() {
 	hr_ = commandList_->Close();
 	assert(SUCCEEDED(hr_));
 
-	//GPUにコマンドリストを実行させる
-	ID3D12CommandList* commandLists[] = { commandList_.Get() };
-	commandQueue_->ExecuteCommandLists(1, commandLists);
+	////GPUにコマンドリストを実行させる
+	//ID3D12CommandList* commandLists[] = { commandList_.Get() };
+	//commandQueue_->ExecuteCommandLists(1, commandLists);
 
-	//GPUとOSに画面の交換を行うよう通知する
-	swapChain_->Present(1, 0);
+	////GPUとOSに画面の交換を行うよう通知する
+	//swapChain_->Present(1, 0);
 
 	//FPS固定
 	UpdateFixFPS();
