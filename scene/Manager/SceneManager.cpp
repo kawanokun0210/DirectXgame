@@ -36,7 +36,9 @@ int SceneManager::Run() {
 			break;
 		}
 
-		engine_->BeginFrame();
+		ImGui_ImplDX12_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
 
 		//シーンのチェック
 		prevSceneNo_ = currentSceneNo_;
@@ -51,14 +53,19 @@ int SceneManager::Run() {
 		//更新処理
 		sceneArr_[currentSceneNo_]->Update();
 
+		dxCommon_->RenderPreDraw();
+
 		//描画処理
 		sceneArr_[currentSceneNo_]->Draw();
 
-		engine_->EndFrame();
-
-		dxCommon_->RenderPreDraw();
-
 		dxCommon_->RenderPostDraw();
+
+
+		engine_->BeginFrame();
+
+		// Copyをする
+
+		engine_->EndFrame();
 
 	}
 

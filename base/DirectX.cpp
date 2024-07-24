@@ -281,10 +281,11 @@ void DirectXCommon::CreateFence()
 
 void DirectXCommon::PreDraw()
 {
+	/*
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
+	*/
 	//書き込むバックバッファのインデックスを取得
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 
@@ -317,7 +318,6 @@ void DirectXCommon::PreDraw()
 	ID3D12DescriptorHeap* descriptorHeaps[] = {srvDescriptorHeap_.Get()};
 	commandList_->SetDescriptorHeaps(1, descriptorHeaps);
 
-	dsvhandle_ = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvhandle_);
 	commandList_->ClearDepthStencilView(dsvhandle_, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -326,10 +326,14 @@ void DirectXCommon::PostDraw()
 {
 	hr_;
 
+	//内部コマンドを生成する
+	ImGui::Render();
 	//実際のCommandListのコマンドを積む
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList_.Get());
 
 	//画面描画処理の終わり、状態を遷移
+	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
+	barrier_.Transition.pResource = swapChainResources_[backBufferIndex].Get();
 	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 
@@ -384,7 +388,7 @@ void DirectXCommon::RenderPreDraw() {
 	barrier_.Transition.pResource = renderTextureResource_.Get();
 
 	//遷移前のresourcestate
-	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 
 	//遷移後のresourcestate
 	barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
@@ -403,16 +407,30 @@ void DirectXCommon::RenderPreDraw() {
 	ID3D12DescriptorHeap* descriptorHeaps[] = { srvDescriptorHeap_.Get() };
 	commandList_->SetDescriptorHeaps(1, descriptorHeaps);
 
-	dsvhandle_ = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 	commandList_->ClearDepthStencilView(dsvhandle_, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 void DirectXCommon::RenderPostDraw() {
 	hr_;
 
-	//実際のCommandListのコマンドを積む
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList_.Get());
+	//今回のbarrierはTransition
+	barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 
+	//Noneにする
+	barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+
+	//barrier対象のリソース、バックばっがに対して行う
+	barrier_.Transition.pResource = renderTextureResource_.Get();
+
+	//遷移前のresourcestate
+	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	//遷移後のresourcestate
+	barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+
+	//TransitionBarrierを張る
+	commandList_->ResourceBarrier(1, &barrier_);
+/*
 	//画面描画処理の終わり、状態を遷移
 	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
@@ -422,7 +440,7 @@ void DirectXCommon::RenderPostDraw() {
 	//コマンドリストの内容を確定させる。全てのコマンドを積んでからcloseする
 	hr_ = commandList_->Close();
 	assert(SUCCEEDED(hr_));
-
+	
 	////GPUにコマンドリストを実行させる
 	//ID3D12CommandList* commandLists[] = { commandList_.Get() };
 	//commandQueue_->ExecuteCommandLists(1, commandLists);
@@ -452,6 +470,7 @@ void DirectXCommon::RenderPostDraw() {
 	assert(SUCCEEDED(hr_));
 	hr_ = commandList_->Reset(commandAllocator_.Get(), nullptr);
 	assert(SUCCEEDED(hr_));
+	*/
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor)
@@ -579,6 +598,7 @@ void DirectXCommon::CreateDepthStensil()
 	device_->CreateDepthStencilView(depthStencilResource_.Get(),
 		&dsvdesc,
 		dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
+	dsvhandle_ = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 }
 
 D3DResourceLeakChecker::~D3DResourceLeakChecker() {

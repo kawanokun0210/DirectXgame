@@ -399,8 +399,6 @@ void MyEngine::BeginFrame()
 
 void MyEngine::EndFrame()
 {
-	//内部コマンドを生成する
-	ImGui::Render();
 
 	//dxCommon_->RenderPostDraw();
 	dxCommon_->PostDraw();
