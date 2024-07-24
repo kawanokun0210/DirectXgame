@@ -772,7 +772,7 @@ MaterialData MyEngine::LoadMaterialTemplateFile(const std::string& directoryPath
 void MyEngine::CopyDraw() {
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature_[2].Get());
 	dxCommon_->GetCommandList()->SetPipelineState(graphicsPipelineState_[2].Get());
-	dxCommon_->GetCommandList()->SetComputeRootDescriptorTable(2, textureSrvHandleGPU_[6]);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_[6]);
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
 
