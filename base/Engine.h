@@ -39,6 +39,8 @@ public:
 
 	void SettingObjTexture(uint32_t index);
 
+	void CopyDraw();
+
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
@@ -62,6 +64,10 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetGraphicsPipelineState2() { return graphicsPipelineState_[1]; }
 
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature3() { return rootSignature_[2]; }
+
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetGraphicsPipelineState3() { return graphicsPipelineState_[2]; }
+
 private:
 
 	static	DirectXCommon* dxCommon_;
@@ -69,18 +75,18 @@ private:
 	MyEngine() = default;
 	~MyEngine() = default;
 
-	IDxcUtils* dxcUtils_[2];
-	IDxcCompiler3* dxcCompiler_[2];
+	IDxcUtils* dxcUtils_[3];
+	IDxcCompiler3* dxcCompiler_[3];
 
-	IDxcIncludeHandler* includeHandler_[2];
+	IDxcIncludeHandler* includeHandler_[3];
 
 	ID3DBlob* signatureBlob_;
 	ID3DBlob* errorBlob_;
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_[2];
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_[3];
 
-	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_[2]{};
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_[3]{};
 
-	D3D12_BLEND_DESC blendDesc_[2]{};
+	D3D12_BLEND_DESC blendDesc_[3]{};
 
 	IDxcBlob* vertexShaderBlob_;
 	
@@ -89,9 +95,12 @@ private:
 	IDxcBlob* particleVertexShaderBlob_;
 	IDxcBlob* particlePixelShaderBlob_;
 
+	IDxcBlob* postVertexShaderBlob_;
+	IDxcBlob* postPixelShaderBlob_;
+
 	D3D12_RASTERIZER_DESC rasterizerDesc_{};
 
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_[2];
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_[3];
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
@@ -105,7 +114,7 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> textureResource_[kMaxResources];
 
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_[2]{};
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_[3]{};
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource_[kMaxResources];
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResources_[kMaxResources];

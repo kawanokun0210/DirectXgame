@@ -81,7 +81,7 @@ void MyEngine::InitializeDxcCompiler()
 	//dxcUtils_ = nullptr;
 	//dxcCompiler_ = nullptr;
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_[i]));
 		assert(SUCCEEDED(hr));
 		hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_[i]));
@@ -103,8 +103,8 @@ void MyEngine::CreateRootSignature()
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	//RootParameter作成、複数設定可能な為、配列に
-	D3D12_ROOT_PARAMETER rootParameters[2][7] = {};
-	for (int i = 0; i < 2; i++) {
+	D3D12_ROOT_PARAMETER rootParameters[3][7] = {};
+	for (int i = 0; i < 3; i++) {
 		rootParameters[i][0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CBVを使う
 		rootParameters[i][0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
 		rootParameters[i][0].Descriptor.ShaderRegister = 0;//レジスタ番号0とバインド
@@ -178,7 +178,7 @@ void MyEngine::CreateRootSignature()
 		assert(false);
 	}
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		//バイナリを元に生成
 		rootSignature_[i] = nullptr;
 		hr = dxCommon_->GetDevice()->CreateRootSignature(0, signatureBlob_->GetBufferPointer(),
@@ -209,15 +209,19 @@ void MyEngine::CreateInputlayOut()
 	inputElementDescs_[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 	inputElementDescs_[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		inputLayoutDesc_[i].pInputElementDescs = inputElementDescs_;
 		inputLayoutDesc_[i].NumElements = _countof(inputElementDescs_);
+		if (i == 2) {
+			inputLayoutDesc_[i].pInputElementDescs = nullptr;
+			inputLayoutDesc_[i].NumElements = 0;
+		}
 	}
 }
 
 void MyEngine::BlendState()
 {
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		//すべての色要素を書き込む
 		blendDesc_[i].RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 		blendDesc_[i].RenderTarget[0].BlendEnable = TRUE;
@@ -257,12 +261,21 @@ void MyEngine::RasterizerState()
 	particlePixelShaderBlob_ = CompileShader(L"Particle.PS.hlsl",
 		L"ps_6_0", dxcUtils_[1], dxcCompiler_[1], includeHandler_[1]);
 	assert(particlePixelShaderBlob_ != nullptr);
+
+	//Shaderをコンパイルする
+	postVertexShaderBlob_ = CompileShader(L"./CopyImage.VS.hlsl",
+		L"vs_6_0", dxcUtils_[2], dxcCompiler_[2], includeHandler_[2]);
+	assert(particleVertexShaderBlob_ != nullptr);
+
+	postPixelShaderBlob_ = CompileShader(L"CopyImage.PS.hlsl",
+		L"ps_6_0", dxcUtils_[2], dxcCompiler_[2], includeHandler_[2]);
+	assert(particlePixelShaderBlob_ != nullptr);
 }
 
 void MyEngine::InitializePSO()
 {
-	for (int i = 0; i < 2; i++) {
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc[2]{};
+	for (int i = 0; i < 3; i++) {
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc[3]{};
 		graphicsPipelineStateDesc[i].pRootSignature = rootSignature_[i].Get();//RootSignature
 		graphicsPipelineStateDesc[i].InputLayout = inputLayoutDesc_[i];//Inputlayout
 
@@ -278,6 +291,13 @@ void MyEngine::InitializePSO()
 				particleVertexShaderBlob_->GetBufferSize() };//vertexShader
 			graphicsPipelineStateDesc[1].PS = { particlePixelShaderBlob_->GetBufferPointer(),
 				particlePixelShaderBlob_->GetBufferSize() };//pixcelShader
+		}
+
+		if (i == 2) {
+			graphicsPipelineStateDesc[2].VS = { postVertexShaderBlob_->GetBufferPointer(),
+				postVertexShaderBlob_->GetBufferSize() };//vertexShader
+			graphicsPipelineStateDesc[2].PS = { postPixelShaderBlob_->GetBufferPointer(),
+				postPixelShaderBlob_->GetBufferSize() };//pixcelShader
 		}
 
 		graphicsPipelineStateDesc[i].BlendState = blendDesc_[i];//BlendState
@@ -301,6 +321,10 @@ void MyEngine::InitializePSO()
 
 		if (i == 1) {
 			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[1];
+		}
+
+		if (i == 2) {
+			graphicsPipelineStateDesc[2].DepthStencilState = depthStencilDesc_[2];
 		}
 
 		graphicsPipelineStateDesc[i].DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -345,6 +369,8 @@ void MyEngine::SettingDepth()
 	depthStencilDesc_[1].DepthEnable = true;//有効化
 	depthStencilDesc_[1].DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み
 	depthStencilDesc_[1].DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
+
+	depthStencilDesc_[2].DepthEnable = false;
 }
 
 void MyEngine::Initialize(const wchar_t* title, int32_t width, int32_t height)
@@ -741,6 +767,13 @@ MaterialData MyEngine::LoadMaterialTemplateFile(const std::string& directoryPath
 
 	}
 	return materialData;
+}
+
+void MyEngine::CopyDraw() {
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature_[2].Get());
+	dxCommon_->GetCommandList()->SetPipelineState(graphicsPipelineState_[2].Get());
+	dxCommon_->GetCommandList()->SetComputeRootDescriptorTable(2, textureSrvHandleGPU_[6]);
+	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
 
 DirectXCommon* MyEngine::dxCommon_;

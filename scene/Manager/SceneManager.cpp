@@ -64,6 +64,7 @@ int SceneManager::Run() {
 		engine_->BeginFrame();
 
 		// Copyをする
+		engine_->CopyDraw();
 
 		engine_->EndFrame();
 
