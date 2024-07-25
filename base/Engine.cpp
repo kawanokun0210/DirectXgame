@@ -387,7 +387,7 @@ void MyEngine::InitializePSO()
 		}
 
 		if (i == 2) {
-			graphicsPipelineStateDesc[1].DepthStencilState = depthStencilDesc_[0];
+			graphicsPipelineStateDesc[2].DepthStencilState = depthStencilDesc_[0];
 		}
 
 		if (i == 3) {

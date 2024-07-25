@@ -17,7 +17,6 @@ PixelShaderOutput main(VertexShaderOutput input)
 	PixelShaderOutput output;
 
 	float4 transformedUV = mul(float32_t4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
-	//float32_t4 textureColor = gTexture.Sample(gSampler, input.texcoord);
 
 	float32_t4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 
@@ -28,6 +27,10 @@ PixelShaderOutput main(VertexShaderOutput input)
 	float32_t3 reflectLight = reflect(gDirectionalLight.direction, normalize(input.normal));
 
 	float32_t3 halfVector = normalize(-gDirectionalLight.direction + toEye);
+
+	float32_t3 cameraToPosition = normalize(input.worldPosition - gCamera.worldPosition);
+	float32_t3 reflectedVector = reflect(cameraToPosition,normalize(input.normal));
+	float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler,reflectedVector);
 
 	if (textureColor.a <= 0.5) {
 		discard;
@@ -53,6 +56,7 @@ PixelShaderOutput main(VertexShaderOutput input)
 		float32_t3 diffuse = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
 		float32_t3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float32_t3(1.0f, 1.0f, 1.0f);
 		output.color.rgb = diffuse + specular;
+		output.color.rgb += environmentColor.rgb;
 		output.color.a = gMaterial.color.a * textureColor.a;
 
 		//output.color.rgb = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
