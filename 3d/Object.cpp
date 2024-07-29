@@ -2,14 +2,14 @@
 #include "Engine.h"
 #include <cmath>
 
-void Object::Initialize(const std::string& directoryPath, const std::string& filename, bool isAnimationFile, int index)
+void Object::Initialize(const std::string& filename, bool isAnimationFile, int index)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	engine_ = MyEngine::GetInstance();
-	modelData = engine_->LoadObjFile(directoryPath, filename);
+	modelData = engine_->LoadObjFile(filename);
 	isAnimationFile_ = isAnimationFile;
 	if (isAnimationFile == true) {
-		animationData = LoadAnimationFile(directoryPath, filename);
+		animationData = LoadAnimationFile(filename);
 		//NodeInitialize();
 		skeletonData = CreateSkeleton(modelData.rootNode);
 		CreateSkinCluster(dxCommon_->GetDevice(), skeletonData, modelData, dxCommon_->GetSrvDescriptiorHeap(), engine_->GetdescriptorSizeSRV(), index);
@@ -123,9 +123,9 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	}
 }
 
-Animation Object::LoadAnimationFile(const std::string& directoryPath, const std::string& filename) {
+Animation Object::LoadAnimationFile(const std::string& filename) {
 	Assimp::Importer importer;
-	std::string filePath = directoryPath + "/" + filename;
+	std::string filePath = filename;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
 	assert(scene->mNumAnimations != 0);
 	aiAnimation* animationAssimp = scene->mAnimations[0];

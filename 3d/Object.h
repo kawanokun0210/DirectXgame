@@ -100,13 +100,13 @@ struct SkinCluster {
 class Object
 {
 public:
-	void Initialize(const std::string& directoryPath, const std::string& filename, bool isAnimationFile, int index);
+	void Initialize(const std::string& filename, bool isAnimationFile, int index);
 
 	void Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 
 	void Finalize();
 
-	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
+	Animation LoadAnimationFile(const std::string& filename);
 
 	Transform uvTransformSprite{
 		{1.0f,1.0f,1.0f},

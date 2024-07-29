@@ -86,13 +86,13 @@ void GamePlayScene::Initialize()
 	skyboxMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	object_[0] = new Object();
-	object_[0]->Initialize("./Resource/human", "walk.gltf", true, 15);
+	object_[0]->Initialize("./Resource/human/walk.gltf", true, 15);
 
 	object_[1] = new Object();
-	object_[1]->Initialize("./Resource/human", "sneakWalk.gltf", true, 16);
+	object_[1]->Initialize("./Resource/human/sneakWalk.gltf", true, 16);
 
-	object_[2] = new Object();
-	object_[2]->Initialize("./Resource", "axis.obj", false, 0);
+	/*object_[2] = new Object();
+	object_[2]->Initialize("./Resource/axis.obj", false, 20);*/
 	
 	for (int i = 0; i < 3; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -104,7 +104,7 @@ void GamePlayScene::Initialize()
 
 	particle = new Particle();
 
-	particle->Initialize("Resource/", "plane.obj", 1);
+	particle->Initialize("Resource/plane.obj", 1);
 
 	std::mt19937 randomEngine(seedGenerator());
 

@@ -2,11 +2,11 @@
 #include "Engine.h"
 #include <cmath>
 
-void Particle::Initialize(const std::string& directoryPath, const std::string& filename, int index)
+void Particle::Initialize(const std::string& filename, int index)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	engine_ = MyEngine::GetInstance();
-	modelData = engine_->LoadObjFile(directoryPath, filename);
+	modelData = engine_->LoadObjFile(filename);
 	index_ = index;
 	SettingVertex();
 	SettingColor();

@@ -28,7 +28,7 @@ struct ParticleData {
 class Particle
 {
 public:
-	void Initialize(const std::string& directoryPath, const std::string& filename, int index);
+	void Initialize(const std::string& filename, int index);
 
 	void Draw(ParticleData* transforms, uint32_t index, Camera* cameraTransform);
 
