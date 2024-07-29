@@ -100,6 +100,8 @@ struct SkinCluster {
 class Object
 {
 public:
+	static Object* Create(const std::string& filename, bool isAnimationFile, int index);
+
 	void Initialize(const std::string& filename, bool isAnimationFile, int index);
 
 	void Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);

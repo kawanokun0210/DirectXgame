@@ -22,6 +22,13 @@ void Object::Initialize(const std::string& filename, bool isAnimationFile, int i
 	SettingIndex();
 }
 
+Object* Object::Create(const std::string& filename, bool isAnimationFile, int index)
+{
+	Object* model = new Object();
+	model->Initialize(filename, isAnimationFile, index);
+	return model;
+}
+
 void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
 {
 	camera_ = cameraTransform;
