@@ -52,6 +52,7 @@ public:
 private:
 
 	std::map<std::string, std::unique_ptr<Object>> models;
+	std::vector<std::unique_ptr<Object>> objects;
 	std::unique_ptr<LevelData> levelData;
 
 };
