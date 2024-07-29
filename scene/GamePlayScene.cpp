@@ -76,11 +76,11 @@ void GamePlayScene::Initialize()
 
 	object_[0] = new Object();
 
-	object_[0]->Initialize("Resource/fence", "fence.obj");
+	object_[0]->Initialize("Resource/fence/fence.obj");
 
 	object_[1] = new Object();
 
-	object_[1]->Initialize("Resource/", "plane.obj");
+	object_[1]->Initialize("Resource/plane.obj");
 
 	for (int i = 0; i < 2; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -91,7 +91,7 @@ void GamePlayScene::Initialize()
 
 	particle = new Particle();
 
-	particle->Initialize("Resource/", "plane.obj", 1);
+	particle->Initialize("Resource/plane.obj", 1);
 
 	std::mt19937 randomEngine(seedGenerator());
 	

@@ -35,9 +35,9 @@ public:
 
 	void SettingObjTexture(uint32_t index);
 
-	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
+	ModelData LoadObjFile(const std::string& filename);
 
-	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
+	MaterialData LoadMaterialTemplateFile(const std::string& filename);
 
 	DirectXCommon* GetDirectXCommon() { return dxCommon_; }
 

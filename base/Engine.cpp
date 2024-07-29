@@ -566,7 +566,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE MyEngine::GetGPUDescriptorHandle(Microsoft::WRL::Com
 	return handleGPU;
 }
 
-ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
+ModelData MyEngine::LoadObjFile(const std::string& filename) {
 
 	ModelData modelData;//構築するModelData
 	std::vector<Vector4> positions;//位置
@@ -574,7 +574,7 @@ ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::str
 	std::vector<Vector2> texcoords;//テクスチャ座標
 	std::string line;
 
-	std::ifstream file(directoryPath + "/" + filename);
+	std::ifstream file(filename);
 	assert(file.is_open());
 
 	while (std::getline(file, line)) {
@@ -632,19 +632,19 @@ ModelData MyEngine::LoadObjFile(const std::string& directoryPath, const std::str
 			std::string materialFilename;
 			s >> materialFilename;
 			//基本的にOBJファイルと同一階層にmtlは存在させるので、ディレクトリ名とファイル名を渡す
-			modelData.material = LoadMaterialTemplateFile(directoryPath, materialFilename);
+			modelData.material = LoadMaterialTemplateFile(materialFilename);
 		}
 
 	}
 	return modelData;
 }
 
-MaterialData MyEngine::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename) {
+MaterialData MyEngine::LoadMaterialTemplateFile(const std::string& filename) {
 
 	ModelData modelData;//構築するmodelData
 	MaterialData materialData;//構築するMaterialData
 	std::string line;//ファイルから読んだ一桁を格納するもの
-	std::ifstream file(directoryPath + "/" + filename);//ファイルを開く
+	std::ifstream file(filename);//ファイルを開く
 	assert(file.is_open());
 
 	while (std::getline(file, line)) {
@@ -657,7 +657,7 @@ MaterialData MyEngine::LoadMaterialTemplateFile(const std::string& directoryPath
 			std::string textureFilename;
 			s >> textureFilename;
 			//連結にしてファイルパスにする
-			materialData.textureFilePath = directoryPath + "/" + textureFilename;
+			materialData.textureFilePath = textureFilename;
 		}
 
 	}

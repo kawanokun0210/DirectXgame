@@ -2,11 +2,11 @@
 #include "Engine.h"
 #include <cmath>
 
-void Object::Initialize(const std::string& directoryPath, const std::string& filename)
+void Object::Initialize(const std::string& filename)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	engine_ = MyEngine::GetInstance();
-	modelData = engine_->LoadObjFile(directoryPath, filename);
+	modelData = engine_->LoadObjFile(filename);
 	SettingVertex();
 	SettingColor();
 	SettingDictionalLight();
