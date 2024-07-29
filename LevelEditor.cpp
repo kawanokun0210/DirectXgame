@@ -41,6 +41,21 @@ void LevelEditor::LoadJsonFile() {
 
 }
 
+void LevelEditor::Draw(Camera* camera) {
+	//レベルデータからオブジェクトを生成、配置
+	for (auto& objectData : levelData->objects) {
+		//ファイル名から登録済みモデルを検索
+		Object* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData.filename);
+		if (it != models.end()) {  }
+		//モデルを指定して3Dオブジェクトを生成
+		Object* newObject = new Object();
+		//座標
+		
+
+	}
+}
+
 void LevelEditor::RecursiveFunction(nlohmann::json& object) {
 	assert(object.contains("type"));
 

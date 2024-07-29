@@ -18,6 +18,7 @@
 #include <array>
 #include "../Resource/json.hpp"
 #include "Object.h"
+#include "Camera.h"
 
 struct LevelData
 {
@@ -44,7 +45,7 @@ public:
 
 	//void Update();
 
-	//void Draw();
+	void Draw(Camera* camera);
 
 	void RecursiveFunction(nlohmann::json& object);
 
