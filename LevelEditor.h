@@ -16,6 +16,25 @@
 #include "MatrixCalculation.h"
 #include "Quaternion.h"
 #include <array>
+#include "../Resource/json.hpp"
+#include "Object.h"
+
+struct LevelData
+{
+	struct ObjectData
+	{
+		std::string filename;
+		Vector3 translate;
+		Vector3 rotate;
+		Vector3 scale;
+
+		// colliderの情報
+		std::string collisionType;
+		Vector3 center;
+		Vector3 size;
+	};
+	std::vector<ObjectData>objects;
+};
 
 class LevelEditor
 {
@@ -27,9 +46,12 @@ public:
 
 	//void Draw();
 
+	void RecursiveFunction(nlohmann::json& object);
+
 private:
 
-
+	std::map<std::string, std::unique_ptr<Object>> models;
+	std::unique_ptr<LevelData> levelData;
 
 };
 
