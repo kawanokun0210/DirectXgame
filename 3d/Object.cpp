@@ -110,6 +110,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
 	if (isAnimationFile_ == true) {
 		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, skinCluster.paletteSrvHandle.second);
+		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(7, engine_->textureSrvHandleGPU_[6]);
 	}
 
 	//描画
