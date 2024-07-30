@@ -52,7 +52,7 @@ void LevelEditor::Draw(Camera* camera, DirectionalLight directionalLight_) {
 		if (it != models.end()) { model = it->second.get(); }
 		//モデルを指定して3Dオブジェクトを生成
 		Object* newObject = new Object();
-		newObject->Initialize("Resource/plane.obj", false, 1);
+		newObject->Initialize("Resource/human/walk.gltf", true, 1);
 		newObject->SetTransform(objectData.translate);
 		newObject->SetRotate(objectData.rotate);
 		newObject->SetScale(objectData.scale);
@@ -76,10 +76,10 @@ void LevelEditor::RecursiveFunction(nlohmann::json& object) {
 		LevelData::ObjectData& objectData = levelData->objects.back();
 
 		if (object.contains("file_name")) {
-			const std::string path = "Resource/";
+			//const std::string path = "Resource/";
 			//ファイル名
 			objectData.filename = object["file_name"];
-			objectData.filename = path + objectData.filename;
+			//objectData.filename = path + objectData.filename;
 		}
 
 		//トランスフォームのパラメータ読み込み
