@@ -104,7 +104,7 @@ public:
 
 	void Initialize(const std::string& filename, bool isAnimationFile, int index);
 
-	void Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
+	void Draw(uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 
 	void Finalize();
 
@@ -142,6 +142,10 @@ public:
 	Vector3 scale_;
 
 private:
+
+	Transform transform = { { 0.4f,0.4f,0.4f }, { 0.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f } };
+	Vector4 material_ = { 1.0f,1.0f,1.0f,1.0f };
+
 	DirectXCommon* dxCommon_;
 	MyEngine* engine_;
 
@@ -180,9 +184,6 @@ private:
 	Animation animationData;
 	Skeleton skeletonData;
 
-	Vector3 translate_;
-	Quaternion rotate_;
-	Vector3 scale_;
 	Matrix4x4 localMatrix;
 
 	Animation animation;

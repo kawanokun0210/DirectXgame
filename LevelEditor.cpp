@@ -50,7 +50,7 @@ void LevelEditor::Draw(Camera* camera) {
 		decltype(models)::iterator it = models.find(objectData.filename);
 		if (it != models.end()) { model = it->second.get(); }
 		//モデルを指定して3Dオブジェクトを生成
-		model->
+		//model->
 
 	}
 }

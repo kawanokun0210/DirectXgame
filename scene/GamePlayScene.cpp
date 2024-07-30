@@ -96,7 +96,6 @@ void GamePlayScene::Initialize()
 	
 	for (int i = 0; i < 3; i++) {
 		objectTransform_[i] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-		objectMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
 	objectTransform_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f} };
@@ -331,7 +330,7 @@ void GamePlayScene::Draw()
 	}
 
 	for (int i = 0; i < 2; i++) {
-		object_[i]->Draw(objectMaterial_[i], objectTransform_[i], 4, camera_, directionalLight_, true);
+		object_[i]->Draw(4, camera_, directionalLight_, true);
 	}
 	//object_[2]->Draw(objectMaterial_[2], objectTransform_[2], 2, camera_, directionalLight_, true);
 

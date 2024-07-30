@@ -29,7 +29,7 @@ Object* Object::Create(const std::string& filename, bool isAnimationFile, int in
 	return model;
 }
 
-void Object::Draw(const Vector4& material, const Transform& transform, uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
+void Object::Draw(uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting)
 {
 	camera_ = cameraTransform;
 
@@ -59,7 +59,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 		SkeletonUpdate(skeletonData);
 		SkinUpdate();
 
-		*materialData_ = { material,isLighting };
+		*materialData_ = { material_,isLighting };
 		materialData_->uvTransform = uvTransformMatrix;
 		*wvpData_ = { wvpMatrix_,worldMatrix,worldInverseTranspose };
 		wvpData_->WVP = wvpMatrix_;
@@ -70,7 +70,7 @@ void Object::Draw(const Vector4& material, const Transform& transform, uint32_t 
 		vertexData_->worldPosition = camera_->GetTransform().translate;
 	}
 	else {
-		*materialData_ = { material,isLighting };
+		*materialData_ = { material_,isLighting };
 		materialData_->uvTransform = uvTransformMatrix;
 		*wvpData_ = { wvpMatrix_,worldMatrix,worldInverseTranspose };
 		wvpData_->WVP = Multiply(modelData.rootNode.localMatrix, wvpMatrix_);
