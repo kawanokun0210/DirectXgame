@@ -60,7 +60,6 @@ int SceneManager::Run() {
 
 		dxCommon_->RenderPostDraw();
 
-
 		engine_->BeginFrame();
 
 		// Copyをする

@@ -259,8 +259,8 @@ void DirectXCommon::CreateFinalRenderTargets()
 	renderTextureResource_ = CreateRenderTextureResource(device_, WinApp::kClientWidth, WinApp::kClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
 	rtvHandles_[2].ptr = rtvHandles_[1].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	device_->CreateRenderTargetView(renderTextureResource_.Get(), &rtvDesc_, rtvHandles_[2]);
-	MyEngine::GetInstance()->GetCPUDescriptorHandle(srvDescriptorHeap_, MyEngine::GetInstance()->GetdescriptorSizeSRV(), 16);
-	MyEngine::GetInstance()->GetGPUDescriptorHandle(srvDescriptorHeap_, MyEngine::GetInstance()->GetdescriptorSizeSRV(), 16);
+	MyEngine::GetInstance()->GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 16);
+	MyEngine::GetInstance()->GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 16);
 	device_->CreateShaderResourceView(renderTextureResource_.Get(), &renderTextureSrvDesc, MyEngine::GetInstance()->textureSrvHandleCPU_[16]);
 
 }
