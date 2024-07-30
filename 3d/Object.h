@@ -118,7 +118,20 @@ public:
 
 	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize, int index);
 
+	Vector3 SetTransform(Vector3 pos) {
+		transform.translate = pos;
+		return transform.translate;
+	}
 
+	Vector3 SetRotate(Vector3 rotate) {
+		transform.rotate = rotate;
+		return transform.rotate;
+	}
+
+	Vector3 SetScale(Vector3 scale) {
+		transform.scale = scale;
+		return transform.scale;
+	}
 
 private:
 	void SettingVertex();

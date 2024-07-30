@@ -15,6 +15,7 @@
 #include <random>
 #include "../Camera.h"
 #include "../SkyBox.h"
+#include "../LevelEditor.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -28,6 +29,8 @@ public:
 	void Finalize() override;
 
 private:
+	LevelEditor* level;
+
 	MyEngine* engine_;
 	DirectXCommon* dxCommon_;
 

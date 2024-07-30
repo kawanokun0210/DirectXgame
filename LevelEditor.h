@@ -45,7 +45,7 @@ public:
 
 	//void Update();
 
-	void Draw(Camera* camera);
+	void Draw(Camera* camera, DirectionalLight directionalLight_);
 
 	void RecursiveFunction(nlohmann::json& object);
 

@@ -41,8 +41,9 @@ void LevelEditor::LoadJsonFile() {
 
 }
 
-void LevelEditor::Draw(Camera* camera) {
+void LevelEditor::Draw(Camera* camera, DirectionalLight directionalLight_) {
 	int i = 0;
+
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects) {
 		//ファイル名から登録済みモデルを検索
@@ -50,7 +51,12 @@ void LevelEditor::Draw(Camera* camera) {
 		decltype(models)::iterator it = models.find(objectData.filename);
 		if (it != models.end()) { model = it->second.get(); }
 		//モデルを指定して3Dオブジェクトを生成
-		//model->
+		Object* newObject = new Object();
+		newObject->Create("Resource/plane.obj", false, 1);
+		newObject->SetTransform(objectData.translate);
+		newObject->SetRotate(objectData.rotate);
+		newObject->SetScale(objectData.scale);
+		newObject->Draw(2, camera, directionalLight_, true);
 
 	}
 }
