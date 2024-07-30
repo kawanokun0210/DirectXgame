@@ -210,8 +210,10 @@ void MyEngine::CreateInputlayOut()
 	inputElementDescs_[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 	for (int i = 0; i < 3; i++) {
-		inputLayoutDesc_[i].pInputElementDescs = inputElementDescs_;
-		inputLayoutDesc_[i].NumElements = _countof(inputElementDescs_);
+		if (i != 2) {
+			inputLayoutDesc_[i].pInputElementDescs = inputElementDescs_;
+			inputLayoutDesc_[i].NumElements = _countof(inputElementDescs_);
+		}
 		if (i == 2) {
 			inputLayoutDesc_[i].pInputElementDescs = nullptr;
 			inputLayoutDesc_[i].NumElements = 0;
@@ -371,6 +373,9 @@ void MyEngine::SettingDepth()
 	depthStencilDesc_[1].DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
 
 	depthStencilDesc_[2].DepthEnable = false;
+	depthStencilDesc_[2].DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み
+	depthStencilDesc_[2].DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//比較関数、近ければ描画される
+
 }
 
 void MyEngine::Initialize(const wchar_t* title, int32_t width, int32_t height)
