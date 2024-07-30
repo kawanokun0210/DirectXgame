@@ -52,7 +52,7 @@ void LevelEditor::Draw(Camera* camera, DirectionalLight directionalLight_) {
 		if (it != models.end()) { model = it->second.get(); }
 		//モデルを指定して3Dオブジェクトを生成
 		Object* newObject = new Object();
-		newObject->Create("Resource/plane.obj", false, 1);
+		newObject->Initialize("Resource/plane.obj", false, 1);
 		newObject->SetTransform(objectData.translate);
 		newObject->SetRotate(objectData.rotate);
 		newObject->SetScale(objectData.scale);
