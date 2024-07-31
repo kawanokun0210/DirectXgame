@@ -53,6 +53,15 @@ int SceneManager::Run() {
 		//更新処理
 		sceneArr_[currentSceneNo_]->Update();
 
+		D3D12_VIEWPORT viewport = engine_->GetViewport();
+		D3D12_RECT scissorRect = engine_->GetScissorRect();
+
+		//viewportを設定
+		dxCommon_->GetCommandList()->RSSetViewports(1, &viewport);
+
+		//scirssorを設定
+		dxCommon_->GetCommandList()->RSSetScissorRects(1, &scissorRect);
+
 		dxCommon_->RenderPreDraw();
 
 		//描画処理

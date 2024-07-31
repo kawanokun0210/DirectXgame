@@ -412,12 +412,6 @@ void MyEngine::BeginFrame()
 	//dxCommon_->RenderPreDraw();
 	dxCommon_->PreDraw();
 
-	//viewportを設定
-	dxCommon_->GetCommandList()->RSSetViewports(1, &viewport_);
-
-	//scirssorを設定
-	dxCommon_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
-
 	////RootSignatureを設定。PS0とは別途設定が必要
 	//dxCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature_.Get());
 

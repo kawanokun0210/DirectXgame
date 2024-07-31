@@ -68,6 +68,11 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetGraphicsPipelineState3() { return graphicsPipelineState_[2]; }
 
+	D3D12_VIEWPORT GetViewport() { return viewport_; };
+	D3D12_RECT GetScissorRect() {
+		return scissorRect_;
+	};
+
 private:
 
 	static	DirectXCommon* dxCommon_;
