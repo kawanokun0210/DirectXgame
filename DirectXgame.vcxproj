@@ -128,6 +128,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MatrixCalculation.cpp" />
     <ClCompile Include="math\quaternion\Quaternion.cpp" />
+    <ClCompile Include="Object3DPSO.cpp" />
     <ClCompile Include="particle\Particle.cpp" />
     <ClCompile Include="scene\BaseScene.cpp" />
     <ClCompile Include="scene\GameClearScene.cpp" />
@@ -166,6 +167,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="Object3DPSO.h" />
     <ClInclude Include="particle\Particle.h" />
     <ClInclude Include="ResourceObject.h" />
     <ClInclude Include="scene\BaseScene.h" />
