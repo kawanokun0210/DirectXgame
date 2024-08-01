@@ -48,13 +48,13 @@
             "name": "Cube_Cube.001",
             "transform": {
                 "translation": [
-                    -2.2221999168395996,
+                    -1.7717053890228271,
                     0.0,
                     0.0
                 ],
                 "rotation": [
                     0.0,
-                    29.600008010864258,
+                    -57.595542907714844,
                     0.0
                 ],
                 "scaling": [
@@ -63,20 +63,20 @@
                     0.9999999403953552
                 ]
             },
-            "file_name": "axis.obj"
+            "file_name": "testAxis.obj"
         },
         {
             "type": "MESH",
-            "name": "Cube.001",
+            "name": "Cube",
             "transform": {
                 "translation": [
-                    1.0796269178390503,
+                    1.7000000476837158,
                     0.0,
                     0.0
                 ],
                 "rotation": [
                     0.0,
-                    -0.0,
+                    57.60000228881836,
                     0.0
                 ],
                 "scaling": [

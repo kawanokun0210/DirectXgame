@@ -3,7 +3,7 @@
 
 void LevelEditor::LoadJsonFile() {
 	//連結してフルパスを得る
-	const std::string fullPath = "Resource/dobule.json";
+	const std::string fullPath = "Resource/testDobule.json";
 
 	//ファイルストリーム
 	std::ifstream file;
