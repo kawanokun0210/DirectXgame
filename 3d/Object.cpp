@@ -78,6 +78,7 @@ void Object::Draw(uint32_t index, Camera* cameraTransform, const DirectionalLigh
 		*directionalLight_ = light;
 		materialData_->shininess = 50.0f;
 		*cameraData_ = camera_->GetTransform().translate;
+		vertexData_->worldPosition = camera_->GetTransform().translate;
 	}
 
 	//RootSignatureを設定。PS0とは別途設定が必要
@@ -115,9 +116,9 @@ void Object::Draw(uint32_t index, Camera* cameraTransform, const DirectionalLigh
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(7, engine_->textureSrvHandleGPU_[6]);
 	if (isAnimationFile_ == true) {
 		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, skinCluster.paletteSrvHandle.second);
-		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(7, engine_->textureSrvHandleGPU_[6]);
 	}
 
 	//描画
