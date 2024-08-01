@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "SceneManager.h"
+#include "Object3DPSO.h"
 
 const wchar_t kWindowTitle[] = { L"CG2_WinMain" };
 
@@ -15,6 +16,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//初期化
 	MyEngine::GetInstance()->Initialize(kWindowTitle, 1280, 720);
+	Object3DPSO::GetInstance()->Initialize(kWindowTitle, 1280, 720);
 
 	SceneManager::GetInstance()->Run();
 

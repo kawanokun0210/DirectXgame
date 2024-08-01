@@ -56,6 +56,10 @@ public:
 
 	uint32_t GetdescriptorSizeSRV() { return descriptorSizeSRV; }
 
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature() { return rootSignature_; }
+
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetGraphicsPipelineState() { return graphicsPipelineState_; }
+
 private:
 
 	static DirectXCommon* dxCommon_;
@@ -90,14 +94,14 @@ private:
 
 	D3D12_RASTERIZER_DESC rasterizerDesc_{};
 
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_[4];
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
 	D3D12_VIEWPORT viewport_{};
 	D3D12_RECT scissorRect_{};
 
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs_{};
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[4]{};
 
 	//頂点リソースにデータを書き込む
 	Vector4* vertexData_;

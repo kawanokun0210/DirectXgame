@@ -9,6 +9,7 @@
 #include "../Camera.h"
 #include <span>
 #include <array>
+#include "../Object3DPSO.h"
 
 class MyEngine;
 
@@ -102,7 +103,7 @@ class Object
 public:
 	static Object* Create(const std::string& filename, bool isAnimationFile, int index);
 
-	void Initialize(const std::string& filename, bool isAnimationFile, int index);
+	void Initialize(const std::string& filename, int index);
 
 	void Draw(uint32_t index, Camera* cameraTransform, const DirectionalLight& light, bool isLighting);
 

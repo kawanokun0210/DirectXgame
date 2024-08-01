@@ -2,13 +2,12 @@
 #include "Engine.h"
 #include <cmath>
 
-void Object::Initialize(const std::string& filename, bool isAnimationFile, int index)
+void Object::Initialize(const std::string& filename, int index)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	engine_ = MyEngine::GetInstance();
 	modelData = engine_->LoadObjFile(filename);
-	isAnimationFile_ = isAnimationFile;
-	if (isAnimationFile == true) {
+	if (modelData.skinClusterData.size() != 0) {
 		animationData = LoadAnimationFile(filename);
 		//NodeInitialize();
 		skeletonData = CreateSkeleton(modelData.rootNode);
@@ -25,7 +24,7 @@ void Object::Initialize(const std::string& filename, bool isAnimationFile, int i
 Object* Object::Create(const std::string& filename, bool isAnimationFile, int index)
 {
 	Object* model = new Object();
-	model->Initialize(filename, isAnimationFile, index);
+	model->Initialize(filename, index);
 	return model;
 }
 
@@ -46,7 +45,8 @@ void Object::Draw(uint32_t index, Camera* cameraTransform, const DirectionalLigh
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZmatrix(uvTransformSprite.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransformSprite.translate));
 
-	if (isAnimationFile_ == true) {
+	if (modelData.skinClusterData.size() != 0) {
+		isAnimationFile_ = true;
 		animationTimer += 1.0f / 60.0f;
 		animationTimer = std::fmod(animationTimer, animation.duration);
 		/*NodeAnimation& rootNodeAnimation = animation.NodeAnimations[modelData.rootNode.name];
@@ -70,6 +70,7 @@ void Object::Draw(uint32_t index, Camera* cameraTransform, const DirectionalLigh
 		vertexData_->worldPosition = camera_->GetTransform().translate;
 	}
 	else {
+		isAnimationFile_ = false;
 		*materialData_ = { material_,isLighting };
 		materialData_->uvTransform = uvTransformMatrix;
 		*wvpData_ = { wvpMatrix_,worldMatrix,worldInverseTranspose };
@@ -82,13 +83,14 @@ void Object::Draw(uint32_t index, Camera* cameraTransform, const DirectionalLigh
 	}
 
 	//RootSignatureを設定。PS0とは別途設定が必要
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature().Get());
 	if (isAnimationFile_ == true) {
 		dxCommon_->GetCommandList()->SetGraphicsRootSignature(engine_->GetRootSignature3().Get());
 	}
+	else {
+		dxCommon_->GetCommandList()->SetGraphicsRootSignature(Object3DPSO::GetInstance()->GetRootSignature().Get());
+	}
 
 	//PS0を設定
-	dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState().Get());
 	if (isAnimationFile_ == true) {
 		dxCommon_->GetCommandList()->SetPipelineState(engine_->GetGraphicsPipelineState3().Get());
 
@@ -101,6 +103,9 @@ void Object::Draw(uint32_t index, Camera* cameraTransform, const DirectionalLigh
 		//index
 		dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 
+	}
+	else {
+		dxCommon_->GetCommandList()->SetPipelineState(Object3DPSO::GetInstance()->GetGraphicsPipelineState().Get());
 	}
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
@@ -115,10 +120,14 @@ void Object::Draw(uint32_t index, Camera* cameraTransform, const DirectionalLigh
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(5, cameraResource_->GetGPUVirtualAddress());
 
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]のこと
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(7, engine_->textureSrvHandleGPU_[6]);
 	if (isAnimationFile_ == true) {
+		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
 		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, skinCluster.paletteSrvHandle.second);
+		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(7, engine_->textureSrvHandleGPU_[6]);
+	}
+	else {
+		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, engine_->textureSrvHandleGPU_[index]);
+		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(4, engine_->textureSrvHandleGPU_[6]);
 	}
 
 	//描画

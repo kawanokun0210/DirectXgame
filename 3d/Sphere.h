@@ -6,6 +6,7 @@
 #include "../Vertex.h"
 #include "MatrixCalculation.h"
 #include "../Camera.h"
+#include "../Object3DPSO.h"
 
 class MyEngine;
 

@@ -3,7 +3,7 @@
 
 void LevelEditor::LoadJsonFile() {
 	//連結してフルパスを得る
-	const std::string fullPath = "Resource/bad.json";
+	const std::string fullPath = "Resource/dobule.json";
 
 	//ファイルストリーム
 	std::ifstream file;
@@ -109,11 +109,11 @@ void LevelEditor::LoadJsonFile() {
 	for (auto& objectData : levelData->objects) {
 		//ファイル名から登録済みモデルを検索
 		Object* model = nullptr;
-		decltype(models)::iterator it = models.find("Resource/human/" + objectData.filename);
+		decltype(models)::iterator it = models.find("Resource/Blender/" + objectData.filename);
 		if (it != models.end()) { model = it->second.get(); }
 		//モデルを指定して3Dオブジェクトを生成
 		Object* newObject = new Object();
-		newObject->Initialize("Resource/human/" + objectData.filename, true, 1);
+		newObject->Initialize("Resource/Blender/" + objectData.filename, 1);
 		newObject->SetTransform(objectData.translate);
 		newObject->SetRotate(objectData.rotate);
 		newObject->SetScale(objectData.scale);
